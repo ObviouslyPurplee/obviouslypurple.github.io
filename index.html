@@ -39,7 +39,6 @@
     .left-nav a:hover{color:var(--accent)}
 
     .brand{position:relative; display:flex; justify-content:center}
-    /* clean hover: tiny lift + soft pink halo that's not tied to the image box */
     .brand img{height:50px; transition:transform .25s ease}
     .brand:hover img{transform:translateY(-2px) scale(1.02)}
     .brand::after{
@@ -76,42 +75,12 @@
     .meta{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:8px; color:#6c6068; font-size:10px}
 
     footer{margin-top:60px; padding:20px; border-top:1px solid #f2e6ee; text-align:center}
-    .footer-socials{display:flex; justify-content:center; gap:18px; margin-top:10px}
+    .footer-socials{display:flex; justify-content:center; gap:18px; margin-top:10px; align-items:flex-end}
     .footer-socials .icon svg{width:28px; height:28px; fill:#111}
     .footer-socials .icon img{width:28px; height:28px; display:block; filter:none; transition:filter .15s ease}
     .footer-socials .icon:hover svg{fill:var(--accent)}
     .footer-socials .icon:hover img{filter:brightness(0) saturate(100%) invert(72%) sepia(20%) saturate(742%) hue-rotate(289deg) brightness(101%) contrast(98%)}
-    /* pixelated pink clouds background */
-    body{
-      background-color:#ffffff;
-      background-image:
-        radial-gradient(circle, rgba(255,182,193,0.5) 40%, transparent 41%),
-        radial-gradient(circle, rgba(255,200,220,0.4) 35%, transparent 36%),
-        radial-gradient(circle, rgba(255,160,200,0.32) 45%, transparent 46%);
-      background-size:64px 64px; /* block size = pixel chunk */
-      image-rendering: pixelated; /* keep it chunky */
-      animation: pixelclouds 90s linear infinite;
-    }
-    @keyframes pixelclouds{
-      from{ background-position: 0 0, 120px 220px, -140px 380px; }
-      to  { background-position: 960px 0, 1080px 220px, 820px 380px; }
-    }
-    /* accessibility: disable motion for those who prefer reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      body{ animation: none; }
-    }
-    /* remove the fuzzy glow background; replace with subtle pixel clouds */
-    body{ background-color:#ffffff; background-image:none; animation:none; }
-    body::before{
-      content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
-      /* tiny pixel cloud tile (SVG), scaled up to stay chunky */
-      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' shape-rendering='crispEdges'><rect width='16' height='16' fill='none'/><rect x='1' y='4' width='6' height='2' fill='%23ffd8ea'/><rect x='3' y='6' width='5' height='2' fill='%23ffd1e4'/><rect x='10' y='2' width='4' height='2' fill='%23ffe0ed'/><rect x='11' y='4' width='3' height='2' fill='%23ffd1e4'/><rect x='5' y='11' width='4' height='2' fill='%23ffd8ea'/><rect x='7' y='13' width='5' height='2' fill='%23ffe0ed'/></svg>");
-      background-repeat:repeat; background-size:128px 128px; image-rendering:pixelated;
-      opacity:.18; /* very subtle */
-      animation: pixelDrift 180s linear infinite;
-    }
-    @keyframes pixelDrift{ from{ background-position:0 0; } to{ background-position:800px 200px; } }
-    @media (prefers-reduced-motion: reduce){ body::before{ animation:none; } }
+    .footer-socials span{margin-top:4px; display:inline-block}
   </style>
 </head>
 <body>
@@ -147,7 +116,7 @@
       <div class="intro">
         <h2>i'm obviouslypurple — 22 year old roblox developer, ui + 3d artist, project manager.</h2>
         <p>i've been building games, designing worlds, and organizing projects for almost a decade now.</p>
-        <button class="btn" onclick="location.href='https://www.roblox.com/users/341680229/profile'">follow me to see what i'm up to</button>
+        <a class="btn" href="https://x.com/obviouslypurple" target="_blank">subscribe to my socials</a>
       </div>
     </section>
 
@@ -194,9 +163,9 @@
             </g>
           </svg>
         </a>
-        <span style="font-size:12px; color:var(--muted);">discord: @obviouslypurple</span>
+        <span style="font-size:12px; color:var(--muted); margin-top:6px; display:inline-block">discord: @obviouslypurple</span>
       </div>
-      <p style="margin-top:10px">© 2025 obviouslypurple team</p>
+      <p style="margin-top:10px">© 2025 team op</p>
     </footer>
   </div>
   <script>

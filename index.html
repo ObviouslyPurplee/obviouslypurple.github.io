@@ -39,8 +39,14 @@
     .left-nav a:hover{color:var(--accent)}
 
     .brand{display:flex; justify-content:center}
-    .brand img{height:50px; transition:filter .2s ease}
-    .brand img:hover{filter:brightness(0) saturate(100%) invert(72%) sepia(20%) saturate(742%) hue-rotate(289deg) brightness(101%) contrast(98%)}
+    .brand img{height:50px; transition:transform .25s ease, box-shadow .25s ease; will-change:transform, box-shadow}
+    .brand img:hover{
+      transform: translateY(-2px) scale(1.02);
+      box-shadow:
+        0 0 0.5rem rgba(255,155,200,.35),
+        0 0 1.75rem rgba(255,155,200,.35),
+        0 0 3rem rgba(255,155,200,.25);
+    }
 
     .right-socials{display:flex; justify-content:flex-end; gap:14px}
     .icon{width:28px; height:28px; display:inline-grid; place-items:center; border-radius:8px; color:#111}

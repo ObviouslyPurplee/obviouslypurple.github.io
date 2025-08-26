@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
+  <style id="theme-styles">
     :root{
       --bg:#ffffff;
       --ink:#1f1f24;
@@ -17,8 +17,21 @@
       --pink-200:#ffe6f1;
       --accent:#ff9bc8;
       --card:#ffffff;
+      --border:#f2e6ee;
       --radius:10px;
       --shadow:0 8px 26px rgba(31,31,36,.08);
+      --max:1000px;
+    }
+    :root[data-theme="dark"]{
+      --bg:#0f0f12;
+      --ink:#f6f6f8;
+      --muted:#b6b6c0;
+      --pink:#24141d;
+      --pink-200:#1a0f16;
+      --accent:#ff9bc8;
+      --card:#16161b;
+      --border:#1f1f26;
+      --shadow:0 10px 28px rgba(0,0,0,.35);
       --max:1000px;
     }
     *{box-sizing:border-box}
@@ -31,7 +44,7 @@
     a{color:inherit; text-decoration:none}
     .wrap{max-width:var(--max); margin:0 auto; padding:20px 16px 64px; position:relative; z-index:1}
 
-    header{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:12px 0; border-bottom:1px solid #f2e6ee;}
+    header{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:12px 0; border-bottom:1px solid var(--border);}
     .left-nav{display:flex; gap:18px; align-items:center}
     .left-nav a{position:relative; padding:6px 2px; color:var(--ink)}
     .left-nav a::after{content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform .2s ease, background .2s ease}
@@ -50,7 +63,12 @@
     }
     .brand:hover::after{opacity:1}
 
-    .right-socials{display:flex; justify-content:flex-end; gap:14px}
+    .right-socials{display:flex; justify-content:flex-end; gap:14px; align-items:center}
+    .icon{width:28px; height:28px; display:inline-grid; place-items:center; border-radius:8px; color:#111; background:transparent; border:none}
+    :root[data-theme="dark"] .icon{color:var(--ink)}
+    .icon:hover{color:var(--accent)}
+    .icon svg{width:100%; height:100%; fill:currentColor}
+    .icon img{width:100%; height:100%; display:block; filter:none; transition:filter .15s ease}
     .icon{width:28px; height:28px; display:inline-grid; place-items:center; border-radius:8px; color:#111}
     .icon:hover{color:var(--accent)}
     .icon svg{width:100%; height:100%; fill:currentColor}
@@ -121,6 +139,8 @@
       </div>
 
       <div class="right-socials">
+        <!-- theme toggle -->
+        <button class="icon theme-toggle" aria-label="toggle theme" title="toggle theme">🌙</button>
         <!-- X / Twitter (SVG) -->
         <a class="icon" href="https://x.com/obviouslypurple" target="_blank" aria-label="x (twitter)">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2H21l-6.56 7.49L22.5 22h-6.657l-5.2-6.79L3.5 22H1l7.11-8.12L1.5 2h6.74l4.7 6.2L18.244 2Zm-2.327 18h2.19L8.173 4h-2.3l10.044 16Z"/></svg>
@@ -210,11 +230,16 @@
     canvas.style.height = hCSS+'px';
     W = Math.ceil(wCSS/PIX);
     H = Math.ceil(hCSS/PIX);
-    canvas.width = W;
-    canvas.height = H;
+    canvas.width = W; canvas.height = H;
   }
-  resize();
-  window.addEventListener('resize', resize);
+  resize(); window.addEventListener('resize', resize);
+
+  function themePalette(){
+    const dark = document.documentElement.getAttribute('data-theme')==='dark';
+    return dark
+      ? { colors:[[255,160,200],[255,120,180]], alpha:[0.10,0.18] }
+      : { colors:[[255,182,193],[255,200,220]], alpha:[0.18,0.30] };
+  }
 
   function makePattern(){
     const pw = 8 + Math.floor(Math.random()*6);
@@ -223,28 +248,27 @@
     for(let y=-ph; y<=ph; y++){
       for(let x=-pw; x<=pw; x++){
         const nx=x/pw, ny=y/ph;
-        if(nx*nx + ny*ny <= 1 && Math.random()>0.12){
-          pts.push({x,y});
-        }
+        if(nx*nx + ny*ny <= 1 && Math.random()>0.12){ pts.push({x,y}); }
       }
     }
     return { pts, span: Math.max(pw,ph) };
   }
 
   function makeCloud(){
+    const { colors, alpha } = themePalette();
     const pat = makePattern();
-    const scale = 0.6 + Math.random()*1.2; // 0.6x–1.8x
-    const dir = Math.random()<0.5 ? -1 : 1; // left or right
-    const speed = (0.02 + Math.random()*0.05) * dir; // grid units per frame
-    const y = Math.random()*H*0.7 + H*0.1; // avoid top/bottom edges
-    const alpha = 0.18 + Math.random()*0.15;
-    const color = Math.random()<0.5 ? [255,182,193] : [255,200,220];
+    const scale = 0.6 + Math.random()*1.2;
+    const dir = Math.random()<0.5 ? -1 : 1;
+    const speed = (0.02 + Math.random()*0.05) * dir;
+    const y = Math.random()*H*0.7 + H*0.1;
+    const a = alpha[0] + Math.random()*(alpha[1]-alpha[0]);
+    const color = colors[Math.random()<0.5?0:1];
     const span = (pat.span*2+4)*scale;
     const startX = dir>0 ? -span - Math.random()*W : W + span + Math.random()*W*0.3;
-    return { x:startX, y, vx:speed, pat, scale, alpha, color, span, dir };
+    return { x:startX, y, vx:speed, pat, scale, alpha:a, color, span, dir };
   }
 
-  const clouds = new Array(24).fill(0).map(()=>{ const c = makeCloud(); c.x = Math.random()*(W*2) - W; return c; });
+  let clouds = new Array(24).fill(0).map(()=>{ const c=makeCloud(); c.x = Math.random()*(W*2) - W; return c; }); c.x = Math.random()*(W*2) - W; return c; });
 
   function step(){
     ctx.clearRect(0,0,W,H);
@@ -263,6 +287,12 @@
     requestAnimationFrame(step);
   }
   step();
+
+  // rebuild clouds when theme changes for proper palette
+  window.addEventListener('themechange', ()=>{
+    clouds = new Array(24).fill(0).map(()=>{ const c=makeCloud(); c.x = Math.random()*(W*2) - W; return c; });
+  });
+  step();
 })();
 
 // existing tabs & filter logic
@@ -275,6 +305,25 @@ tabs.forEach(t=>t.addEventListener('click',()=>{
   cards.forEach(c=>{c.style.display=(c.dataset.cat===f||!f)?'':'none'});
 }));
 document.getElementById('view-all').addEventListener('click',e=>{e.preventDefault(); tabs.forEach(x=>x.classList.remove('is-active')); cards.forEach(c=>c.style.display='');});
+// theme toggle + persistence
+(()=>{
+  const root = document.documentElement;
+  const btn = document.querySelector('.theme-toggle');
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  function apply(theme){
+    if(theme==='dark'){ root.setAttribute('data-theme','dark'); btn.textContent='☀️'; }
+    else { root.setAttribute('data-theme','light'); btn.textContent='🌙'; }
+    localStorage.setItem('theme', theme);
+    // notify cloud layer to refresh palette
+    window.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
+  }
+  const saved = localStorage.getItem('theme');
+  apply(saved ? saved : (mq.matches ? 'dark' : 'light'));
+  if(btn){ btn.addEventListener('click', ()=>{
+    const next = root.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    apply(next);
+  }); }
+})();
 </script>
 </body>
 </html>

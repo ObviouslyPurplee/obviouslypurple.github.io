@@ -45,6 +45,8 @@
     .icon{width:22px; height:22px; display:inline-grid; place-items:center; border-radius:8px; color:#111}
     .icon:hover{color:var(--accent)}
     .icon svg{width:20px; height:20px; fill:currentColor}
+    .icon img{width:20px; height:20px; display:block; filter:none; transition:filter .15s ease}
+    .icon:hover img{filter:brightness(0) saturate(100%) invert(72%) sepia(20%) saturate(742%) hue-rotate(289deg) brightness(101%) contrast(98%)}
 
     .hero{margin:60px 0; text-align:center}
     .intro h2{margin:0 0 12px; font-size:18px; line-height:1.6}
@@ -66,7 +68,9 @@
     footer{margin-top:60px; padding:20px; border-top:1px solid #f2e6ee; text-align:center}
     .footer-socials{display:flex; justify-content:center; gap:18px; margin-top:10px}
     .footer-socials .icon svg{width:22px; height:22px; fill:#111}
+    .footer-socials .icon img{width:22px; height:22px; display:block; filter:none; transition:filter .15s ease}
     .footer-socials .icon:hover svg{fill:var(--accent)}
+    .footer-socials .icon:hover img{filter:brightness(0) saturate(100%) invert(72%) sepia(20%) saturate(742%) hue-rotate(289deg) brightness(101%) contrast(98%)}
   </style>
 </head>
 <body>

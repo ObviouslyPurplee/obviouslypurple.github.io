@@ -72,7 +72,7 @@
 
     .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; margin-top:20px}
     .card{background:var(--card); border:1px solid var(--pink); border-radius:var(--radius); padding:12px; box-shadow:var(--shadow); color:var(--ink)}
-    .shot{aspect-ratio:16/10; border-radius:8px; background:#faf6f9; display:grid; place-items:center; color:#9c8f96; border:1px dashed #f0d9e6}
+    .shot{position:relative; aspect-ratio:16/10; border-radius:8px; background:#faf6f9; display:grid; place-items:center; color:#9c8f96; border:1px dashed var(--border); overflow:hidden}
     :root[data-theme="dark"] .shot{background:#1a1a1a; border:1px dashed var(--pink); color:var(--muted)}
     .meta{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:8px; color:var(--muted); font-size:10px}
 
@@ -86,6 +86,15 @@
   :root[data-theme="dark"] .tab{background:transparent; color:#e9e6ea; border:1px solid rgba(255,155,200,.35); transition:all .2s ease}
   :root[data-theme="dark"] .tab:hover{background:rgba(255,155,200,.25); color:#fff; border-color:var(--accent)}
   :root[data-theme="dark"] .tab.is-active{background:var(--accent); color:#1a1216; border-color:var(--accent)}
+  /* image thumbnails + hover label + gradient */
+  .shot.has-img{background-size:cover; background-position:center; border:none; color:transparent}
+  .shot.has-img::after{content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(255,216,234,.35), rgba(255,216,234,0)); opacity:0; transition:opacity .25s ease}
+  .card:hover .shot.has-img::after{opacity:1}
+  .shot .see-more{position:absolute; top:10px; left:10px; padding:6px 12px; font-size:12px; line-height:1; background:var(--pink-200); color:var(--ink); border-radius:14px; box-shadow:0 6px 18px rgba(31,31,36,.08); opacity:0; transform:translateY(-6px); transition:opacity .18s ease, transform .18s ease; pointer-events:none}
+  .card:hover .shot .see-more{opacity:1; transform:translateY(0); pointer-events:auto}
+  /* dark mode tweak */
+  :root[data-theme="dark"] .shot.has-img::after{background:linear-gradient(to bottom, rgba(255,155,200,.18), rgba(255,155,200,.04))}
+  :root[data-theme="dark"] .shot .see-more{background:rgba(255,155,200,.25); color:#fff}
 </style>
 </head>
 <body>
@@ -129,7 +138,9 @@
 
       <div class="grid">
         <article class="card" data-cat="live">
-          <div class="shot">project screenshot</div>
+          <div class="shot has-img" style="background-image:url('Cooked2.png')">
+            <a class="see-more" href="#" aria-label="see more about cooked">see more</a>
+          </div>
           <div class="meta"><span>🔥 cooked!</span><span>creative lead • ui & 3d • live ops</span></div>
         </article>
         <article class="card" data-cat="projects">

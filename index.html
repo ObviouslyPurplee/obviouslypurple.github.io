@@ -101,9 +101,14 @@
     .footer-socials .icon:hover svg{fill:var(--accent)}
     .footer-socials .icon:hover img{filter:brightness(0) saturate(100%) invert(72%) sepia(20%) saturate(742%) hue-rotate(289deg) brightness(101%) contrast(98%)}
     .footer-socials span{margin-top:4px; display:inline-block}
+  /* pixel cloud canvas */
+    body::before{display:none!important}
+    #pixelClouds{position:fixed; inset:0; z-index:-1; width:100vw; height:100vh; image-rendering:pixelated}
+    @media (prefers-reduced-motion: reduce){ #pixelClouds{display:none} }
   </style>
 </head>
 <body>
+  <canvas id="pixelClouds" aria-hidden="true"></canvas>
   <div class="wrap">
     <header>
       <nav class="left-nav">
@@ -191,15 +196,76 @@
     </footer>
   </div>
   <script>
-    const tabs=document.querySelectorAll('.tab');
-    const cards=document.querySelectorAll('[data-cat]');
-    tabs.forEach(t=>t.addEventListener('click',()=>{
-      tabs.forEach(x=>x.classList.remove('is-active'));
-      t.classList.add('is-active');
-      const f=t.dataset.filter;
-      cards.forEach(c=>{c.style.display=(c.dataset.cat===f||!f)?'':'none'});
-    }));
-    document.getElementById('view-all').addEventListener('click',e=>{e.preventDefault(); tabs.forEach(x=>x.classList.remove('is-active')); cards.forEach(c=>c.style.display='');});
-  </script>
+(()=>{
+  const PIX=8; // pixel size (bigger = chunkier)
+  const canvas=document.getElementById('pixelClouds');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  let W=0,H=0; ctx.imageSmoothingEnabled=false;
+  function resize(){
+    const w=window.innerWidth, h=window.innerHeight;
+    canvas.width=Math.ceil(w/PIX);
+    canvas.height=Math.ceil(h/PIX);
+    canvas.style.width=w+'px';
+    canvas.style.height=h+'px';
+    W=canvas.width; H=canvas.height;
+  }
+  resize(); window.addEventListener('resize', resize);
+
+  function makePattern(){
+    const pw=8+Math.floor(Math.random()*6); // width radius
+    const ph=4+Math.floor(Math.random()*4); // height radius
+    const pts=[];
+    for(let y=-ph; y<=ph; y++){
+      for(let x=-pw; x<=pw; x++){
+        const nx=x/pw, ny=y/ph;
+        if(nx*nx + ny*ny <= 1){ // ellipse
+          if(Math.random()>0.12) pts.push({x,y}); // noisy edge
+        }
+      }
+    }
+    return {pts,w:pw,h:ph};
+  }
+
+  function makeCloud(){
+    const pat=makePattern();
+    const y=Math.random()*H*0.7 + H*0.1;
+    const speed=0.02 + Math.random()*0.05; // grid units per frame
+    const alpha=0.20 + Math.random()*0.15;
+    const shade=Math.random();
+    const color=shade<0.5?`rgba(255,182,193,${alpha})`:`rgba(255,200,220,${alpha})`;
+    const span=pat.w*2+1;
+    return {x: -span - Math.random()*W, y, vx:speed, pat, color, span};
+  }
+
+  const clouds=new Array(9).fill(0).map(makeCloud);
+
+  const media=window.matchMedia('(prefers-reduced-motion: reduce)');
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    for(const c of clouds){
+      ctx.fillStyle=c.color;
+      for(const p of c.pat.pts){
+        ctx.fillRect((c.x+p.x)|0, (c.y+p.y)|0, 1, 1);
+      }
+      c.x += c.vx;
+      if(c.x - c.span > W){ Object.assign(c, makeCloud(), {x:-c.span}); }
+    }
+    requestAnimationFrame(loop);
+  }
+  if(!media.matches) loop();
+})();
+
+// existing tabs & filter logic
+const tabs=document.querySelectorAll('.tab');
+const cards=document.querySelectorAll('[data-cat]');
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.classList.remove('is-active'));
+  t.classList.add('is-active');
+  const f=t.dataset.filter;
+  cards.forEach(c=>{c.style.display=(c.dataset.cat===f||!f)?'':'none'});
+}));
+document.getElementById('view-all').addEventListener('click',e=>{e.preventDefault(); tabs.forEach(x=>x.classList.remove('is-active')); cards.forEach(c=>c.style.display='');});
+</script>
 </body>
 </html>

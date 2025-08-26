@@ -45,6 +45,7 @@
     .icon{width:22px; height:22px; display:inline-grid; place-items:center; border-radius:8px;}
     .icon:hover svg{fill:var(--accent)}
     .icon svg{width:20px; height:20px; fill:#111}
+    .icon img{width:20px; height:20px; display:block}
 
     .hero{margin:60px 0; text-align:center}
     .intro h2{margin:0 0 12px; font-size:18px; line-height:1.6}
@@ -78,17 +79,17 @@
       </nav>
 
       <div class="brand">
-        <img src="officialogo.png" alt="obviouslypurple logo" />
+        <img src="officialogo.png" alt="obviouslypurple logo" class="brand-logo" />
       </div>
 
       <div class="right-socials">
-        <!-- X / Twitter -->
+        <!-- X / Twitter (SVG) -->
         <a class="icon" href="https://x.com/obviouslypurple" target="_blank" aria-label="x (twitter)">
-          <svg viewBox="0 0 24 24"><path d="M18.244 2H21l-6.56 7.49L22.5 22h-6.657l-5.2-6.79L3.5 22H1l7.11-8.12L1.5 2h6.74l4.7 6.2L18.244 2Zm-2.327 18h2.19L8.173 4h-2.3l10.044 16Z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2H21l-6.56 7.49L22.5 22h-6.657l-5.2-6.79L3.5 22H1l7.11-8.12L1.5 2h6.74l4.7 6.2L18.244 2Zm-2.327 18h2.19L8.173 4h-2.3l10.044 16Z"/></svg>
         </a>
-        <!-- Roblox logo image instead of svg -->
+        <!-- Roblox (PNG provided by user) -->
         <a class="icon" href="https://www.roblox.com/users/341680229/profile" target="_blank" aria-label="roblox profile">
-          <img src="RobloxLogo.png" alt="roblox logo" style="width:20px; height:20px;"/>
+          <img src="RobloxLogo.png" alt="roblox" />
         </a>
       </div>
     </header>
@@ -97,7 +98,7 @@
       <div class="intro">
         <h2>i'm obviouslypurple — 22 year old roblox developer, ui + 3d artist, project manager.</h2>
         <p>i've been building games, designing worlds, and organizing projects for almost a decade now.</p>
-        <button class="btn" onclick="location.href='#contact'">contact here</button>
+        <button class="btn" onclick="location.href='https://www.roblox.com/users/341680229/profile'">follow me for future projects</button>
       </div>
     </section>
 
@@ -131,22 +132,20 @@
     <footer id="contact">
       <div>contact me:</div>
       <div class="footer-socials">
+        <!-- X / Twitter -->
         <a class="icon" href="https://x.com/obviouslypurple" target="_blank" aria-label="x (twitter)">
           <svg viewBox="0 0 24 24"><path d="M18.244 2H21l-6.56 7.49L22.5 22h-6.657l-5.2-6.79L3.5 22H1l7.11-8.12L1.5 2h6.74l4.7 6.2L18.244 2Zm-2.327 18h2.19L8.173 4h-2.3l10.044 16Z"/></svg>
         </a>
+        <!-- Roblox (PNG) -->
         <a class="icon" href="https://www.roblox.com/users/341680229/profile" target="_blank" aria-label="roblox profile">
-          <img src="RobloxLogo.png" alt="roblox logo" style="width:22px; height:22px;"/>
-        </a>
-        <a class="icon" href="#" aria-label="discord">
-          <svg viewBox="0 0 245 240"><path d="M104 104c-5.5 0-10 5-10 11s4.5 11 10 11c5.5 0 10-5 10-11s-4.5-11-10-11zm37 0c-5.5 0-10 5-10 11s4.5 11 10 11c5.5 0 10-5 10-11s-4.5-11-10-11z"/><path d="M189 0H56C25 0 0 25 0 56v128c0 31 25 56 56 56h133c31 0 56-25 56-56V56c0-31-25-56-56-56zm-39 191s-4-5-7-9c14-4 19-13 19-13-4 2-8 4-12 5-5 2-10 3-15 4-10 2-20 2-30 0-5-1-10-2-15-4-4-1-8-3-12-5 0 0 5 9 19 13-3 4-7 9-7 9-23-1-32-16-32-16 0-34 15-62 15-62 15-11 29-10 29-10l1 1c-18 5-26 13-26 13s2-1 5-2c9-4 17-5 20-5h1c3 0 11 1 20 5 3 1 5 2 5 2s-8-8-26-13l1-1s14-1 29 10c0 0 15 28 15 62 0 0-9 15-32 16z"/></svg>
+          <img src="RobloxLogo.png" alt="roblox" />
         </a>
         <span style="font-size:12px; color:var(--muted);">discord: @obviouslypurple</span>
       </div>
-      <p style="margin-top:10px">© <span id="y"></span> obviouslypurple</p>
+      <p style="margin-top:10px">© 2025 obviouslypurple team</p>
     </footer>
   </div>
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
     const tabs=document.querySelectorAll('.tab');
     const cards=document.querySelectorAll('[data-cat]');
     tabs.forEach(t=>t.addEventListener('click',()=>{

@@ -95,6 +95,8 @@
   .labels{position:absolute; top:10px; left:10px; right:10px; display:flex; justify-content:space-between; gap:8px; z-index:5;}
   .see-more{padding:6px 12px; font-size:12px; line-height:1; border-radius:14px; box-shadow:0 6px 18px rgba(31,31,36,.08); opacity:0; transform:translateY(-6px); transition:opacity .18s ease, transform .18s ease; pointer-events:none; text-decoration:none; cursor:pointer;}
   .card:hover .see-more{opacity:1; transform:translateY(0); pointer-events:auto;}
+  /* mobile: show when card is tapped */
+  .shot.labels-active .see-more{opacity:1; transform:translateY(0); pointer-events:auto;}
   .see-more.pink{background:var(--pink-200); color:var(--ink);}
   .see-more.green{background:var(--green); color:#000;}
   /* dark mode tweak */
@@ -160,9 +162,10 @@
 
     <section id="work">
       <div class="tabs" role="tablist">
-        <button class="tab is-active" data-filter="live">live experiences</button>
-        <button class="tab" data-filter="projects">projects</button>
-        <button class="tab" data-filter="other">other engagements</button>
+        <button class="tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">all</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-filter="live">live experiences</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-filter="projects">projects</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-filter="other">other engagements</button>
       </div>
 
       <div class="grid">
@@ -210,7 +213,64 @@
   </div>
 
 <script>
-// existing JS unchanged
+// tabs filter logic (with an "all" tab)
+(function(){
+  const tabs = document.querySelectorAll('.tab');
+  const cards = document.querySelectorAll('.grid .card');
+  function apply(filter){
+    tabs.forEach(t=>{
+      const active = t.dataset.filter === filter;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', String(active));
+    });
+    cards.forEach(card=>{
+      card.style.display = (filter==='all' || card.dataset.cat === filter) ? '' : 'none';
+    });
+  }
+  const hash = location.hash.replace('#','');
+  const initial = ['live','projects','other'].includes(hash) ? hash : 'all';
+  apply(initial);
+  tabs.forEach(t=>{
+    t.addEventListener('click', ()=>{
+      apply(t.dataset.filter);
+      history.replaceState(null, '', '#'+(t.dataset.filter==='all'?'':t.dataset.filter));
+    });
+    t.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter' || e.key===' ') { e.preventDefault(); apply(t.dataset.filter);} 
+    });
+  });
+  const viewAll = document.getElementById('view-all');
+  if(viewAll){ viewAll.addEventListener('click', (e)=>{ apply('all'); }); }
+})();
+
+// mobile/touch: tap a highlight to reveal labels; desktop keeps hover
+(function(){
+  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  if(!isTouch) return; // desktop uses hover only
+  // Close any open labels when tapping outside
+  function closeAll(){
+    document.querySelectorAll('.shot.labels-active').forEach(s=>s.classList.remove('labels-active'));
+  }
+  document.addEventListener('click', (e)=>{
+    // if click is outside a .shot, close all
+    if(!e.target.closest('.shot')) closeAll();
+  });
+  // For each shot, toggle labels on tap
+  document.querySelectorAll('.shot.has-img').forEach(shot=>{
+    shot.addEventListener('click', (e)=>{
+      // if the click was on a label link, let it pass through
+      if(e.target.closest('.see-more')) return; 
+      // otherwise toggle visibility
+      const nowActive = !shot.classList.contains('labels-active');
+      closeAll();
+      if(nowActive) shot.classList.add('labels-active');
+    }, {passive:true});
+    // ensure label clicks don't bubble and close the labels
+    shot.querySelectorAll('.see-more').forEach(a=>{
+      a.addEventListener('click', (ev)=>{ ev.stopPropagation(); });
+    });
+  });
+})();
 </script>
 </body>
 </html>

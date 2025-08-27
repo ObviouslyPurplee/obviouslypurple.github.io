@@ -80,6 +80,19 @@
     .footer-socials .icon svg{width:22px; height:22px; fill:#111}
     .footer-socials .icon:hover svg{fill:var(--accent)}
     [data-theme="dark"] .footer-socials .icon svg{fill:#fff}
+
+    /* Mobile fixes */
+    @media (max-width: 640px){
+      header{grid-template-columns:1fr; row-gap:8px; padding:10px 0;}
+      .brand{order:1;} .brand img{height:46px;}
+      .left-nav{order:2; justify-content:center; gap:14px;}
+      .right-socials{order:3; justify-content:center; gap:10px;}
+      .tabs{flex-wrap:wrap; gap:8px; justify-content:center;}
+      .tab{padding:6px 10px; font-size:11px;}
+      .grid{grid-template-columns: 1fr; gap:14px;}
+      .hero{margin:36px 0;}
+      .wrap{padding:16px 12px 56px;}
+    }
   </style>
 </head>
 <body>
@@ -100,7 +113,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2H21l-6.56 7.49L22.5 22h-6.657l-5.2-6.79L3.5 22H1l7.11-8.12L1.5 2h6.74l4.7 6.2L18.244 2Zm-2.327 18h2.19L8.173 4h-2.3l10.044 16Z"/></svg>
         </a>
         <a class="icon" href="https://www.roblox.com/users/341680229/profile" target="_blank" aria-label="roblox profile">
-          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="15%" fill="currentColor" transform="rotate(15 256 256)"/><rect x="180" y="180" width="152" height="152" fill="var(--bg)" transform="rotate(15 256 256)"/></svg>
+          <img src="RobloxLogo.png" alt="roblox logo" style="width:20px; height:20px; display:block;"/>
         </a>
       </div>
     </header>
@@ -122,11 +135,11 @@
 
       <div class="grid">
         <article class="card" data-cat="live">
-          <div class="shot"><img src="Cooked.jpeg" alt="Cooked! thumbnail"/></div>
+          <div class="shot"><img src="Cooked.png" alt="Cooked! thumbnail"/></div>
           <div class="meta"><span>🔥 cooked!</span><span>creative lead • ui & 3d • live ops</span></div>
         </article>
         <article class="card" data-cat="projects">
-          <div class="shot"><img src="TheVoyage.jpeg" alt="The Voyage thumbnail"/></div>
+          <div class="shot"><img src="TheVoyage.png" alt="The Voyage thumbnail"/></div>
           <div class="meta"><span>the voyage</span><span>environment • studio build</span></div>
         </article>
         <article class="card" data-cat="other">
@@ -147,7 +160,7 @@
           <svg viewBox="0 0 24 24"><path d="M18.244 2H21l-6.56 7.49L22.5 22h-6.657l-5.2-6.79L3.5 22H1l7.11-8.12L1.5 2h6.74l4.7 6.2L18.244 2Zm-2.327 18h2.19L8.173 4h-2.3l10.044 16Z"/></svg>
         </a>
         <a class="icon" href="https://www.roblox.com/users/341680229/profile" target="_blank" aria-label="roblox profile">
-          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="15%" fill="currentColor" transform="rotate(15 256 256)"/><rect x="180" y="180" width="152" height="152" fill="var(--bg)" transform="rotate(15 256 256)"/></svg>
+          <img src="RobloxLogo.png" alt="roblox logo" style="width:20px; height:20px; display:block;"/>
         </a>
         <span style="font-size:12px; color:var(--muted);">discord: @obviouslypurple</span>
       </div>

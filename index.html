@@ -107,6 +107,17 @@
   .icon.roblox svg{fill:#111}
   :root[data-theme="dark"] .icon.roblox svg{fill:#f6f6f8}
   :root[data-theme="dark"] .icon.roblox svg path.hole{fill:#1a1a1e}
+  /* --- responsive header so it doesn't collide on mobile --- */
+  @media (max-width: 640px){
+    header{grid-template-columns:1fr; row-gap:8px; padding:10px 0}
+    .brand{order:1}
+    .brand img{height:46px}
+    .left-nav{order:2; justify-content:center; gap:14px}
+    .right-socials{order:3; justify-content:center; gap:10px}
+    .tabs{flex-wrap:wrap; gap:8px}
+    .tab{padding:6px 10px; font-size:11px}
+    .wrap{padding:16px 12px 56px}
+  }
 </style>
 </head>
 <body>

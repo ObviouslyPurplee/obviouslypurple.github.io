@@ -52,6 +52,7 @@
 
     .brand{display:flex; justify-content:center}
     .brand img{height:50px; filter:var(--logo-filter, none);}
+  .brand[role=button]{cursor:pointer}
 
     .right-socials{display:flex; justify-content:flex-end; gap:14px; align-items:center}
     .icon{width:28px; height:28px; display:inline-grid; place-items:center; border-radius:8px; color:var(--ink); background:transparent; border:none}
@@ -155,7 +156,7 @@
         <a href="#work">projects</a>
       </nav>
 
-      <div class="brand">
+      <div class="brand" id="logoEgg" role="button" tabindex="0" aria-label="play a secret audio">
         <img src="officialogo.png" alt="obviouslypurple logo" class="brand-logo" />
       </div>
 
@@ -253,9 +254,15 @@
     </div>
   </div>
 
+
+  <!-- easter egg audio -->
+  <audio id="egg-audio" src="logoeasteregg.mp3" preload="none"></audio>
+
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const CHANGELOG = [
+    {date:'2025-08-27', title:'Easter egg', items:[
+      'Added secret logo audio playback (logoeasteregg.mp3)']},
     {date:'2025-08-27', title:'UI wording', items:[
       'Changed project labels to say “explore” instead of “view project / see more”']},
     {date:'2025-08-27', title:'Highlights UX', items:[
@@ -294,6 +301,28 @@ document.addEventListener('DOMContentLoaded', function(){
   filterSel?.addEventListener('change', render);
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && modal.getAttribute('aria-hidden')==='false') close(); });
 });
+</script>
+<script>
+// logo easter egg — click the logo to play/pause audio
+(function(){
+  const logo = document.getElementById('logoEgg');
+  const audio = document.getElementById('egg-audio');
+  if(!logo || !audio) return;
+  audio.volume = 0.6; // gentle volume
+  function toggle(){
+    if(audio.paused){
+      audio.currentTime = 0;
+      const p = audio.play();
+      if(p && typeof p.then === 'function'){ p.catch(()=>{}); }
+      logo.classList.add('egg-playing');
+    }else{
+      audio.pause();
+      logo.classList.remove('egg-playing');
+    }
+  }
+  logo.addEventListener('click', toggle);
+  logo.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); toggle(); } });
+})();
 </script>
 </body>
 </html>

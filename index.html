@@ -86,6 +86,11 @@
     .footer-socials .icon:hover svg{fill:var(--accent)}
     /* keep pixel clouds behind content so the page doesn't shift */
   #pixelClouds{position:fixed; inset:0; z-index:0; width:100vw; height:100vh; display:block; background:transparent; image-rendering:pixelated; pointer-events:none}
+#shimmerFX{position:fixed; inset:0; z-index:0; width:100vw; height:100vh; display:block; background:transparent; image-rendering:pixelated; pointer-events:none; opacity:0; transition:opacity .35s ease}
+:root.shimmer-on #shimmerFX{opacity:.35}
+:root.shimmer-on{ --accent:#b79bff; }
+:root.galaxy-on #shimmerFX{opacity:.5}
+:root.galaxy-on{ --accent:#b79bff; }
   :root[data-theme="dark"] .tab{background:transparent; color:#e9e6ea; border:1px solid rgba(255,155,200,.35); transition:all .2s ease}
   :root[data-theme="dark"] .tab:hover{background:rgba(255,155,200,.25); color:#fff; border-color:var(--accent)}
   :root[data-theme="dark"] .tab.is-active{background:var(--accent); color:#1a1216; border-color:var(--accent)}
@@ -149,6 +154,11 @@
 </head>
 <body onload="window.scrollTo(0,0)">
   <canvas id="pixelClouds" aria-hidden="true"></canvas>
+  <canvas id="shimmerFX" aria-hidden="true"></canvas>
+
+<script>
+// (disabled old background script to avoid conflicts with new theme-specific engine)
+</script>
   <div class="wrap">
     <header>
       <nav class="left-nav">
@@ -261,6 +271,16 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const CHANGELOG = [
+    {date:'2025-08-27', title:'Themes & FX', items:[
+      'LIGHT: moving pixelated light-pink “minecraft” clouds + subtle background glitches',
+      'DARK: static pixelated clouds + vintage TV static/glitch overlay',
+      'Logo: secret galaxy theme (purple/blue nebula, stars, orange glitches, shimmer) when audio plays'
+    ]},
+
+    {date:'2025-08-27', title:'Pixel clouds', items:[
+      'Restored subtle pixelated pink clouds background with gentle movement',
+      'Dark mode-aware coloring and performance-friendly rendering']},
+
     {date:'2025-08-27', title:'Easter egg', items:[
       'Added secret logo audio playback (logoeasteregg.mp3)']},
     {date:'2025-08-27', title:'UI wording', items:[
@@ -303,6 +323,28 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 <script>
+// tabs filter (all/live/projects/other)
+(function(){
+  const tabs = document.querySelectorAll('.tabs .tab');
+  const cards = document.querySelectorAll('.grid .card');
+  function apply(filter){
+    tabs.forEach(t=>{
+      const active = t.dataset.filter===filter;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', String(active));
+    });
+    cards.forEach(c=>{ c.style.display = (filter==='all' || c.dataset.cat===filter) ? '' : 'none'; });
+  }
+  const initial = document.querySelector('.tabs .tab.is-active')?.dataset.filter || 'all';
+  apply(initial);
+  tabs.forEach(t=>{
+    t.addEventListener('click', ()=>apply(t.dataset.filter));
+    t.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); apply(t.dataset.filter);} });
+  });
+  document.getElementById('view-all')?.addEventListener('click', (e)=>{ apply('all'); });
+})();
+</script>
+<script>
 // logo easter egg — click the logo to play/pause audio
 (function(){
   const logo = document.getElementById('logoEgg');
@@ -322,6 +364,161 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   logo.addEventListener('click', toggle);
   logo.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); toggle(); } });
+})();
+</script>
+<script>
+// Theme toggle: set and remember dark/light
+(function(){
+  const root = document.documentElement;
+  const btn = document.querySelector('.theme-toggle');
+  const saved = localStorage.getItem('theme');
+  const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  root.setAttribute('data-theme', saved || (sysDark ? 'dark' : 'light'));
+  btn?.addEventListener('click', ()=>{
+    const next = root.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    document.dispatchEvent(new CustomEvent('theme:changed', {detail:{mode:next}}));
+  });
+})();
+</script>
+<script>
+// Pixel background engine
+// LIGHT: moving light-pink "minecraft" clouds + subtle glitches
+// DARK:  static light-pink "minecraft" clouds + vintage TV static + occasional glitches
+(function(){
+  if(window.__pxbg) return; window.__pxbg = true;
+  const cvs = document.getElementById('pixelClouds'); if(!cvs) return;
+  const ctx = cvs.getContext('2d');
+  let W=0,H=0, DPR=Math.max(1, Math.min(2, window.devicePixelRatio||1));
+  const SCALE = 2; let last=0;
+  const isDark = ()=> document.documentElement.getAttribute('data-theme')==='dark' || window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  // Cloud field (shared by both themes)
+  let clouds=[];
+  function seedClouds(){
+    const n=Math.max(18, Math.min(42, Math.round((W*H)/95000)));
+    clouds=Array.from({length:n}, ()=>({
+      x:Math.random()*W, y:Math.random()*H,
+      sx:18+Math.random()*34, sy:12+Math.random()*22,
+      dx:(Math.random()*0.05+0.02)*(Math.random()>0.5?1:-1),
+      dy:(Math.random()*0.02-0.01),
+      a:Math.random()*Math.PI*2
+    }));
+  }
+  function drawClouds({moving}){
+    const col = 'rgba(255,216,234,' + (isDark()? '0.22' : '0.62') + ')';
+    for(const c of clouds){
+      if(moving){
+        c.a += 0.12; const wobX=Math.cos(c.a*0.02)*0.09, wobY=Math.sin(c.a*0.02)*0.045;
+        c.x += (c.dx + wobX); c.y += (c.dy + wobY);
+        const pad=160; if(c.x<-pad) c.x=W+pad; if(c.x>W+pad) c.x=-pad; if(c.y<-pad) c.y=H+pad; if(c.y>H+pad) c.y=-pad;
+      }
+      ctx.save(); ctx.translate(c.x/SCALE, c.y/SCALE); ctx.fillStyle=col;
+      const blocks=14; for(let i=0;i<blocks;i++){
+        ctx.globalAlpha=(isDark()?0.5:0.7) - i*(0.5/blocks);
+        const step=(i%3===0)?8:4; const ox=(Math.random()*2-1)*c.sx; const oy=(Math.random()*2-1)*c.sy;
+        const w=step; const h=(i%4===0)? step+4:step;
+        ctx.fillRect(Math.round(ox), Math.round(oy), w, h);
+      }
+      ctx.restore(); ctx.globalAlpha=1;
+    }
+  }
+
+  // LIGHT: gentle background glitches
+  function drawLightGlitches(){
+    if(Math.random()<0.03){
+      const y=(Math.random()*H)|0; const h=3+((Math.random()*8)|0);
+      ctx.save(); ctx.globalAlpha=0.06; ctx.fillStyle='rgba(255,190,220,1)'; ctx.fillRect(0,y,W,h); ctx.restore();
+      ctx.save(); ctx.globalAlpha=0.04; ctx.fillStyle='rgba(200,150,255,1)'; ctx.fillRect(0,y+1,W,h-1); ctx.restore();
+    }
+  }
+
+  // DARK: static TV + occasional glitch bands
+  let glitchTimer=0;
+  function drawStaticTV(){
+    const cols = Math.ceil(W/(SCALE*6));
+    const rows = Math.ceil(H/(SCALE*6));
+    for(let y=0;y<rows;y++){
+      for(let x=0;x<cols;x++){
+        const n=(Math.random()*20)|0; const base=150+(n%10);
+        ctx.fillStyle=`rgba(255,${base},${205-n},0.08)`; ctx.fillRect(x*6,y*6,6,6);
+      }
+    }
+    ctx.fillStyle='rgba(255,155,200,0.05)';
+    for(let y=0;y< H/(SCALE*2); y+=2){ ctx.fillRect(0, y*2, W, 1); }
+  }
+  function drawDarkGlitch(dt){
+    glitchTimer -= dt; if(glitchTimer>0) return;
+    glitchTimer = 800 + Math.random()*1200;
+    const bands = 1 + (Math.random()*3)|0;
+    for(let b=0;b<bands;b++){
+      const y=(Math.random()*H)|0, h=6+((Math.random()*18)|0), shift=(Math.random()>0.5?1:-1)*(4+((Math.random()*20)|0));
+      ctx.save(); ctx.globalAlpha=0.14; ctx.fillStyle='rgba(180,120,220,0.25)'; ctx.fillRect(shift,y,W,h); ctx.restore();
+      ctx.save(); ctx.globalAlpha=0.08; ctx.fillStyle='rgba(120,180,255,0.35)'; ctx.fillRect(shift*0.6,y+2,W,h-2); ctx.fillStyle='rgba(255,120,200,0.35)'; ctx.fillRect(-shift*0.4,y+1,W,h-1); ctx.restore();
+    }
+  }
+
+  function resize(){
+    W=window.innerWidth; H=window.innerHeight;
+    cvs.style.width=W+'px'; cvs.style.height=H+'px';
+    cvs.width=Math.ceil(W/SCALE)*DPR; cvs.height=Math.ceil(H/SCALE)*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0); ctx.imageSmoothingEnabled=false;
+    seedClouds();
+  }
+
+  function render(t){
+    const dt=Math.min(33,(t-last)||16); last=t;
+    ctx.clearRect(0,0,cvs.width, cvs.height);
+    if(isDark()){
+      drawClouds({moving:false}); // static clouds
+      drawStaticTV();
+      drawDarkGlitch(dt);
+    } else {
+      drawClouds({moving:true});
+      drawLightGlitches();
+    }
+    requestAnimationFrame(render);
+  }
+
+  window.addEventListener('resize', resize, {passive:true});
+  resize(); requestAnimationFrame(render);
+})();
+</script>
+<script>
+// Shimmer/Galaxy FX overlay on #shimmerFX
+// - 'shimmer-on' => gentle purple/blue shimmer (legacy)
+// - 'galaxy-on'  => nebula + stars + orange glitch bands (secret theme)
+(function(){
+  if(window.__shimmerFX) return; window.__shimmerFX = true;
+  const cvs = document.getElementById('shimmerFX'); if(!cvs) return; const ctx=cvs.getContext('2d');
+  let W=0,H=0, DPR=Math.max(1, Math.min(2, window.devicePixelRatio||1));
+  const SCALE=2; let t=0; let stars=[]; let glitchT=0;
+  function resize(){ W=innerWidth; H=innerHeight; cvs.style.width=W+'px'; cvs.style.height=H+'px'; cvs.width=Math.ceil(W/SCALE)*DPR; cvs.height=Math.ceil(H/SCALE)*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); ctx.imageSmoothingEnabled=false; seedStars(); }
+  function seedStars(){ const count=Math.max(60, Math.round((W*H)/24000)); stars=Array.from({length:count}, ()=>({ x:Math.random()*W, y:Math.random()*H, tw:Math.random()*Math.PI*2, s:(Math.random()*1.5+0.5), hue: Math.random()<0.14? 'orange':'blue' })); }
+  function drawNebula(){ const cols=Math.ceil(W/(SCALE*8)), rows=Math.ceil(H/(SCALE*8)); for(let yy=0;yy<rows;yy++){ for(let xx=0;xx<cols;xx++){ const wv = Math.sin((xx+yy+t)*0.12)*0.5 + Math.sin((xx*0.3 - yy*0.2 + t*0.8))*0.5; const a=0.05+(wv+1)*0.06; const r=180+Math.floor((wv+1)*40); const g=150+Math.floor((1-wv)*30); const b=250; ctx.fillStyle=`rgba(${r},${g},${b},${a})`; ctx.fillRect(xx*8, yy*8, 8, 8);} } }
+  function drawStars(){ for(const s of stars){ s.tw += 0.07; const a=0.4 + (Math.sin(s.tw)*0.3+0.3); ctx.fillStyle = s.hue==='orange' ? `rgba(255,180,90,${a*0.8})` : `rgba(170,150,255,${a})`; const size=s.s; ctx.fillRect(Math.round(s.x/SCALE), Math.round(s.y/SCALE), size, size);} }
+  function drawOrangeGlitch(dt){ glitchT -= dt; if(glitchT>0) return; glitchT = 1200 + Math.random()*1600; const y=(Math.random()*H)|0, h=4+((Math.random()*16)|0), shift=(Math.random()>0.5?1:-1)*(6+((Math.random()*18)|0)); ctx.save(); ctx.globalAlpha=0.16; ctx.fillStyle='rgba(255,150,60,1)'; ctx.fillRect(shift, y, W, h); ctx.restore(); ctx.save(); ctx.globalAlpha=0.1; ctx.fillStyle='rgba(120,180,255,1)'; ctx.fillRect(shift*0.5, y+2, W, h-1); ctx.restore(); }
+  function drawShimmer(){ const cols=Math.ceil(W/(SCALE*8)), rows=Math.ceil(H/(SCALE*8)); for(let y=0;y<rows;y++){ for(let x=0;x<cols;x++){ const wv = Math.sin((x+y+t)*0.12)*0.5 + Math.sin((x*0.3 - y*0.2 + t*0.8))*0.5; const a = 0.06 + (wv+1)*0.05; const r = 190 + Math.floor((wv+1)*25); const g = 160 + Math.floor((1-wv)*20); const b = 255; ctx.fillStyle = `rgba(${r},${g},${b},${a})`; ctx.fillRect(x*8, y*8, 8, 8);} } ctx.globalAlpha=0.08; ctx.fillStyle='rgba(180,140,255,1)'; const off=(t*2)%120; ctx.fillRect(-W+off, 0, W/3, H); ctx.globalAlpha=1; }
+  function loop(ts){ t+=0.6; ctx.clearRect(0,0,cvs.width,cvs.height); const root=document.documentElement; if(root.classList.contains('galaxy-on')){ drawNebula(); drawStars(); drawOrangeGlitch(16); } else if(root.classList.contains('shimmer-on')){ drawShimmer(); } requestAnimationFrame(loop); }
+  window.addEventListener('resize', resize, {passive:true}); resize(); loop();
+})();
+</script>
+<script>
+// Bind secret galaxy theme to logo audio play/pause
+(function(){
+  if(window.__logoGalaxy) return; window.__logoGalaxy = true;
+  const audio = document.getElementById('egg-audio');
+  const logo = document.getElementById('logoEgg');
+  const root = document.documentElement;
+  function onPlay(){ root.classList.add('galaxy-on'); root.classList.add('shimmer-on'); }
+  function onPause(){ root.classList.remove('galaxy-on'); root.classList.remove('shimmer-on'); }
+  if(audio){
+    audio.addEventListener('play', onPlay);
+    audio.addEventListener('pause', onPause);
+    audio.addEventListener('ended', onPause);
+  }
+  if(!audio && logo){ logo.addEventListener('click', ()=> root.classList.toggle('galaxy-on')); }
 })();
 </script>
 </body>

@@ -120,7 +120,7 @@
   }
 </style>
 </head>
-<body>
+<body onload="window.scrollTo(0,0)">
   <canvas id="pixelClouds" aria-hidden="true"></canvas>
   <div class="wrap">
     <header>
@@ -280,6 +280,14 @@
 
   window.addEventListener('themechange',()=>{ seedClouds(clouds.length); });
 })();
+
+// always start at the very top on first load / refresh (mobile-safe)
+try { if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; } } catch {}
+window.addEventListener('load', () => {
+  window.scrollTo(0, 0);
+  setTimeout(() => window.scrollTo(0, 0), 0); // iOS Safari bfcache/layout quirk
+});
+window.addEventListener('pageshow', (e) => { if (e.persisted) window.scrollTo(0, 0); });
 
 const tabs=document.querySelectorAll('.tab');
 const cards=document.querySelectorAll('[data-cat]');

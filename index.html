@@ -126,6 +126,24 @@
     .tab{padding:6px 10px; font-size:11px}
     .wrap{padding:16px 12px 56px}
   }
+.footer-link{color:var(--muted); text-decoration:underline; text-underline-offset:2px}
+.footer-link:hover{color:var(--ink)}
+/* changelog modal styles */
+.cl-modal{position:fixed; inset:0; display:none; z-index:50}
+.cl-modal[aria-hidden="false"]{display:block}
+.cl-backdrop{position:absolute; inset:0; background:rgba(0,0,0,.35)}
+.cl-panel{position:relative; margin:6vh auto; max-width:720px; background:var(--card); color:var(--ink); border:1px solid var(--pink); border-radius:16px; box-shadow:var(--shadow); overflow:hidden}
+.cl-header{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid #f2e6ee}
+:root[data-theme="dark"] .cl-header{border-bottom:1px solid var(--pink)}
+.cl-close{background:transparent; border:none; font-size:18px; cursor:pointer; color:var(--muted)}
+.cl-content{max-height:60vh; overflow:auto; padding:8px 16px 16px}
+.cl-list{list-style:none; padding:0; margin:0; display:grid; gap:12px}
+.cl-item{border:1px solid var(--pink); border-radius:12px; padding:10px 12px; background:var(--bg)}
+.cl-item time{font-size:11px; color:var(--muted)}
+.cl-item h4{margin:6px 0 4px; font-size:14px}
+.cl-item ul{margin:0; padding-left:18px}
+.cl-controls{display:flex; justify-content:flex-end; padding:8px 0}
+.sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
 </style>
 </head>
 <body onload="window.scrollTo(0,0)">
@@ -172,7 +190,7 @@
         <article class="card" data-cat="live">
           <div class="shot has-img" style="background-image:url('Cooked.png')">
             <div class="labels">
-              <a class="see-more pink" href="#" aria-label="view project about cooked">view project</a>
+              <a class="see-more pink" href="#" aria-label="explore about cooked">explore</a>
               <a class="see-more green" href="https://www.roblox.com/games/108476688850509/Cooked" target="_blank" rel="noopener" aria-label="play cooked">play</a>
             </div>
           </div>
@@ -181,7 +199,7 @@
         <article class="card" data-cat="projects">
           <div class="shot has-img" style="background-image:url('TheVoyage.png')">
             <div class="labels">
-              <a class="see-more pink" href="#" aria-label="view project about the voyage">view project</a>
+              <a class="see-more pink" href="#" aria-label="explore about the voyage">explore</a>
             </div>
           </div>
           <div class="meta"><span>the voyage</span><span>environment • studio build</span></div>
@@ -208,69 +226,74 @@
         </a>
         <span style="font-size:12px; color:var(--muted);">discord: @obviouslypurple</span>
       </div>
-      <p style="margin-top:10px">© 2025 team op</p>
+      <p style="margin-top:10px">© 2025 team op • <a href="#" id="open-changelog" class="footer-link">change logs</a></p>
     </footer>
+
+    <!-- changelog modal -->
+    <div id="changelogModal" class="cl-modal" aria-hidden="true" role="dialog" aria-labelledby="cl-title">
+      <div class="cl-backdrop" data-close></div>
+      <div class="cl-panel" role="document">
+        <header class="cl-header">
+          <h3 id="cl-title">change logs</h3>
+          <button class="cl-close" aria-label="close changelog" data-close>✕</button>
+        </header>
+        <div class="cl-content">
+          <div class="cl-controls">
+            <label>
+              <span class="sr-only">filter</span>
+              <select id="cl-filter">
+                <option value="all">all</option>
+                <option value="2025" selected>2025</option>
+              </select>
+            </label>
+          </div>
+          <ol id="cl-list" class="cl-list"></ol>
+        </div>
+      </div>
+    </div>
   </div>
 
 <script>
-// tabs filter logic (with an "all" tab)
-(function(){
-  const tabs = document.querySelectorAll('.tab');
-  const cards = document.querySelectorAll('.grid .card');
-  function apply(filter){
-    tabs.forEach(t=>{
-      const active = t.dataset.filter === filter;
-      t.classList.toggle('is-active', active);
-      t.setAttribute('aria-selected', String(active));
-    });
-    cards.forEach(card=>{
-      card.style.display = (filter==='all' || card.dataset.cat === filter) ? '' : 'none';
-    });
-  }
-  const hash = location.hash.replace('#','');
-  const initial = ['live','projects','other'].includes(hash) ? hash : 'all';
-  apply(initial);
-  tabs.forEach(t=>{
-    t.addEventListener('click', ()=>{
-      apply(t.dataset.filter);
-      history.replaceState(null, '', '#'+(t.dataset.filter==='all'?'':t.dataset.filter));
-    });
-    t.addEventListener('keydown', (e)=>{
-      if(e.key==='Enter' || e.key===' ') { e.preventDefault(); apply(t.dataset.filter);} 
-    });
-  });
-  const viewAll = document.getElementById('view-all');
-  if(viewAll){ viewAll.addEventListener('click', (e)=>{ apply('all'); }); }
-})();
+document.addEventListener('DOMContentLoaded', function(){
+  const CHANGELOG = [
+    {date:'2025-08-27', title:'UI wording', items:[
+      'Changed project labels to say “explore” instead of “view project / see more”']},
+    {date:'2025-08-27', title:'Highlights UX', items:[
+      'Added tap-to-reveal labels on mobile; kept hover on desktop',
+      'Made labels clickable and positioned left/right',
+      'Removed “play” label from The Voyage']},
+    {date:'2025-08-27', title:'Tabs + Filtering', items:[
+      'Tabs now filter projects and added an “all” tab by default']},
+    {date:'2025-08-27', title:'Media updates', items:[
+      'Hooked up Cooked.png and TheVoyage.png for highlight cards']}
+  ];
 
-// mobile/touch: tap a highlight to reveal labels; desktop keeps hover
-(function(){
-  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-  if(!isTouch) return; // desktop uses hover only
-  // Close any open labels when tapping outside
-  function closeAll(){
-    document.querySelectorAll('.shot.labels-active').forEach(s=>s.classList.remove('labels-active'));
+  const modal = document.getElementById('changelogModal');
+  const openBtn = document.getElementById('open-changelog');
+  const list = document.getElementById('cl-list');
+  const filterSel = document.getElementById('cl-filter');
+
+  function open(){ modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+  function close(){ modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  function yearOf(d){ return new Date(d).getFullYear().toString(); }
+  function render(){
+    const y = filterSel.value;
+    list.innerHTML = '';
+    CHANGELOG
+      .filter(e => y==='all' || yearOf(e.date)===y)
+      .forEach(e=>{
+        const li = document.createElement('li');
+        li.className = 'cl-item';
+        li.innerHTML = `<time datetime="${e.date}">${e.date}</time><h4>${e.title}</h4><ul>${e.items.map(it=>`<li>${it}</li>`).join('')}</ul>`;
+        list.appendChild(li);
+      });
   }
-  document.addEventListener('click', (e)=>{
-    // if click is outside a .shot, close all
-    if(!e.target.closest('.shot')) closeAll();
-  });
-  // For each shot, toggle labels on tap
-  document.querySelectorAll('.shot.has-img').forEach(shot=>{
-    shot.addEventListener('click', (e)=>{
-      // if the click was on a label link, let it pass through
-      if(e.target.closest('.see-more')) return; 
-      // otherwise toggle visibility
-      const nowActive = !shot.classList.contains('labels-active');
-      closeAll();
-      if(nowActive) shot.classList.add('labels-active');
-    }, {passive:true});
-    // ensure label clicks don't bubble and close the labels
-    shot.querySelectorAll('.see-more').forEach(a=>{
-      a.addEventListener('click', (ev)=>{ ev.stopPropagation(); });
-    });
-  });
-})();
+
+  if(openBtn){ openBtn.addEventListener('click', (e)=>{ e.preventDefault(); render(); open(); }); }
+  modal?.querySelectorAll('[data-close]').forEach(el=> el.addEventListener('click', close));
+  filterSel?.addEventListener('change', render);
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && modal.getAttribute('aria-hidden')==='false') close(); });
+});
 </script>
 </body>
 </html>

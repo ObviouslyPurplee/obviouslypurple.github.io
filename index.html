@@ -324,6 +324,14 @@
           </div>
           <div class="meta"><span>rising mountains</span><span>showcase</span></div>
         </article>
+        <article class="card" data-cat="showcases">
+          <div class="shot has-img" id="shot-powerhouse" data-src-primary="Powerhouse.png" data-src-fallback="Powerhouse.jpg" style="background-image:url('Powerhouse.png')">
+            <div class="labels">
+              <a class="see-more pink" href="#" aria-label="explore about new york powerhouse wip" data-ink="#201018">explore</a>
+            </div>
+          </div>
+          <div class="meta"><span>new york powerhouse (wip)</span><span>showcase</span></div>
+        </article>
       </div>
 
       <div style="margin-top:18px; text-align:center">
@@ -387,7 +395,8 @@ document.addEventListener('DOMContentLoaded', function(){
   const CHANGELOG = [
     {date:'2025-08-31', title:'Highlights', items:[
       'Added “Rising Mountains” to Showcases',
-      'Added “Light House Map” to Projects'
+      'Added “Light House Map” to Projects',
+      'Added “New York Powerhouse (WIP)” to Showcases'
     ]},
     {date:'2025-08-31', title:'Image viewer', items:[
       'Clicking a highlight image opens a full preview with dimmed background and rounded frame']},
@@ -644,22 +653,4 @@ document.addEventListener('DOMContentLoaded', function(){
       g.style.setProperty('--glass-x', `${x}px`);
       g.style.setProperty('--glass-y', `${y}px`);
 
-      // ensure locked ink applies immediately even before image is ready
-      const lockInk = btn.getAttribute('data-ink');
-      if(lockInk){ btn.style.setProperty('--label-ink', lockInk); }
-
-      if(entry.ready){
-        const cx = ((rectB.left - rectS.left) - offX + rectB.width/2) / drawW * entry.w;
-        const cy = ((rectB.top - rectS.top) - offY + rectB.height/2) / drawH * entry.h;
-        const ss = Math.max(4, Math.round(12*entry.w/drawW));
-        const sx = Math.max(0, Math.min(entry.w-ss, Math.round(cx-ss/2)));
-        const sy = Math.max(0, Math.min(entry.h-ss, Math.round(cy-ss/2)));
-        const data = entry.cctx.getImageData(sx,sy,ss,ss).data;
-        let r=0,g=0,b=0,n=0; for(let i=0;i<data.length;i+=4){ r+=data[i]; g+=data[i+1]; b+=data[i+2]; n++; }
-        r/=n; g/=n; b/=n;
-        const lum = 0.2126*Math.pow(r/255,2.2) + 0.7152*Math.pow(g/255,2.2) + 0.0722*Math.pow(b/255,2.2);
-        const darkInk = btn.classList.contains('pink') ? '#201018' : '#0a0a0a';
-        const ink = lum>0.55 ? darkInk : '#ffffff';
-        const locked = btn.getAttribute('data-ink');
-        btn.style.setProperty('--label-ink', locked ? locked : ink);
-        const topA = lum>0.55 ? .32 : .45
+      // ensure locked ink app

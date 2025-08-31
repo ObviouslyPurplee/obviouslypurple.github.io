@@ -117,12 +117,12 @@
   .card:hover .see-more{opacity:1; transform:translateY(0); pointer-events:auto;}
   /* mobile: show when card is tapped */
   .shot.labels-active .see-more{opacity:1; transform:translateY(0); pointer-events:auto;}
-  .see-more.pink{--t:255,120,196; --ring:255,220,240; --label-ink:#fff}
-  .see-more.green{--t:48,255,168; --ring:210,255,235; --label-ink:#ffffff}
+  .see-more.pink{--t:255,120,196; --ring:255,220,240; --label-ink:#201018}
+  .see-more.green{--t:48,255,168; --ring:210,255,235; --label-ink:#0a0a0a}
   /* dark mode tweak */
   :root[data-theme="dark"] .shot.has-img::after{background:linear-gradient(to bottom, rgba(255,155,200,.18), rgba(255,155,200,.04))}
-  :root[data-theme="dark"] .see-more.pink{--t:255,120,196; --ring:255,220,240; --label-ink:#fff}
-  :root[data-theme="dark"] .see-more.green{--t:48,255,168; --ring:210,255,235; --label-ink:#ffffff}
+  :root[data-theme="dark"] .see-more.pink{--t:255,120,196; --ring:255,220,240; --label-ink:#201018}
+  :root[data-theme="dark"] .see-more.green{--t:48,255,168; --ring:210,255,235; --label-ink:#0b3e2b}
   /* fix: prevent theme switch from changing thumbnail scale */
   .shot.has-img{background-size:cover !important; background-position:center center !important}
   :root[data-theme="dark"] .shot.has-img{background-size:cover !important}
@@ -270,7 +270,7 @@
           <div class="shot has-img" style="background-image:url('Cooked.png')">
             <div class="labels">
               <a class="see-more pink" href="#" aria-label="explore about cooked">explore</a>
-              <a class="see-more green" href="https://www.roblox.com/games/108476688850509/Cooked" target="_blank" rel="noopener" aria-label="play cooked" data-ink="#ffffff">play</a>
+              <a class="see-more green" href="https://www.roblox.com/games/108476688850509/Cooked" target="_blank" rel="noopener" aria-label="play cooked" data-ink="#0a0a0a">play</a>
             </div>
           </div>
           <div class="meta"><span>🔥 cooked!</span><span>creative lead • ui & 3d • live ops</span></div>
@@ -568,7 +568,8 @@ document.addEventListener('DOMContentLoaded', function(){
         let r=0,g=0,b=0,n=0; for(let i=0;i<data.length;i+=4){ r+=data[i]; g+=data[i+1]; b+=data[i+2]; n++; }
         r/=n; g/=n; b/=n;
         const lum = 0.2126*Math.pow(r/255,2.2) + 0.7152*Math.pow(g/255,2.2) + 0.0722*Math.pow(b/255,2.2);
-        const ink = lum>0.55 ? '#0a0a0a' : '#ffffff';
+        const darkInk = btn.classList.contains('pink') ? '#201018' : '#0a0a0a';
+        const ink = lum>0.55 ? darkInk : '#ffffff';
         const locked = btn.getAttribute('data-ink');
         btn.style.setProperty('--label-ink', locked ? locked : ink);
         const topA = lum>0.55 ? .32 : .45; const botA = lum>0.55 ? .14 : .20;

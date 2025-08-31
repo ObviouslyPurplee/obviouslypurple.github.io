@@ -171,6 +171,13 @@
 .cl-controls{display:flex; justify-content:flex-end; padding:8px 0}
 .sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
 .footer-discord{margin-top:6px; font-size:12px; color:var(--muted); text-align:center}
+/* image lightbox */
+.img-modal{position:fixed; inset:0; display:none; place-items:center; z-index:70}
+.img-modal[aria-hidden="false"]{display:grid}
+.img-backdrop{position:absolute; inset:0; background:rgba(0,0,0,.58); backdrop-filter:blur(2px)}
+.img-panel{position:relative; max-width:min(96vw,1100px); max-height:86vh; border:1px solid var(--pink); border-radius:8px; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08)}
+.img-panel img{display:block; width:100%; height:100%; object-fit:contain; background:#0f0d11}
+.img-close{position:absolute; top:8px; right:8px; background:rgba(0,0,0,.55); color:#fff; border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:6px 10px; font-size:12px; cursor:pointer}
 </style>
 </head>
 <body onload="window.scrollTo(0,0)">  <canvas id="fogFX" aria-hidden="true"></canvas>
@@ -269,6 +276,8 @@
         <button class="tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">all</button>
         <button class="tab" type="button" role="tab" aria-selected="false" data-filter="live">live experiences</button>
         <button class="tab" type="button" role="tab" aria-selected="false" data-filter="projects">projects</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-filter="showcases">showcases</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-filter="graphic">graphic design</button>
         <button class="tab" type="button" role="tab" aria-selected="false" data-filter="other">other engagements</button>
       </div>
 
@@ -290,13 +299,21 @@
           </div>
           <div class="meta"><span>the voyage</span><span>environment • studio build</span></div>
         </article>
-        <article class="card" data-cat="other">
+        <article class="card" data-cat="graphic">
           <div class="shot has-img" id="shot-cooked-ui" data-src-primary="MainUI.png" data-src-fallback="UIMain.png" style="background-image:url('MainUI.png')">
             <div class="labels">
               <a class="see-more pink" href="#" aria-label="explore about cooked ui" data-ink="#201018">explore</a>
             </div>
           </div>
           <div class="meta"><span>cooked ui</span><span>graphic design • ui systems</span></div>
+        </article>
+        <article class="card" data-cat="showcases">
+          <div class="shot has-img" id="shot-rising-mountains" data-src-primary="MountainShowcase.png" data-src-fallback="RisingMountains.png" style="background-image:url('MountainShowcase.png')">
+            <div class="labels">
+              <a class="see-more pink" href="#" aria-label="explore about rising mountains" data-ink="#201018">explore</a>
+            </div>
+          </div>
+          <div class="meta"><span>rising mountains</span><span>showcase</span></div>
         </article>
       </div>
 
@@ -344,12 +361,32 @@
   </div>
 
 
-  <!-- easter egg audio -->
+  <!-- image lightbox -->
+<div id="imgModal" class="img-modal" aria-hidden="true" role="dialog" aria-label="image viewer">
+  <div class="img-backdrop" data-close></div>
+  <figure class="img-panel">
+    <button class="img-close" aria-label="close image" data-close>✕</button>
+    <img id="imgModalImg" alt="highlight image"/>
+  </figure>
+</div>
+
+<!-- easter egg audio -->
   <audio id="egg-audio" src="logoeasteregg.mp3" preload="none"></audio>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const CHANGELOG = [
+    {date:'2025-08-31', title:'Highlights', items:[
+      'Added “Rising Mountains” to Showcases'
+    ]},
+    {date:'2025-08-31', title:'Image viewer', items:[
+      'Clicking a highlight image opens a full preview with dimmed background and rounded frame']},
+
+    {date:'2025-08-31', title:'Navigation & categories', items:[
+      'Tabs: “other engagements” renamed to “showcases”; added “graphic design” and “other engagements” tabs',
+      'Cooked UI categorized under “graphic design”',
+      '“view all projects” reveals all highlights'
+    ]},
     {date:'2025-08-31', title:'Theme', items:[
       'Removed light mode and locked site to dark',
       'Removed theme toggle button'
@@ -445,7 +482,24 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 </script>
 <script>
-// logo easter egg — click the logo to play/pause audio
+// Highlight image lightbox (open on image click, ESC/Backdrop to close)
+(function(){
+  const modal = document.getElementById('imgModal');
+  const imgEl = document.getElementById('imgModalImg');
+  if(!modal||!imgEl) return;
+  function parseURL(bg){ const m = /url\((?:\"|')?([^\"')]+)(?:\"|')?\)/.exec(bg||''); return m? m[1]: null; }
+  function open(url){ if(!url) return; imgEl.src = url; modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+  function close(){ modal.setAttribute('aria-hidden','true'); imgEl.removeAttribute('src'); document.body.style.overflow=''; }
+  document.querySelectorAll('.shot.has-img').forEach(shot=>{
+    shot.addEventListener('click', (e)=>{
+      if(e.target.closest('.labels') || e.target.closest('a')) return; // don’t intercept buttons
+      const url = parseURL(shot.style.backgroundImage);
+      open(url);
+    });
+  });
+  modal.querySelectorAll('[data-close]').forEach(el=> el.addEventListener('click', close));
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && modal.getAttribute('aria-hidden')==='false') close(); });
+})
 (function(){
   const logo = document.getElementById('logoEgg');
   const audio = document.getElementById('egg-audio');
@@ -598,18 +652,4 @@ document.addEventListener('DOMContentLoaded', function(){
         const ink = lum>0.55 ? darkInk : '#ffffff';
         const locked = btn.getAttribute('data-ink');
         btn.style.setProperty('--label-ink', locked ? locked : ink);
-        const topA = lum>0.55 ? .32 : .45; const botA = lum>0.55 ? .14 : .20;
-        btn.style.setProperty('--t-top-a', topA); btn.style.setProperty('--t-bottom-a', botA);
-      }
-    });
-  }
-
-  function refreshAll(){ document.querySelectorAll('.shot.has-img').forEach(s=>{ const url = parseURL(s.style.backgroundImage); const entry = url && cache.get(url); if(entry&&entry.ready) positionButtons(s, entry); else setupShot(s); }); }
-
-  shots.forEach(setupShot);
-  window.addEventListener('resize', refreshAll, {passive:true});
-  document.querySelectorAll('.card').forEach(c=> c.addEventListener('mouseenter', ()=>{ const s=c.querySelector('.shot.has-img'); s&&setupShot(s); }));
-})();
-</script>
-</body>
-</html>
+        const topA = lum>0.55 ? .32 : .45

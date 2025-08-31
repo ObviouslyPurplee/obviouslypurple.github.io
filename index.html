@@ -285,7 +285,7 @@
           <div class="meta"><span>the voyage</span><span>environment • studio build</span></div>
         </article>
         <article class="card" data-cat="other">
-          <div class="shot has-img" style="background-image:url('MainUI.png')">
+          <div class="shot has-img" id="shot-cooked-ui" data-src-primary="MainUI.png" data-src-fallback="UIMain.png" style="background-image:url('MainUI.png')">
             <div class="labels">
               <a class="see-more pink" href="#" aria-label="explore about cooked ui">explore</a>
             </div>
@@ -520,6 +520,21 @@ document.addEventListener('DOMContentLoaded', function(){
     audio.addEventListener('ended', onPause);
   }
   if(!audio && logo){ logo.addEventListener('click', ()=> root.classList.toggle('galaxy-on')); }
+})();
+</script>
+<script>
+// Shot image fallback: try primary, then fallback if missing (so GitHub naming differences don't break cards)
+(function(){
+  const shots = document.querySelectorAll('.shot[data-src-primary]');
+  shots.forEach(shot=>{
+    const primary = shot.getAttribute('data-src-primary');
+    const fallback = shot.getAttribute('data-src-fallback');
+    if(!primary) return;
+    const img = new Image();
+    img.onload = ()=>{ shot.style.backgroundImage = `url('${primary}')`; };
+    img.onerror = ()=>{ if(fallback){ shot.style.backgroundImage = `url('${fallback}')`; } };
+    img.src = primary;
+  });
 })();
 </script>
 <script>

@@ -324,7 +324,6 @@
           </div>
           <div class="meta"><span>rising mountains</span><span>showcase</span></div>
         </article>
-        $1
         <article class="card" data-cat="showcases">
           <div class="shot has-img" id="shot-ntltc" data-src-primary="ntltc.png" data-src-fallback="ntltc.jpg" style="background-image:url('ntltc.png')">
             <div class="labels">
@@ -332,6 +331,14 @@
             </div>
           </div>
           <div class="meta"><span>no tears left to cry (ariana grande scene recreation)</span><span>showcase</span></div>
+        </article>
+              <article class="card" data-cat="showcases">
+          <div class="shot has-img" id="shot-ariels-tropic" data-src-primary="arielstropic.png" data-src-fallback="arielstropic.jpeg" style="background-image:url('arielstropic.png')">
+            <div class="labels">
+              <a class="see-more pink" href="#" aria-label="explore about ariels tropic" data-ink="#201018">explore</a>
+            </div>
+          </div>
+          <div class="meta"><span>ariels tropic</span><span>showcase</span></div>
         </article>
       </div>
 
@@ -397,7 +404,8 @@ document.addEventListener('DOMContentLoaded', function(){
     {date:'2025-08-31', title:'Highlights', items:[
       'Added “Rising Mountains” to Showcases',
       'Added “Light House Map” to Projects',
-      'Added “New York Powerhouse (WIP)” to Showcases'
+      'Added “New York Powerhouse (WIP)” to Showcases',
+      'Added “Ariels Tropic” to Showcases'
     ]},
     {date:'2025-08-31', title:'Image viewer', items:[
       'Clicking a highlight image opens a full preview with dimmed background and rounded frame']},
@@ -643,13 +651,4 @@ document.addEventListener('DOMContentLoaded', function(){
     const offX = (sw-drawW)/2, offY=(sh-drawH)/2;
     const size = `${drawW}px ${drawH}px`;
 
-    shot.querySelectorAll('.see-more').forEach(btn=>{
-      if(!btn.querySelector('.glass')){ const g=document.createElement('span'); g.className='glass'; g.setAttribute('aria-hidden','true'); btn.prepend(g); }
-      const g = btn.querySelector('.glass');
-      const rectB = btn.getBoundingClientRect();
-      const x = offX - (rectB.left - rectS.left);
-      const y = offY - (rectB.top - rectS.top);
-      g.style.setProperty('--glass-bg', `url("${entry.img.src}")`);
-      g.style.setProperty('--glass-size', size);
-      g.style.setProperty('--glass-x', `${x}px`);
-      g.style.setProperty('--gla
+    shot.querySelectorAll('.see-more'

@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>obviouslypurple — portfolio</title>
+  $1  <meta name="color-scheme" content="dark" />
+<title>obviouslypurple — portfolio</title>
   <meta name="description" content="obviouslypurple — roblox developer • ui + 3d artist • project manager" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,7 +70,8 @@
     .tab{appearance:none; border:1px solid #f0d9e6; background:#fff; color:#6c6068; padding:6px 10px; border-radius:999px; font-size:11px; cursor:pointer}
     .tab:hover{background:var(--pink-200); color:#2a2a30; border-color:var(--pink)}
     .tab.is-active{background:var(--ink); color:#fff; border-color:var(--ink)}
-    :root[data-theme="dark"] .tab{background:#2a2a2a; border:1px solid var(--pink); color:var(--muted)}
+    :root[data-theme="dark"] .tab{background:transparent; color:#e9e6ea; border:1px solid rgba(255,155,200,.35); transition:all .2s ease}
+:root[data-theme="dark"] #fogFX{mix-blend-mode:screen; filter:blur(3px)}
     :root[data-theme="dark"] .tab.is-active{background:var(--accent); color:#fff;}
 
     .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; margin-top:20px}
@@ -85,7 +86,7 @@
     .footer-socials .icon svg{width:22px; height:22px; fill:currentColor}
     .footer-socials .icon:hover svg{fill:var(--accent)}
     /* keep pixel clouds behind content so the page doesn't shift */
-  #pixelClouds{position:fixed; inset:0; z-index:0; width:100vw; height:100vh; display:block; background:transparent; image-rendering:pixelated; pointer-events:none}
+  #fogFX{position:fixed; inset:0; z-index:0; width:100vw; height:100vh; display:block; pointer-events:none; image-rendering:pixelated; filter:blur(3.5px); mix-blend-mode:multiply}
 #shimmerFX{position:fixed; inset:0; z-index:0; width:100vw; height:100vh; display:block; background:transparent; image-rendering:pixelated; pointer-events:none; opacity:0; transition:opacity .35s ease}
 :root.shimmer-on #shimmerFX{opacity:.5}
 :root.shimmer-on{ --accent:#b79bff; }
@@ -99,16 +100,29 @@
   .shot.has-img::after{content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(255,216,234,.35), rgba(255,216,234,0)); opacity:0; transition:opacity .25s ease; pointer-events:none; z-index:1}
   .card:hover .shot.has-img::after{opacity:1}
   .labels{position:absolute; top:10px; left:10px; right:10px; display:flex; justify-content:space-between; gap:8px; z-index:5;}
-  .see-more{padding:6px 12px; font-size:12px; line-height:1; border-radius:14px; box-shadow:0 6px 18px rgba(31,31,36,.08); opacity:0; transform:translateY(-6px); transition:opacity .18s ease, transform .18s ease; pointer-events:none; text-decoration:none; cursor:pointer;}
+  .see-more{--t:255,120,196; --ring:255,220,240; --label-ink:#fff; --t-top-a:.42; --t-bottom-a:.18; position:relative; display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:12px; font-weight:700; line-height:1; border-radius:999px; opacity:0; transform:translateY(-6px); transition:opacity .18s ease, transform .18s ease; pointer-events:none; text-decoration:none; cursor:pointer; overflow:hidden; color:var(--label-ink); border:1px solid rgba(var(--ring),.7); background:linear-gradient(180deg, rgba(var(--t), var(--t-top-a)), rgba(var(--t), var(--t-bottom-a))) padding-box; backdrop-filter:blur(12px) saturate(160%); -webkit-backdrop-filter:blur(12px) saturate(160%); box-shadow:inset 0 1px 0 rgba(255,255,255,.55), inset 0 -12px 22px rgba(0,0,0,.22), 0 10px 28px rgba(0,0,0,.35); text-shadow:0 1px 0 rgba(255,255,255,.25)}
+.see-more>.glass{position:absolute; inset:-1px; border-radius:inherit; pointer-events:none; background-image:var(--glass-bg); background-size:var(--glass-size); background-position:var(--glass-x) var(--glass-y); filter:blur(1px) brightness(1.1) contrast(1.05) saturate(1.2); mix-blend-mode:soft-light; opacity:.95}
+.see-more::before{content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(120% 60% at 50% -20%, rgba(255,255,255,.5), rgba(255,255,255,.12) 55%, transparent 70%); pointer-events:none}
+.see-more::after{content:""; position:absolute; top:0; left:-40%; width:40%; height:100%; border-radius:inherit; background:linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); transform:skewX(-20deg) translateX(-10%); transition:transform .6s ease; opacity:.85; pointer-events:none}
+.card:hover .see-more::after{transform:skewX(-20deg) translateX(230%)}
+@media (prefers-reduced-motion: reduce){ .card:hover .see-more::after{transform:none} }
+.see-more::before{content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(120% 60% at 50% -20%, rgba(255,255,255,.55), rgba(255,255,255,.12) 55%, transparent 70%); pointer-events:none}
+.see-more::after{content:""; position:absolute; top:0; left:-40%; width:40%; height:100%; border-radius:inherit; background:linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); transform:skewX(-20deg) translateX(-10%); transition:transform .6s ease; opacity:.8; pointer-events:none}
+.card:hover .see-more::after{transform:skewX(-20deg) translateX(230%)}
+@media (prefers-reduced-motion: reduce){ .card:hover .see-more::after{transform:none} }
+.see-more::before{content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(120% 60% at 50% 0%, rgba(255,255,255,.55), rgba(255,255,255,.08) 60%, transparent 70%); pointer-events:none}
+.see-more::after{content:""; position:absolute; top:0; left:-40%; width:40%; height:100%; border-radius:inherit; background:linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent); transform:skewX(-20deg) translateX(-10%); transition:transform .6s ease; opacity:.7; pointer-events:none}
+.card:hover .see-more::after{transform:skewX(-20deg) translateX(230%)}
+@media (prefers-reduced-motion: reduce){ .card:hover .see-more::after{transform:none} }
   .card:hover .see-more{opacity:1; transform:translateY(0); pointer-events:auto;}
   /* mobile: show when card is tapped */
   .shot.labels-active .see-more{opacity:1; transform:translateY(0); pointer-events:auto;}
-  .see-more.pink{background:var(--pink-200); color:var(--ink);}
-  .see-more.green{background:var(--green); color:#000;}
+  .see-more.pink{--t:255,120,196; --ring:255,220,240; --label-ink:#fff}
+  .see-more.green{--t:48,255,168; --ring:210,255,235; --label-ink:#ffffff}
   /* dark mode tweak */
   :root[data-theme="dark"] .shot.has-img::after{background:linear-gradient(to bottom, rgba(255,155,200,.18), rgba(255,155,200,.04))}
-  :root[data-theme="dark"] .see-more.pink{background:rgba(255,155,200,.25); color:#fff}
-  :root[data-theme="dark"] .see-more.green{background:var(--green); color:#000}
+  :root[data-theme="dark"] .see-more.pink{--t:255,120,196; --ring:255,220,240; --label-ink:#fff}
+  :root[data-theme="dark"] .see-more.green{--t:48,255,168; --ring:210,255,235; --label-ink:#ffffff}
   /* fix: prevent theme switch from changing thumbnail scale */
   .shot.has-img{background-size:cover !important; background-position:center center !important}
   :root[data-theme="dark"] .shot.has-img{background-size:cover !important}
@@ -152,12 +166,67 @@
 .sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
 </style>
 </head>
-<body onload="window.scrollTo(0,0)">
-  <canvas id="pixelClouds" aria-hidden="true"></canvas>
+<body onload="window.scrollTo(0,0)">  <canvas id="fogFX" aria-hidden="true"></canvas>
   <canvas id="shimmerFX" aria-hidden="true"></canvas>
 
 <script>
-// (disabled old background script to avoid conflicts with new theme-specific engine)
+// Fog Gradient FX (slow, subtle) — works in light & dark, motion-aware
+(function(){
+  if(window.__fogFX) return; window.__fogFX = true;
+  const cvs = document.getElementById('fogFX'); if(!cvs) return; const ctx = cvs.getContext('2d');
+  let W=0,H=0, DPR=Math.max(1, Math.min(2, window.devicePixelRatio||1));
+  const SCALE=2; // low-res for gentle pixelation; CSS adds tiny blur
+  let last=0; let blobs=[];
+  const isDark   = ()=> document.documentElement.getAttribute('data-theme')==='dark' || window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isReduced= ()=> document.documentElement.getAttribute('data-motion')==='reduced';
+  function colors(){
+    return isDark()
+      ? ['rgba(255,190,220,0.16)','rgba(255,190,220,0)']
+      : ['rgba(255,216,234,0.50)','rgba(255,216,234,0)'];
+  }
+  function seed(){
+    blobs.length=0;
+    const base = Math.max(10, Math.round((W*H)/300000));
+    const n = Math.min(22, Math.max(10, Math.round(base*(isReduced()?0.7:1))));
+    for(let i=0;i<n;i++){
+      const r = 160 + Math.random()*320; // radius in px
+      const ang = Math.random()*Math.PI*2;
+      const spd = (isReduced()?0.002:0.004) + Math.random()*0.002; // px/ms
+      blobs.push({
+        x: Math.random()*W, y: Math.random()*H, r,
+        vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd,
+        wob: Math.random()*Math.PI*2, wobAmp: 0.2 + Math.random()*0.4, wobSpd: 0.0003 + Math.random()*0.0006
+      });
+    }
+  }
+  function resize(){
+    W=innerWidth; H=innerHeight; cvs.style.width=W+'px'; cvs.style.height=H+'px';
+    cvs.width=Math.ceil(W/SCALE)*DPR; cvs.height=Math.ceil(H/SCALE)*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0); ctx.imageSmoothingEnabled=false; seed();
+  }
+  function draw(dt){
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    const [c0,c1] = colors();
+    for(const b of blobs){
+      // movement (very slow)
+      const m = isReduced()?0.5:1;
+      b.wob += b.wobSpd*dt*m;
+      b.x += b.vx*dt*m + Math.cos(b.wob)*0.02*dt; // tiny wobble push
+      b.y += b.vy*dt*m + Math.sin(b.wob)*0.02*dt;
+      const pad=b.r+40; if(b.x<-pad) b.x=W+pad; if(b.x>W+pad) b.x=-pad; if(b.y<-pad) b.y=H+pad; if(b.y>H+pad) b.y=-pad;
+      // radial blob
+      const cx = b.x/SCALE, cy = b.y/SCALE, rr = b.r/SCALE;
+      const g = ctx.createRadialGradient(cx,cy,0,cx,cy,rr);
+      g.addColorStop(0, c0); g.addColorStop(1, c1);
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rr,0,Math.PI*2); ctx.fill();
+    }
+  }
+  function loop(ts){ const dt=Math.min(50,(ts-last)||16); last=ts; draw(dt); requestAnimationFrame(loop); }
+  window.addEventListener('resize', resize, {passive:true});
+  document.addEventListener('theme:changed', resize);
+  document.addEventListener('motion:changed', resize);
+  resize(); requestAnimationFrame(loop);
+})();
 </script>
   <div class="wrap">
     <header>
@@ -171,7 +240,6 @@
       </div>
 
       <div class="right-socials">
-        <button class="icon theme-toggle" aria-label="toggle theme" title="toggle theme">🌙</button>
         <a class="icon" href="https://x.com/obviouslypurple" target="_blank" aria-label="x (twitter)">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2H21l-6.56 7.49L22.5 22h-6.657l-5.2-6.79L3.5 22H1l7.11-8.12L1.5 2h6.74l4.7 6.2L18.244 2Zm-2.327 18h2.19L8.173 4h-2.3l10.044 16Z"/></svg>
         </a>
@@ -202,7 +270,7 @@
           <div class="shot has-img" style="background-image:url('Cooked.png')">
             <div class="labels">
               <a class="see-more pink" href="#" aria-label="explore about cooked">explore</a>
-              <a class="see-more green" href="https://www.roblox.com/games/108476688850509/Cooked" target="_blank" rel="noopener" aria-label="play cooked">play</a>
+              <a class="see-more green" href="https://www.roblox.com/games/108476688850509/Cooked" target="_blank" rel="noopener" aria-label="play cooked" data-ink="#ffffff">play</a>
             </div>
           </div>
           <div class="meta"><span>🔥 cooked!</span><span>creative lead • ui & 3d • live ops</span></div>
@@ -271,6 +339,22 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const CHANGELOG = [
+    {date:'2025-08-31', title:'Theme', items:[
+      'Removed light mode and locked site to dark',
+      'Removed theme toggle button'
+    ]},
+    {date:'2025-08-31', title:'Background FX', items:[
+      'Added subtle gradient fog (blurred, low-res) in both themes; very slow + motion-aware'
+    ]},
+    {date:'2025-08-31', title:'Visual', items:[
+      'Removed pixelated cloud background from normal mode',
+      'Kept galaxy overlay (logo) only; disabled background comets'
+    ]},
+    {date:'2025-08-31', title:'Accessibility', items:[
+      'Added reduced-motion support (respects system setting)',
+      'Calmer effects for reduced-motion users; galaxy mode also respects it'
+    ]},
+
     {date:'2025-08-27', title:'FX tuning', items:[
       'Light mode: boosted pink cloud visibility & glitch presence',
       'Logo galaxy: brighter nebula/stars + added comets; stronger shimmer in both themes'
@@ -372,146 +456,48 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 </script>
 <script>
-// Theme toggle: set and remember dark/light
+// Theme mode: locked to dark — light mode removed
 (function(){
   const root = document.documentElement;
-  const btn = document.querySelector('.theme-toggle');
-  const saved = localStorage.getItem('theme');
-  const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  root.setAttribute('data-theme', saved || (sysDark ? 'dark' : 'light'));
-  btn?.addEventListener('click', ()=>{
-    const next = root.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    document.dispatchEvent(new CustomEvent('theme:changed', {detail:{mode:next}}));
-  });
+  root.setAttribute('data-theme','dark');
+  try { localStorage.setItem('theme','dark'); } catch(_){}
+  document.querySelector('.theme-toggle')?.remove();
 })();
 </script>
 <script>
-// Pixel background engine (v2)
-// LIGHT: moving light-pink "minecraft" clouds + slightly stronger glitches
-// DARK:  static light-pink "minecraft" clouds + vintage TV static + occasional glitches
+// Motion preference: automatic (respects system setting); no UI toggle
 (function(){
-  if(window.__pxbg2) return; window.__pxbg2 = true;
-  const cvs = document.getElementById('pixelClouds'); if(!cvs) return;
-  const ctx = cvs.getContext('2d');
-  let W=0,H=0, DPR=Math.max(1, Math.min(2, window.devicePixelRatio||1));
-  const SCALE = 2; let last=0;
-  const isDark = ()=> document.documentElement.getAttribute('data-theme')==='dark' || window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-  // Cloud field (shared by both themes)
-  let clouds=[];
-  function seedClouds(){
-    const n=Math.max(24, Math.min(56, Math.round((W*H)/80000)));
-    clouds=Array.from({length:n}, ()=>({
-      x:Math.random()*W, y:Math.random()*H,
-      sx:20+Math.random()*36, sy:12+Math.random()*24,
-      dx:(Math.random()*0.06+0.025)*(Math.random()>0.5?1:-1),
-      dy:(Math.random()*0.025-0.012),
-      a:Math.random()*Math.PI*2
-    }));
+  const root = document.documentElement;
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function apply(){
+    const mode = mq.matches ? 'reduced' : 'normal';
+    root.setAttribute('data-motion', mode);
+    document.dispatchEvent(new CustomEvent('motion:changed', {detail:{mode}}));
   }
-  function drawClouds({moving}){
-    const col = 'rgba(255,216,234,' + (isDark()? '0.26' : '0.82') + ')';
-    for(const c of clouds){
-      if(moving){
-        c.a += 0.16; const wobX=Math.cos(c.a*0.02)*0.11, wobY=Math.sin(c.a*0.02)*0.055;
-        c.x += (c.dx + wobX); c.y += (c.dy + wobY);
-        const pad=200; if(c.x<-pad) c.x=W+pad; if(c.x>W+pad) c.x=-pad; if(c.y<-pad) c.y=H+pad; if(c.y>H+pad) c.y=-pad;
-      }
-      ctx.save(); ctx.translate(c.x/SCALE, c.y/SCALE); ctx.fillStyle=col;
-      const blocks=18; for(let i=0;i<blocks;i++){
-        ctx.globalAlpha=(isDark()?0.6:0.85) - i*(0.55/blocks);
-        const step=(i%3===0)?10:5; const ox=(Math.random()*2-1)*c.sx; const oy=(Math.random()*2-1)*c.sy;
-        const w=step; const h=(i%4===0)? step+4:step;
-        ctx.fillRect(Math.round(ox), Math.round(oy), w, h);
-      }
-      ctx.restore(); ctx.globalAlpha=1;
-    }
-  }
-
-  // LIGHT: stronger background glitches (still subtle)
-  let lightGlitchT=0;
-  function drawLightGlitches(dt){
-    lightGlitchT -= dt;
-    if(lightGlitchT<=0){
-      lightGlitchT = 300 + Math.random()*600; // every ~0.3–0.9s
-      const y=(Math.random()*H)|0; const h=4+((Math.random()*12)|0);
-      ctx.save(); ctx.globalAlpha=0.12; ctx.fillStyle='rgba(255,190,220,1)'; ctx.fillRect(0,y,W,h); ctx.restore();
-      ctx.save(); ctx.globalAlpha=0.08; ctx.fillStyle='rgba(200,150,255,1)'; ctx.fillRect(0,y+1,W,h-1); ctx.restore();
-    }
-  }
-
-  // DARK: static TV + occasional glitch bands
-  let glitchTimer=0;
-  function drawStaticTV(){
-    const cols = Math.ceil(W/(SCALE*6));
-    const rows = Math.ceil(H/(SCALE*6));
-    for(let y=0;y<rows;y++){
-      for(let x=0;x<cols;x++){
-        const n=(Math.random()*20)|0; const base=150+(n%10);
-        ctx.fillStyle=`rgba(255,${base},${205-n},0.08)`; ctx.fillRect(x*6,y*6,6,6);
-      }
-    }
-    ctx.fillStyle='rgba(255,155,200,0.05)';
-    for(let y=0;y< H/(SCALE*2); y+=2){ ctx.fillRect(0, y*2, W, 1); }
-  }
-  function drawDarkGlitch(dt){
-    glitchTimer -= dt; if(glitchTimer>0) return;
-    glitchTimer = 700 + Math.random()*1100; // a bit more frequent
-    const bands = 1 + (Math.random()*3)|0;
-    for(let b=0;b<bands;b++){
-      const y=(Math.random()*H)|0, h=6+((Math.random()*18)|0), shift=(Math.random()>0.5?1:-1)*(6+((Math.random()*24)|0));
-      ctx.save(); ctx.globalAlpha=0.16; ctx.fillStyle='rgba(180,120,220,0.28)'; ctx.fillRect(shift,y,W,h); ctx.restore();
-      ctx.save(); ctx.globalAlpha=0.10; ctx.fillStyle='rgba(120,180,255,0.40)'; ctx.fillRect(shift*0.6,y+2,W,h-2); ctx.fillStyle='rgba(255,120,200,0.40)'; ctx.fillRect(-shift*0.4,y+1,W,h-1); ctx.restore();
-    }
-  }
-
-  function resize(){
-    W=window.innerWidth; H=window.innerHeight;
-    cvs.style.width=W+'px'; cvs.style.height=H+'px';
-    cvs.width=Math.ceil(W/SCALE)*DPR; cvs.height=Math.ceil(H/SCALE)*DPR;
-    ctx.setTransform(DPR,0,0,DPR,0,0); ctx.imageSmoothingEnabled=false;
-    seedClouds();
-  }
-
-  function render(t){
-    const dt=Math.min(33,(t-last)||16); last=t;
-    ctx.clearRect(0,0,cvs.width, cvs.height);
-    if(isDark()){
-      drawClouds({moving:false}); // static clouds
-      drawStaticTV();
-      drawDarkGlitch(dt);
-    } else {
-      drawClouds({moving:true});
-      drawLightGlitches(dt);
-    }
-    requestAnimationFrame(render);
-  }
-
-  window.addEventListener('resize', resize, {passive:true});
-  resize(); requestAnimationFrame(render);
+  apply();
+  try{ mq.addEventListener('change', apply); }catch(_){ mq.addListener && mq.addListener(apply); }
 })();
 </script>
 <script>
-// Shimmer/Galaxy FX overlay on #shimmerFX (v2, brighter + comets)
-// - 'shimmer-on' => purple/blue shimmer
-// - 'galaxy-on'  => nebula + stars + orange glitch bands + comets
+// Shimmer/Galaxy FX overlay on #shimmerFX (v3 — motion-aware & brighter)
 (function(){
-  if(window.__shimmerFX2) return; window.__shimmerFX2 = true;
+  if(window.__shimmerFX3) return; window.__shimmerFX3 = true;
   const cvs = document.getElementById('shimmerFX'); if(!cvs) return; const ctx=cvs.getContext('2d');
   let W=0,H=0, DPR=Math.max(1, Math.min(2, window.devicePixelRatio||1));
   const SCALE=2; let t=0; let stars=[]; let glitchT=0; let comets=[]; let cometT=0;
+  const isReduced = ()=> document.documentElement.getAttribute('data-motion')==='reduced';
   function resize(){ W=innerWidth; H=innerHeight; cvs.style.width=W+'px'; cvs.style.height=H+'px'; cvs.width=Math.ceil(W/SCALE)*DPR; cvs.height=Math.ceil(H/SCALE)*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); ctx.imageSmoothingEnabled=false; seedStars(); }
-  function seedStars(){ const count=Math.max(120, Math.round((W*H)/18000)); stars=Array.from({length:count}, ()=>({ x:Math.random()*W, y:Math.random()*H, tw:Math.random()*Math.PI*2, s:(Math.random()*2+0.6), hue: Math.random()<0.18? 'orange':'blue' })); }
-  function drawNebula(){ const cols=Math.ceil(W/(SCALE*7)), rows=Math.ceil(H/(SCALE*7)); for(let yy=0; yy<rows; yy++){ for(let xx=0; xx<cols; xx++){ const wv = Math.sin((xx+yy+t)*0.14)*0.5 + Math.sin((xx*0.34 - yy*0.22 + t*0.9))*0.5; const a=0.10 + (wv+1)*0.10; const r=170+Math.floor((wv+1)*60); const g=140+Math.floor((1-wv)*50); const b=255; ctx.fillStyle=`rgba(${r},${g},${b},${a})`; ctx.fillRect(xx*7, yy*7, 7, 7);} } }
-  function drawStars(){ for(const s of stars){ s.tw += 0.09; const a = 0.5 + (Math.sin(s.tw)*0.4+0.35); ctx.fillStyle = s.hue==='orange' ? `rgba(255,180,100,${a*0.9})` : `rgba(170,160,255,${a})`; const size=s.s; ctx.fillRect(Math.round(s.x/SCALE), Math.round(s.y/SCALE), size, size);} }
-  function spawnComet(){ const fromLeft = Math.random()<0.5; const y = Math.random()*H*0.9; const x = fromLeft? -50 : W+50; const vx = (fromLeft?1:-1)*(2+Math.random()*3); const vy = -0.4 + Math.random()*0.8; comets.push({x,y,vx,vy,life:220}); }
+  function seedStars(){ const base=Math.max(120, Math.round((W*H)/18000)); const count = Math.round(base*(isReduced()?0.5:1)); stars=Array.from({length:count}, ()=>({ x:Math.random()*W, y:Math.random()*H, tw:Math.random()*Math.PI*2, s:(Math.random()*2+0.6), hue: Math.random()<0.18? 'orange':'blue' })); }
+  function drawNebula(){ const cols=Math.ceil(W/(SCALE*7)), rows=Math.ceil(H/(SCALE*7)); for(let yy=0; yy<rows; yy++){ for(let xx=0; xx<cols; xx++){ const wv = Math.sin((xx+yy+t)*0.14)*0.5 + Math.sin((xx*0.34 - yy*0.22 + t*0.9))*0.5; const a= (isReduced()?0.08:0.10) + (wv+1)*(isReduced()?0.07:0.10); const r=170+Math.floor((wv+1)*60); const g=140+Math.floor((1-wv)*50); const b=255; ctx.fillStyle=`rgba(${r},${g},${b},${a})`; ctx.fillRect(xx*7, yy*7, 7, 7);} } }
+  function drawStars(){ for(const s of stars){ s.tw += isReduced()?0.05:0.09; const a = (isReduced()?0.4:0.5) + (Math.sin(s.tw)*(isReduced()?0.25:0.4)+0.3); ctx.fillStyle = s.hue==='orange' ? `rgba(255,180,100,${a*0.9})` : `rgba(170,160,255,${a})`; const size=s.s; ctx.fillRect(Math.round(s.x/SCALE), Math.round(s.y/SCALE), size, size);} }
+  function spawnComet(){ if(isReduced()) return; const fromLeft = Math.random()<0.5; const y = Math.random()*H*0.9; const x = fromLeft? -50 : W+50; const vx = (fromLeft?1:-1)*(2+Math.random()*3); const vy = -0.4 + Math.random()*0.8; comets.push({x,y,vx,vy,life:220}); }
   function drawComets(){ for(let i=comets.length-1;i>=0;i--){ const c=comets[i]; c.x+=c.vx; c.y+=c.vy; c.life-=1; for(let tix=0;tix<6;tix++){ const trailX = c.x - c.vx*tix*3; const trailY = c.y - c.vy*tix*3; const alpha = 0.18 - tix*0.025; if(alpha<=0) continue; ctx.fillStyle = `rgba(${tix%2?200:150},${tix%2?120:180},255,${alpha})`; ctx.fillRect(Math.round(trailX/SCALE), Math.round(trailY/SCALE), 3, 2); } ctx.fillStyle='rgba(255,170,80,0.9)'; ctx.fillRect(Math.round(c.x/SCALE), Math.round(c.y/SCALE), 2,2); if(c.life<=0 || c.x<-100 || c.x>W+100 || c.y<-100 || c.y>H+100) comets.splice(i,1); } }
-  function drawOrangeGlitch(dt){ glitchT -= dt; if(glitchT>0) return; glitchT = 900 + Math.random()*1200; const y=(Math.random()*H)|0, h=6+((Math.random()*20)|0), shift=(Math.random()>0.5?1:-1)*(8+((Math.random()*24)|0)); ctx.save(); ctx.globalAlpha=0.2; ctx.fillStyle='rgba(255,150,70,1)'; ctx.fillRect(shift, y, W, h); ctx.restore(); ctx.save(); ctx.globalAlpha=0.12; ctx.fillStyle='rgba(120,180,255,1)'; ctx.fillRect(shift*0.5, y+2, W, h-2); ctx.restore(); }
-  function drawShimmer(){ const cols=Math.ceil(W/(SCALE*8)), rows=Math.ceil(H/(SCALE*8)); for(let y=0;y<rows;y++){ for(let x=0;x<cols;x++){ const wv = Math.sin((x+y+t)*0.14)*0.5 + Math.sin((x*0.32 - y*0.24 + t*0.9))*0.5; const a = 0.10 + (wv+1)*0.10; const r = 190 + Math.floor((wv+1)*35); const g = 160 + Math.floor((1-wv)*30); const b = 255; ctx.fillStyle = `rgba(${r},${g},${b},${a})`; ctx.fillRect(x*8, y*8, 8, 8);} } }
-  function loop(){ t+=0.8; ctx.clearRect(0,0,cvs.width,cvs.height); const root=document.documentElement; if(root.classList.contains('galaxy-on')){ drawNebula(); drawStars(); drawComets(); drawOrangeGlitch(16); cometT-=16; if(cometT<=0){ cometT = 1500 + Math.random()*2000; spawnComet(); } } else if(root.classList.contains('shimmer-on')){ drawShimmer(); } requestAnimationFrame(loop); }
-  window.addEventListener('resize', resize, {passive:true}); resize(); loop();
+  function drawOrangeGlitch(dt){ if(isReduced()) return; glitchT -= dt; if(glitchT>0) return; glitchT = 900 + Math.random()*1200; const y=(Math.random()*H)|0, h=6+((Math.random()*20)|0), shift=(Math.random()>0.5?1:-1)*(8+((Math.random()*24)|0)); ctx.save(); ctx.globalAlpha=0.2; ctx.fillStyle='rgba(255,150,70,1)'; ctx.fillRect(shift, y, W, h); ctx.restore(); ctx.save(); ctx.globalAlpha=0.12; ctx.fillStyle='rgba(120,180,255,1)'; ctx.fillRect(shift*0.5, y+2, W, h-2); ctx.restore(); }
+  function drawShimmer(){ const cols=Math.ceil(W/(SCALE*8)), rows=Math.ceil(H/(SCALE*8)); for(let y=0;y<rows;y++){ for(let x=0;x<cols;x++){ const wv = Math.sin((x+y+t)*0.14)*0.5 + Math.sin((x*0.32 - y*0.24 + t*0.9))*0.5; const a = (isReduced()?0.08:0.10) + (wv+1)*(isReduced()?0.07:0.10); const r = 190 + Math.floor((wv+1)*35); const g = 160 + Math.floor((1-wv)*30); const b = 255; ctx.fillStyle = `rgba(${r},${g},${b},${a})`; ctx.fillRect(x*8, y*8, 8, 8);} } }
+  function loop(){ t+= isReduced()?0.4:0.8; ctx.clearRect(0,0,cvs.width,cvs.height); const root=document.documentElement; if(root.classList.contains('galaxy-on')){ drawNebula(); drawStars(); drawComets(); drawOrangeGlitch(16); if(!isReduced()){ cometT-=16; if(cometT<=0){ cometT = 1500 + Math.random()*2000; spawnComet(); } } } else if(root.classList.contains('shimmer-on')){ drawShimmer(); } requestAnimationFrame(loop); }
+  window.addEventListener('resize', resize, {passive:true});
+  document.addEventListener('motion:changed', ()=>{ resize(); });
+  resize(); loop();
 })();
 </script>
 <script>
@@ -529,6 +515,73 @@ document.addEventListener('DOMContentLoaded', function(){
     audio.addEventListener('ended', onPause);
   }
   if(!audio && logo){ logo.addEventListener('click', ()=> root.classList.toggle('galaxy-on')); }
+})();
+</script>
+<script>
+// Image‑reactive glass buttons — match card image and sample color
+(function(){
+  const shots = document.querySelectorAll('.shot.has-img');
+  const cache = new Map(); // url -> {img,w,h,ready,canvas,cctx}
+
+  function parseURL(bg){ const m = /url\((?:\"|')?([^\"')]+)(?:\"|')?\)/.exec(bg||''); return m? m[1]: null; }
+
+  function setupShot(shot){
+    const url = parseURL(shot.style.backgroundImage);
+    if(!url) return;
+    let entry = cache.get(url);
+    if(!entry){
+      const img = new Image(); img.crossOrigin = 'anonymous'; img.src = url;
+      entry = {img, ready:false}; cache.set(url, entry);
+      img.onload = ()=>{ entry.ready=true; entry.w=img.naturalWidth; entry.h=img.naturalHeight; entry.canvas=document.createElement('canvas'); entry.canvas.width=entry.w; entry.canvas.height=entry.h; entry.cctx=entry.canvas.getContext('2d'); entry.cctx.drawImage(img,0,0); positionButtons(shot, entry); };
+    } else if(entry.ready){ positionButtons(shot, entry); }
+  }
+
+  function positionButtons(shot, entry){
+    const rectS = shot.getBoundingClientRect(); const sw=rectS.width, sh=rectS.height;
+    const scale = Math.max(sw/entry.w, sh/entry.h);
+    const drawW = entry.w*scale, drawH = entry.h*scale;
+    const offX = (sw-drawW)/2, offY=(sh-drawH)/2;
+    const size = `${drawW}px ${drawH}px`;
+
+    shot.querySelectorAll('.see-more').forEach(btn=>{
+      if(!btn.querySelector('.glass')){ const g=document.createElement('span'); g.className='glass'; g.setAttribute('aria-hidden','true'); btn.prepend(g); }
+      const g = btn.querySelector('.glass');
+      const rectB = btn.getBoundingClientRect();
+      const x = offX - (rectB.left - rectS.left);
+      const y = offY - (rectB.top - rectS.top);
+      g.style.setProperty('--glass-bg', `url("${entry.img.src}")`);
+      g.style.setProperty('--glass-size', size);
+      g.style.setProperty('--glass-x', `${x}px`);
+      g.style.setProperty('--glass-y', `${y}px`);
+
+      // ensure locked ink applies immediately even before image is ready
+      const lockInk = btn.getAttribute('data-ink');
+      if(lockInk){ btn.style.setProperty('--label-ink', lockInk); }
+
+      if(entry.ready){
+        const cx = ((rectB.left - rectS.left) - offX + rectB.width/2) / drawW * entry.w;
+        const cy = ((rectB.top - rectS.top) - offY + rectB.height/2) / drawH * entry.h;
+        const ss = Math.max(4, Math.round(12*entry.w/drawW));
+        const sx = Math.max(0, Math.min(entry.w-ss, Math.round(cx-ss/2)));
+        const sy = Math.max(0, Math.min(entry.h-ss, Math.round(cy-ss/2)));
+        const data = entry.cctx.getImageData(sx,sy,ss,ss).data;
+        let r=0,g=0,b=0,n=0; for(let i=0;i<data.length;i+=4){ r+=data[i]; g+=data[i+1]; b+=data[i+2]; n++; }
+        r/=n; g/=n; b/=n;
+        const lum = 0.2126*Math.pow(r/255,2.2) + 0.7152*Math.pow(g/255,2.2) + 0.0722*Math.pow(b/255,2.2);
+        const ink = lum>0.55 ? '#0a0a0a' : '#ffffff';
+        const locked = btn.getAttribute('data-ink');
+        btn.style.setProperty('--label-ink', locked ? locked : ink);
+        const topA = lum>0.55 ? .32 : .45; const botA = lum>0.55 ? .14 : .20;
+        btn.style.setProperty('--t-top-a', topA); btn.style.setProperty('--t-bottom-a', botA);
+      }
+    });
+  }
+
+  function refreshAll(){ document.querySelectorAll('.shot.has-img').forEach(s=>{ const url = parseURL(s.style.backgroundImage); const entry = url && cache.get(url); if(entry&&entry.ready) positionButtons(s, entry); else setupShot(s); }); }
+
+  shots.forEach(setupShot);
+  window.addEventListener('resize', refreshAll, {passive:true});
+  document.querySelectorAll('.card').forEach(c=> c.addEventListener('mouseenter', ()=>{ const s=c.querySelector('.shot.has-img'); s&&setupShot(s); }));
 })();
 </script>
 </body>

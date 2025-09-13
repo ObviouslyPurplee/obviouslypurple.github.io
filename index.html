@@ -135,8 +135,11 @@
 
   /* make logo turn white in dark mode without changing size */
   :root[data-theme="dark"]{ --logo-filter: brightness(0) invert(1); }
-  .brand img{ transform:none }
-  .brand:hover img{ transform:translateY(-2px) scale(1.02) }
+  .brand img{ transition: transform 0.2s ease, filter 0.3s ease; }
+  .brand:hover img {
+    transform: translateY(-2px);
+    filter: var(--logo-filter, none) drop-shadow(0 0 8px var(--accent));
+  }
   /* fix roblox icon in dark mode */
   .icon.roblox svg{fill:#111}
   :root[data-theme="dark"] .icon.roblox svg{fill:#f6f6f8}
@@ -365,6 +368,9 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   const CHANGELOG = [
+    {date:'2025-09-12', title:'Portfolio Curation', items:[
+      'Simplified the portfolio grid to feature key projects: Cooked!, The Voyage, and Cooked UI.'
+    ]},
     {date:'2025-08-31', title:'Highlights', items:[
       'Added “Rising Mountains” to Showcases',
       'Added “Light House Map” to Projects',

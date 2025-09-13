@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-g" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark" />
     <title>obviouslypurple — portfolio</title>
     <meta name="description" content="obviouslypurple — roblox developer • ui + 3d artist • project manager" />
@@ -16,8 +17,8 @@
     <div class="wrap">
       <header>
         <nav class="left-nav">
-          <a href="#top">home</a>
-          <a href="#work">projects</a>
+          <a href="#" id="nav-home">home</a>
+          <a href="#work" id="nav-projects">projects</a>
         </nav>
         <div class="brand" id="logoEgg" role="button" tabindex="0" aria-label="play a secret audio">
           <img src="officialogo.png" alt="obviouslypurple logo" class="brand-logo" />
@@ -38,53 +39,72 @@
           </a>
         </div>
       </header>
-      <section class="hero" id="top">
-        <div class="intro">
-          <h2>i'm obviouslypurple — 22 year old roblox developer, ui + 3d artist, project manager.</h2>
-          <p>i've been building games, designing worlds, and organizing projects for almost a decade now.</p>
-          <button class="btn" onclick="window.open('https://x.com/obviouslypurple','_blank')">subscribe to my socials</button>
-        </div>
-      </section>
-      <section id="work">
-        <div class="tabs" role="tablist">
-          <button class="tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">all</button>
-          <button class="tab" type="button" role="tab" aria-selected="false" data-filter="live">live experiences</button>
-          <button class="tab" type="button" role="tab" aria-selected="false" data-filter="projects">projects</button>
-          <button class="tab" type="button" role="tab" aria-selected="false" data-filter="showcases">showcases</button>
-          <button class="tab" type="button" role="tab" aria-selected="false" data-filter="graphic">graphic design</button>
-          <button class="tab" type="button" role="tab" aria-selected="false" data-filter="other">other engagements</button>
-        </div>
-        <div class="grid">
-          <article class="card" data-cat="live">
-            <div class="shot has-img" style="background-image:url('Cooked.png')">
-              <div class="labels">
-                <a class="see-more pink" href="#" aria-label="explore about cooked" data-ink="#201018" data-project-id="cooked">explore</a>
-                <a class="see-more green" href="https://www.roblox.com/games/108476688850509/Cooked" target="_blank" rel="noopener" aria-label="play cooked" data-ink="#0a0a0a">play</a>
+      
+      <main id="page-home">
+        <section class="hero" id="top">
+          <div class="intro">
+            <h2>i'm obviouslypurple — 22 year old roblox developer, ui + 3d artist, project manager.</h2>
+            <p>i've been building games, designing worlds, and organizing projects for almost a decade now.</p>
+            <button class="btn" onclick="window.open('https://x.com/obviouslypurple','_blank')">subscribe to my socials</button>
+          </div>
+        </section>
+        <section id="work">
+          <div class="tabs" role="tablist">
+            <button class="tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">all</button>
+            <button class="tab" type="button" role="tab" aria-selected="false" data-filter="live">live experiences</button>
+            <button class="tab" type="button" role="tab" aria-selected="false" data-filter="projects">projects</button>
+            <button class="tab" type="button" role="tab" aria-selected="false" data-filter="showcases">showcases</button>
+            <button class="tab" type="button" role="tab" aria-selected="false" data-filter="graphic">graphic design</button>
+            <button class="tab" type="button" role="tab" aria-selected="false" data-filter="other">other engagements</button>
+          </div>
+          <div class="grid">
+            <article class="card" data-cat="live">
+              <div class="shot has-img" style="background-image:url('Cooked.png')">
+                <div class="labels">
+                  <a class="see-more pink" href="#" aria-label="explore about cooked" data-ink="#201018" data-project-id="cooked">explore</a>
+                  <a class="see-more green" href="https://www.roblox.com/games/108476688850509/Cooked" target="_blank" rel="noopener" aria-label="play cooked" data-ink="#0a0a0a">play</a>
+                </div>
               </div>
-            </div>
-            <div class="meta"><span>🔥 cooked!</span><span>creative lead • ui & 3d • live ops</span></div>
-          </article>
-          <article class="card" data-cat="projects">
-            <div class="shot has-img" style="background-image:url('TheVoyage.png')">
-              <div class="labels">
-                <a class="see-more pink" href="#" aria-label="explore about the voyage" data-ink="#201018" data-project-id="voyage">explore</a>
+              <div class="meta"><span>🔥 cooked!</span><span>creative lead • ui & 3d • live ops</span></div>
+            </article>
+            <article class="card" data-cat="projects">
+              <div class="shot has-img" style="background-image:url('TheVoyage.png')">
+                <div class="labels">
+                  <a class="see-more pink" href="#" aria-label="explore about the voyage" data-ink="#201018" data-project-id="voyage">explore</a>
+                </div>
               </div>
-            </div>
-            <div class="meta"><span>the voyage</span><span>environment • studio build</span></div>
-          </article>
-          <article class="card" data-cat="graphic">
-            <div class="shot has-img" id="shot-cooked-ui" data-src-primary="MainUI.png" data-src-fallback="UIMain.png" style="background-image:url('MainUI.png')">
-              <div class="labels">
-                <a class="see-more pink" href="#" aria-label="explore about cooked ui" data-ink="#201018" data-project-id="cooked-ui">explore</a>
+              <div class="meta"><span>the voyage</span><span>environment • studio build</span></div>
+            </article>
+            <article class="card" data-cat="graphic">
+              <div class="shot has-img" id="shot-cooked-ui" data-src-primary="MainUI.png" data-src-fallback="UIMain.png" style="background-image:url('MainUI.png')">
+                <div class="labels">
+                  <a class="see-more pink" href="#" aria-label="explore about cooked ui" data-ink="#201018" data-project-id="cooked-ui">explore</a>
+                </div>
               </div>
+              <div class="meta"><span>cooked ui</span><span>graphic design • ui systems</span></div>
+            </article>
+          </div>
+          <div style="margin-top:18px; text-align:center">
+            <a class="btn" href="#work" id="view-all">view all projects</a>
+          </div>
+        </section>
+      </main>
+
+      <main id="page-project-detail" class="hidden">
+        <div class="project-detail-header">
+            <button class="btn" id="back-to-home-btn">&larr; back to projects</button>
+        </div>
+        <div class="project-detail-content">
+            <div class="project-detail-image">
+                <img id="project-detail-img" src="" alt="Project highlight image" />
             </div>
-            <div class="meta"><span>cooked ui</span><span>graphic design • ui systems</span></div>
-          </article>
+            <div class="project-detail-text">
+                <h2 id="project-detail-title"></h2>
+                <p id="project-detail-description"></p>
+            </div>
         </div>
-        <div style="margin-top:18px; text-align:center">
-          <a class="btn" href="#work" id="view-all">view all projects</a>
-        </div>
-      </section>
+      </main>
+
       <footer id="contact">
         <div class="footer-title">contact me:</div>
         <div class="footer-discord">discord: @obviouslypurple</div>
@@ -106,7 +126,6 @@
         <p style="margin-top:10px">© 2025 team op • <a href="#" id="open-changelog" class="footer-link">change logs</a></p>
       </footer>
     </div>
-
     <!-- Modals -->
     <div id="changelogModal" class="cl-modal" aria-hidden="true" role="dialog" aria-labelledby="cl-title">
       <div class="cl-backdrop" data-close></div>
@@ -129,36 +148,8 @@
         </div>
       </div>
     </div>
-
-    <div id="imgModal" class="img-modal" aria-hidden="true" role="dialog" aria-label="image viewer">
-      <div class="img-backdrop" data-close></div>
-      <figure class="img-panel">
-        <button class="img-close" aria-label="close image" data-close>✕</button>
-        <img id="imgModalImg" alt="highlight image" />
-      </figure>
-    </div>
-
-    <div id="project-modal" class="project-modal" aria-hidden="true" role="dialog">
-      <div class="project-backdrop" data-close></div>
-      <div class="project-panel" role="document">
-        <header class="project-header">
-          <h3 id="project-modal-title">Project Title</h3>
-          <button class="project-close" aria-label="close project details" data-close>✕</button>
-        </header>
-        <div class="project-content">
-          <div class="project-image">
-            <img id="project-modal-image" src="" alt="Project highlight image" />
-          </div>
-          <div class="project-description">
-            <p id="project-modal-description">Project description goes here.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    
     <!-- Audio -->
     <audio id="egg-audio" src="logoeasteregg.mp3" preload="none"></audio>
-    
     <!-- Scripts -->
     <script src="script.js"></script>
   </body>

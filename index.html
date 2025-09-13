@@ -11,9 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
   </head>
-  <body onload="window.scrollTo(0,0)">
-    <canvas id="fogFX" aria-hidden="true"></canvas>
-    <canvas id="shimmerFX" aria-hidden="true"></canvas>
+  <body>
     <div class="wrap">
       <header>
         <nav class="left-nav">
@@ -126,7 +124,6 @@
         <p style="margin-top:10px">© 2025 team op • <a href="#" id="open-changelog" class="footer-link">change logs</a></p>
       </footer>
     </div>
-    <!-- Modals -->
     <div id="changelogModal" class="cl-modal" aria-hidden="true" role="dialog" aria-labelledby="cl-title">
       <div class="cl-backdrop" data-close></div>
       <div class="cl-panel" role="document">
@@ -148,9 +145,7 @@
         </div>
       </div>
     </div>
-    <!-- Audio -->
     <audio id="egg-audio" src="logoeasteregg.mp3" preload="none"></audio>
-    <!-- Scripts -->
     <script src="script.js"></script>
   </body>
 </html>

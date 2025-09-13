@@ -1,7 +1,6 @@
 // --- Immediately Invoked Function Expressions (IIFEs) for page setup ---
 (function() { 
-    const root = document.documentElement; 
-    root.setAttribute('data-theme', 'dark'); 
+    document.documentElement.setAttribute('data-theme', 'dark'); 
 })();
 
 (function() { 

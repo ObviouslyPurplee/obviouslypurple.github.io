@@ -293,9 +293,9 @@ footer {
   --accent: #b79bff;
 }
 .shot.has-img {
-  background-size: cover;
-  background-position: center;
-  color: transparent
+  background-size: cover !important;
+  background-position: center center !important;
+  color: transparent;
 }
 .shot.has-img::after {
   content: "";
@@ -369,9 +369,13 @@ footer {
   transform:skewX(-20deg) translateX(230%)
 }
 .see-more.pink {
+    --t: 255, 120, 196;
+    --ring: 255, 220, 240;
     --label-ink: #201018;
 }
 .see-more.green {
+    --t: 48,255,168;
+    --ring: 210,255,235;
     --label-ink: #0a0a0a;
 }
 .card:hover .see-more {

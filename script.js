@@ -1,13 +1,9 @@
 // --- Immediately Invoked Function Expressions (IIFEs) for page setup ---
-
-// Sets theme to dark by default
 (function() { 
     const root = document.documentElement; 
     root.setAttribute('data-theme', 'dark'); 
-    try { localStorage.setItem('theme', 'dark'); } catch (_) {} 
 })();
 
-// Sets motion preference based on user's system settings
 (function() { 
     const root = document.documentElement; 
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)'); 
@@ -56,7 +52,6 @@
     const SCALE = 2; 
     let t = 0; 
     let stars = []; 
-    let glitchT = 0; 
     let comets = []; 
     let cometT = 0; 
     const isReduced = () => document.documentElement.getAttribute('data-motion') === 'reduced'; 
@@ -66,7 +61,7 @@
     function drawStars() { for (const s of stars) { s.tw += isReduced() ? 0.05 : 0.09; const a = (isReduced() ? 0.4 : 0.5) + (Math.sin(s.tw) * (isReduced() ? 0.25 : 0.4) + 0.3); ctx.fillStyle = s.hue === 'orange' ? `rgba(255,180,100,${a*0.9})` : `rgba(170,160,255,${a})`; const size = s.s; ctx.fillRect(Math.round(s.x / SCALE), Math.round(s.y / SCALE), size, size); } } 
     function spawnComet() { if (isReduced()) return; const fromLeft = Math.random() < 0.5; const y = Math.random() * H * 0.9; const x = fromLeft ? -50 : W + 50; const vx = (fromLeft ? 1 : -1) * (2 + Math.random() * 3); const vy = -0.4 + Math.random() * 0.8; comets.push({ x, y, vx, vy, life: 220 }); } 
     function drawComets() { for (let i = comets.length - 1; i >= 0; i--) { const c = comets[i]; c.x += c.vx; c.y += c.vy; c.life -= 1; for (let tix = 0; tix < 6; tix++) { const trailX = c.x - c.vx * tix * 3; const trailY = c.y - c.vy * tix * 3; const alpha = 0.18 - tix * 0.025; if (alpha <= 0) continue; ctx.fillStyle = `rgba(${tix%2?200:150},${tix%2?120:180},255,${alpha})`; ctx.fillRect(Math.round(trailX / SCALE), Math.round(trailY / SCALE), 3, 2); } ctx.fillStyle = 'rgba(255,170,80,0.9)'; ctx.fillRect(Math.round(c.x / SCALE), Math.round(c.y / SCALE), 2, 2); if (c.life <= 0 || c.x < -100 || c.x > W + 100 || c.y < -100 || c.y > H + 100) comets.splice(i, 1); } } 
-    function loop() { t += isReduced() ? 0.4 : 0.8; ctx.clearRect(0, 0, cvs.width, cvs.height); const root = document.documentElement; if (root.classList.contains('galaxy-on')) { drawNebula(); drawStars(); drawComets(); } requestAnimationFrame(loop); } 
+    function loop() { t += isReduced() ? 0.4 : 0.8; ctx.clearRect(0, 0, cvs.width, cvs.height); const root = document.documentElement; if (root.classList.contains('galaxy-on')) { drawNebula(); drawStars(); drawComets(); if(!isReduced()){ cometT-=16; if(cometT<=0){ cometT = 1500 + Math.random()*2000; spawnComet(); } } } requestAnimationFrame(loop); } 
     window.addEventListener('resize', resize, { passive: true }); 
     document.addEventListener('motion:changed', () => { resize(); }); 
     resize(); 
@@ -164,50 +159,46 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && clModal?.getAttribute('aria-hidden') === 'false') closeClModal(); });
 
     // --- Tabs Filter Logic ---
-    (function() { 
-        const tabs = document.querySelectorAll('.tabs .tab'); 
-        const cards = document.querySelectorAll('.grid .card'); 
-        function apply(filter) { 
-            tabs.forEach(t => { 
-                const active = t.dataset.filter === filter; 
-                t.classList.toggle('is-active', active); 
-                t.setAttribute('aria-selected', String(active)); 
-            }); 
-            cards.forEach(c => { 
-                c.style.display = (filter === 'all' || c.dataset.cat === filter) ? '' : 'none'; 
-            }); 
-        } 
-        const initial = document.querySelector('.tabs .tab.is-active')?.dataset.filter || 'all'; 
-        apply(initial); 
+    const tabs = document.querySelectorAll('.tabs .tab'); 
+    const cards = document.querySelectorAll('.grid .card'); 
+    function applyFilter(filter) { 
         tabs.forEach(t => { 
-            t.addEventListener('click', () => apply(t.dataset.filter)); 
-            t.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); apply(t.dataset.filter); } }); 
+            const active = t.dataset.filter === filter; 
+            t.classList.toggle('is-active', active); 
+            t.setAttribute('aria-selected', String(active)); 
         }); 
-        document.getElementById('view-all')?.addEventListener('click', (e) => { apply('all'); }); 
-    })();
-
+        cards.forEach(c => { 
+            c.style.display = (filter === 'all' || c.dataset.cat === filter) ? '' : 'none'; 
+        }); 
+    } 
+    const initialFilter = document.querySelector('.tabs .tab.is-active')?.dataset.filter || 'all'; 
+    applyFilter(initialFilter); 
+    tabs.forEach(t => { 
+        t.addEventListener('click', () => applyFilter(t.dataset.filter)); 
+        t.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applyFilter(t.dataset.filter); } }); 
+    }); 
+    document.getElementById('view-all')?.addEventListener('click', (e) => { applyFilter('all'); }); 
+    
     // --- Logo Easter Egg Logic ---
-    (function() { 
-        const logo = document.getElementById('logoEgg'); 
-        const audio = document.getElementById('egg-audio'); 
-        const root = document.documentElement;
-        if (!logo || !audio) return; 
-        audio.volume = 0.6; 
-        function onPlay() { root.classList.add('galaxy-on'); root.classList.add('shimmer-on'); }
-        function onPause() { root.classList.remove('galaxy-on'); root.classList.remove('shimmer-on'); }
-        function toggle() { 
-            if (audio.paused) { 
-                audio.currentTime = 0; 
-                const p = audio.play(); 
-                if (p && typeof p.then === 'function') { p.catch(() => {}); } 
-            } else { 
-                audio.pause(); 
-            } 
+    const logo = document.getElementById('logoEgg'); 
+    const audio = document.getElementById('egg-audio'); 
+    const root = document.documentElement;
+    if (!logo || !audio) return; 
+    audio.volume = 0.6; 
+    function onPlay() { root.classList.add('galaxy-on'); root.classList.add('shimmer-on'); }
+    function onPause() { root.classList.remove('galaxy-on'); root.classList.remove('shimmer-on'); }
+    function toggleAudio() { 
+        if (audio.paused) { 
+            audio.currentTime = 0; 
+            const p = audio.play(); 
+            if (p && typeof p.then === 'function') { p.catch(() => {}); } 
+        } else { 
+            audio.pause(); 
         } 
-        audio.addEventListener('play', onPlay);
-        audio.addEventListener('pause', onPause);
-        audio.addEventListener('ended', onPause);
-        logo.addEventListener('click', toggle); 
-        logo.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } }); 
-    })();
+    } 
+    audio.addEventListener('play', onPlay);
+    audio.addEventListener('pause', onPause);
+    audio.addEventListener('ended', onPause);
+    logo.addEventListener('click', toggleAudio); 
+    logo.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAudio(); } }); 
 });

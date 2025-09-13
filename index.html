@@ -247,7 +247,7 @@
         <div class="project-detail-content">
             <div class="project-detail-image-container">
                 <img id="project-detail-img" src="" alt="Project highlight image" />
-                <button id="gallery-btn" class="btn hidden">Open Gallery</button>
+                <button id="gallery-btn" class="btn hidden"></button>
             </div>
             <div class="project-detail-text">
                 <h2 id="project-detail-title">
@@ -444,7 +444,7 @@
                     }
                     
                     if (data.galleryImages && data.galleryImages.length > 0) {
-                        galleryBtn.textContent = `Open ${data.title.replace('🔥 ','')}'s Gallery`;
+                        galleryBtn.textContent = `open ${data.title.replace('🔥 ','').toLowerCase()}'s gallery`;
                         galleryBtn.dataset.projectId = projectId;
                         galleryBtn.classList.remove('hidden');
                     } else {
@@ -478,6 +478,7 @@
                 document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
             });
 
+            // --- Changelog Modal Logic ---
             const CHANGELOG = [
                 { date: '2025-09-13', title: 'Feature Update', items: ['Added project-specific image galleries.', 'Replaced live stats with a direct, clickable link to the game on the project detail page.'] },
                 { date: '2025-09-12', title: 'Portfolio Curation', items: ['Simplified the portfolio grid to feature key projects.'] }, 
@@ -492,14 +493,15 @@
             if (openClBtn) { openClBtn.addEventListener('click', (e) => { e.preventDefault(); renderCl(); openClModal(); }); }
             clModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeClModal));
 
+            // --- Gallery Logic ---
             const galleryModal = document.getElementById('gallery-modal');
             const galleryGrid = document.getElementById('gallery-grid');
             const galleryTitle = document.getElementById('gallery-title');
             const imgModal = document.getElementById('imgModal');
             const imgModalImg = document.getElementById('imgModalImg');
 
-            const openImgModal = (src) => { imgModalImg.src = src; imgModal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
-            const closeImgModal = () => { imgModal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
+            const openImgModal = (src) => { imgModalImg.src = src; imgModal.setAttribute('aria-hidden', 'false'); };
+            const closeImgModal = () => { imgModal.setAttribute('aria-hidden', 'true'); };
             imgModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeImgModal));
 
             const openGalleryModal = (projectId) => {
@@ -532,6 +534,7 @@
                 }
             });
 
+            // --- Tabs Filter Logic ---
             const tabs = document.querySelectorAll('.tabs .tab'); 
             const cards = document.querySelectorAll('.grid .card'); 
             function applyFilter(filter) { 
@@ -552,6 +555,7 @@
             }); 
             document.getElementById('view-all')?.addEventListener('click', (e) => { applyFilter('all'); }); 
             
+            // --- Logo Easter Egg Logic ---
             const logo = document.getElementById('logoEgg'); 
             const audio = document.getElementById('egg-audio'); 
             const root = document.documentElement;
@@ -574,6 +578,7 @@
             logo.addEventListener('click', toggleAudio); 
             logo.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAudio(); } });
             
+            // --- Image Fallback Logic ---
             const shots = document.querySelectorAll('.shot[data-src-primary]');
             shots.forEach(shot => {
                 const primary = shot.getAttribute('data-src-primary');

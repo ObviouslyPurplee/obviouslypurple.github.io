@@ -615,37 +615,30 @@ footer {
     row-gap: 8px;
     padding: 10px 0
   }
-
   .brand {
     order: 1
   }
-
   .brand img {
     height: 46px
   }
-
   .left-nav {
     order: 2;
     justify-content: center;
     gap: 14px
   }
-
   .right-socials {
     order: 3;
     justify-content: center;
     gap: 10px
   }
-
   .tabs {
     flex-wrap: wrap;
     gap: 8px
   }
-
   .tab {
     padding: 6px 10px;
     font-size: 11px
   }
-
   .wrap {
     padding: 16px 12px 56px
   }
@@ -816,4 +809,120 @@ footer {
   padding: 6px 10px;
   font-size: 12px;
   cursor: pointer
+}
+
+/* --- Project Detail Modal --- */
+.project-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  z-index: 60;
+}
+
+.project-modal.is-open {
+  display: grid;
+}
+
+.project-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .58);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+.project-panel {
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+  max-height: 80vh;
+  background: var(--card);
+  border: 1px solid var(--pink);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  animation: fadeInScale 0.3s ease forwards;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--pink);
+  flex-shrink: 0;
+}
+
+.project-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.project-close {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.project-content {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.project-image {
+  flex: 0 0 40%;
+  max-width: 40%;
+}
+
+.project-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.project-description {
+  flex: 1 1 60%;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.project-description p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .project-content {
+    flex-direction: column;
+  }
+  .project-image {
+    flex-basis: auto;
+    max-width: 100%;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

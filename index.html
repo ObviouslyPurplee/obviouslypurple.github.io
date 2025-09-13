@@ -121,13 +121,15 @@
     }
     .footer-link{color:var(--muted); text-decoration:underline; text-underline-offset:2px}
     .footer-link:hover{color:var(--ink)}
-    .cl-modal{position:fixed; inset:0; display:none; z-index:50}
-    .cl-modal[aria-hidden="false"]{display:block}
-    .cl-backdrop{position:absolute; inset:0; background:rgba(0,0,0,.35)}
-    .cl-panel{position:relative; margin:6vh auto; max-width:720px; background:var(--card); color:var(--ink); border:1px solid var(--pink); border-radius:16px; box-shadow:var(--shadow); overflow:hidden}
-    .cl-header{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid var(--pink)}
-    .cl-close{background:transparent; border:none; font-size:18px; cursor:pointer; color:var(--muted)}
-    .cl-content{max-height:60vh; overflow:auto; padding:8px 16px 16px}
+    .cl-modal, .gallery-modal, .img-modal {position:fixed; inset:0; z-index:50; display:none;}
+    .cl-modal[aria-hidden="false"], .gallery-modal[aria-hidden="false"], .img-modal[aria-hidden="false"]{display:grid; place-items:center;}
+    .cl-backdrop, .gallery-backdrop, .img-backdrop {position:absolute; inset:0; background:rgba(0,0,0,.58); backdrop-filter:blur(4px);}
+    .cl-panel, .gallery-panel {position:relative; background:var(--card); color:var(--ink); border:1px solid var(--pink); border-radius:16px; box-shadow:var(--shadow); display:flex; flex-direction:column; width: 90%;}
+    .cl-panel { max-width: 720px; margin: 6vh auto; overflow: hidden; }
+    .gallery-panel { max-width: 1000px; max-height: 80vh; }
+    .cl-header, .gallery-header {display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid var(--pink)}
+    .cl-close, .gallery-close {background:transparent; border:none; font-size:18px; cursor:pointer; color:var(--muted)}
+    .cl-content, .gallery-content {overflow:auto; padding:16px;}
     .cl-list{list-style:none; padding:0; margin:0; display:grid; gap:12px}
     .cl-item{border:1px solid var(--pink); border-radius:12px; padding:10px 12px; background:var(--bg)}
     .cl-item time{font-size:11px; color:var(--muted)}
@@ -150,6 +152,12 @@
     .marketing-section p, .marketing-section ul { font-size: 14px; line-height: 1.8; color: var(--muted); margin: 0; }
     .marketing-section ul { list-style: disc; padding-left: 20px; margin-top: 12px; }
     .marketing-section li { margin-bottom: 8px; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .gallery-item img:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(255,155,200,.3); }
+    .img-panel{position:relative; max-width:min(96vw,1100px); max-height:86vh; border:1px solid var(--pink); border-radius:8px; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08)}
+    .img-panel img{display:block; width:100%; height:100%; object-fit:contain; background:#0f0d11}
+    .img-close{position:absolute; top:8px; right:8px; background:rgba(0,0,0,.55); color:#fff; border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:6px 10px; font-size:12px; cursor:pointer}
     @media (max-width: 768px) { .project-detail-content { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -470,7 +478,6 @@
                 document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
             });
 
-            // --- Changelog Modal Logic ---
             const CHANGELOG = [
                 { date: '2025-09-13', title: 'Feature Update', items: ['Added project-specific image galleries.', 'Removed unreliable live stats in favor of a direct game link on the project page.'] },
                 { date: '2025-09-12', title: 'Portfolio Curation', items: ['Simplified the portfolio grid to feature key projects.'] }, 
@@ -485,7 +492,6 @@
             if (openClBtn) { openClBtn.addEventListener('click', (e) => { e.preventDefault(); renderCl(); openClModal(); }); }
             clModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeClModal));
 
-            // --- Gallery Logic ---
             const galleryModal = document.getElementById('gallery-modal');
             const galleryGrid = document.getElementById('gallery-grid');
             const galleryTitle = document.getElementById('gallery-title');
@@ -526,7 +532,6 @@
                 }
             });
 
-            // --- Tabs Filter Logic ---
             const tabs = document.querySelectorAll('.tabs .tab'); 
             const cards = document.querySelectorAll('.grid .card'); 
             function applyFilter(filter) { 
@@ -547,7 +552,6 @@
             }); 
             document.getElementById('view-all')?.addEventListener('click', (e) => { applyFilter('all'); }); 
             
-            // --- Logo Easter Egg Logic ---
             const logo = document.getElementById('logoEgg'); 
             const audio = document.getElementById('egg-audio'); 
             const root = document.documentElement;
@@ -570,7 +574,6 @@
             logo.addEventListener('click', toggleAudio); 
             logo.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAudio(); } });
             
-            // --- Image Fallback Logic ---
             const shots = document.querySelectorAll('.shot[data-src-primary]');
             shots.forEach(shot => {
                 const primary = shot.getAttribute('data-src-primary');

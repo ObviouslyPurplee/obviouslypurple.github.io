@@ -22,6 +22,7 @@
       --radius:10px;
       --shadow:0 8px 26px rgba(31,31,36,.08);
       --max:1000px;
+      transition: --accent 0.3s ease, --pink 0.3s ease;
     }
     :root[data-theme="dark"]{
       --bg:#1a1a1a;
@@ -31,6 +32,10 @@
       --shadow:0 8px 26px rgba(0,0,0,.6);
       --accent:#ff9bc8;
       --green:#3bb273;
+    }
+    body[data-active-theme="cooked"] {
+        --accent: #ff6b35;
+        --pink: #ffad99;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -52,9 +57,12 @@
     .left-nav a:hover{color:var(--accent)}
 
     .brand{display:flex; justify-content:center}
-    .brand img{height:50px; filter:var(--logo-filter, none); transition: transform 0.2s ease;}
+    .brand img{height:50px; filter:var(--logo-filter, none); transition: transform 0.3s ease, filter 0.3s ease;}
     .brand[role=button]{cursor:pointer}
-    .brand:hover img{ transform:translateY(-2px) scale(1.02) }
+    .brand:hover img{ 
+        transform:translateY(-2px);
+        filter: var(--logo-filter, none) drop-shadow(0 0 10px var(--accent));
+    }
 
     .right-socials{display:flex; justify-content:flex-end; gap:14px; align-items:center}
     .icon{width:28px; height:28px; display:inline-grid; place-items:center; border-radius:8px; color:var(--ink); background:transparent; border:none}
@@ -64,7 +72,7 @@
     .hero{margin:60px 0; text-align:center}
     .intro h2{margin:0 0 12px; font-size:18px; line-height:1.6}
     .intro p{margin:0 0 18px; color:var(--muted); font-size:13px}
-    .btn{font-size:12px; padding:8px 10px; border:1px solid var(--ink); background:transparent; cursor:pointer; color:var(--ink)}
+    .btn{font-size:12px; padding:8px 10px; border:1px solid var(--ink); background:transparent; cursor:pointer; color:var(--ink); transition: background-color 0.2s ease, border-color 0.2s ease;}
     .btn:hover{background:var(--pink); border-color:var(--pink); color:var(--ink)}
 
     .tabs{display:flex; flex-wrap: wrap; gap:10px; justify-content:center; margin-bottom:20px}
@@ -124,10 +132,10 @@
     .cl-modal, .gallery-modal, .img-modal {position:fixed; inset:0; z-index:50; display:none;}
     .cl-modal[aria-hidden="false"], .gallery-modal[aria-hidden="false"], .img-modal[aria-hidden="false"]{display:grid; place-items:center;}
     .cl-backdrop, .gallery-backdrop, .img-backdrop {position:absolute; inset:0; background:rgba(0,0,0,.58); backdrop-filter:blur(4px);}
-    .cl-panel, .gallery-panel {position:relative; background:var(--card); color:var(--ink); border:1px solid var(--pink); border-radius:16px; box-shadow:var(--shadow); display:flex; flex-direction:column; width: 90%;}
+    .cl-panel, .gallery-panel {position:relative; background:var(--card); color:var(--ink); border:1px solid var(--pink); border-radius:16px; box-shadow:var(--shadow); display:flex; flex-direction:column; width: 90%; transition: border-color 0.3s ease;}
     .cl-panel { max-width: 720px; margin: 6vh auto; overflow: hidden; }
     .gallery-panel { max-width: 1000px; max-height: 80vh; }
-    .cl-header, .gallery-header {display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid var(--pink)}
+    .cl-header, .gallery-header {display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid var(--pink); transition: border-color 0.3s ease;}
     .cl-close, .gallery-close {background:transparent; border:none; font-size:18px; cursor:pointer; color:var(--muted)}
     .cl-content, .gallery-content {overflow:auto; padding:16px;}
     .cl-list{list-style:none; padding:0; margin:0; display:grid; gap:12px}
@@ -147,7 +155,7 @@
     .project-detail-text p { font-size: 14px; line-height: 1.8; color: var(--muted); margin: 0; }
     .project-detail-text .text-link { color: #38b6ff; text-decoration: underline; text-decoration-color: #38b6ff; transition: color 0.2s ease; }
     .project-detail-text .text-link:hover { color: #6acbff; }
-    .marketing-section { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--pink); }
+    .marketing-section { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--pink); transition: border-color 0.3s ease;}
     .marketing-section h3 { margin-top: 0; margin-bottom: 12px; font-size: 16px; color: var(--ink); }
     .marketing-section p, .marketing-section ul { font-size: 14px; line-height: 1.8; color: var(--muted); margin: 0; }
     .marketing-section ul { list-style: disc; padding-left: 20px; margin-top: 12px; }
@@ -384,6 +392,7 @@
                     title: '🔥 Cooked!',
                     imageSrc: 'Cooked.png',
                     gameUrl: 'https://www.roblox.com/games/108476688850509/Cooked',
+                    theme: 'cooked',
                     description: `<p>Joining <a href="https://www.roblox.com/groups/4619164/BloxByte-Games" target="_blank" rel="noopener" class="text-link">BloxByte Games</a> in late 2024, I took on the role of Creative Lead Director for their new project, 'Cooked!'. I was responsible for steering the game's overall creative vision, taking leadership in both 3D asset creation and establishing the definitive art style. A key part of my role involved directing and personally designing the entire user interface to ensure a seamless and intuitive player experience.</p><p>Drawing on over a decade of experience, I helped guide the project from concept to completion in an accelerated timeline of just six months. My workflow involved a suite of professional tools, including Blender for 3D modeling, Pixelmator Pro for graphics, and Roblox Studio as the core development platform. This project was also a fantastic opportunity for growth, as I learned to texture in Procreate on the iPad Pro. I used this new skill to craft the game's standout visual feature: its hyper-realistic dishes. By applying Physically-Based Rendering (PBR) textures, the food was given a detailed, lifelike quality that truly pops on screen.</p>`,
                     marketing: `<div class="marketing-section"><h3>Marketing & Social Media</h3><p>Beyond my core responsibilities, I always bring my passion for marketing and community management to every project. For 'Cooked!', while creative control over the game's official social channels was a collaborative effort, presenting some unique challenges, I was proud to contribute significantly to the game's public-facing presence.</p><p>I developed and produced several key video assets using Final Cut Pro to build hype and inform the community, including:</p><ul><li><a href="https://x.com/BloxByteGames/status/1903159823497101743" target="_blank" rel="noopener" class="text-link">Initial Community Hype Trailer</a></li><li><a href="https://x.com/BloxByteGames/status/1916222788001481066" target="_blank" rel="noopener" class="text-link">First Look at Gameplay</a></li><li><a href="https://x.com/BloxByteGames/status/1935064836280566224" target="_blank" rel="noopener" class="text-link">Release Date Announcement</a></li><li><a href="https://x.com/BloxByteGames/status/1938757576356737369" target="_blank" rel="noopener" class="text-link">Final Game Release Trailer</a></li></ul><p>I also took the lead as the primary public-facing voice for the project, engaging directly with our audience. I've always believed that the goal is not just to make a great game, but to put smiles on people's faces through positive interaction and exciting content. This philosophy drove my creation of graphical assets in Pixelmator Pro, from countdown images to the final game icon and thumbnails. It’s just one more way I bring a comprehensive skill set to the table. (A huge thanks to our amazing testing team for their help in the trailers!)</p></div>`,
                     galleryImages: [
@@ -413,10 +422,11 @@
             const projectDetailDescription = document.getElementById('project-detail-description');
             const projectDetailMarketing = document.getElementById('project-detail-marketing');
 
-            function showPage(pageToShow) {
+            function showPage(pageToShow, theme) {
                 pageHome.classList.add('hidden');
                 pageProjectDetail.classList.add('hidden');
                 pageToShow.classList.remove('hidden');
+                document.body.dataset.activeTheme = theme || '';
                 window.scrollTo(0, 0);
             }
 
@@ -450,7 +460,7 @@
                     } else {
                         galleryBtn.classList.add('hidden');
                     }
-                    showPage(pageProjectDetail);
+                    showPage(pageProjectDetail, data.theme);
                 }
             }
 
@@ -478,9 +488,8 @@
                 document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
             });
 
-            // --- Changelog Modal Logic ---
             const CHANGELOG = [
-                { date: '2025-09-13', title: 'Feature Update', items: ['Added project-specific image galleries.', 'Replaced live stats with a direct, clickable link to the game on the project detail page.'] },
+                { date: '2025-09-13', title: 'New Features & Fixes', items: ['Added project-specific color themes (e.g., orange for "Cooked!").','Replaced logo scale-on-hover with a richer glow effect.','Added project-specific image galleries.', 'Removed unreliable live stats in favor of a direct game link on the project page.'] },
                 { date: '2025-09-12', title: 'Portfolio Curation', items: ['Simplified the portfolio grid to feature key projects.'] }, 
                 { date: '2025-08-31', title: 'Highlights', items: ['Added “Rising Mountains” to Showcases', 'Added “Light House Map” to Projects'] }
             ];
@@ -493,7 +502,6 @@
             if (openClBtn) { openClBtn.addEventListener('click', (e) => { e.preventDefault(); renderCl(); openClModal(); }); }
             clModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeClModal));
 
-            // --- Gallery Logic ---
             const galleryModal = document.getElementById('gallery-modal');
             const galleryGrid = document.getElementById('gallery-grid');
             const galleryTitle = document.getElementById('gallery-title');
@@ -534,7 +542,6 @@
                 }
             });
 
-            // --- Tabs Filter Logic ---
             const tabs = document.querySelectorAll('.tabs .tab'); 
             const cards = document.querySelectorAll('.grid .card'); 
             function applyFilter(filter) { 
@@ -555,7 +562,6 @@
             }); 
             document.getElementById('view-all')?.addEventListener('click', (e) => { applyFilter('all'); }); 
             
-            // --- Logo Easter Egg Logic ---
             const logo = document.getElementById('logoEgg'); 
             const audio = document.getElementById('egg-audio'); 
             const root = document.documentElement;
@@ -578,7 +584,6 @@
             logo.addEventListener('click', toggleAudio); 
             logo.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAudio(); } });
             
-            // --- Image Fallback Logic ---
             const shots = document.querySelectorAll('.shot[data-src-primary]');
             shots.forEach(shot => {
                 const primary = shot.getAttribute('data-src-primary');

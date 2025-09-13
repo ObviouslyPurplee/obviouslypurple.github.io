@@ -195,7 +195,7 @@
             <button class="tab" type="button" role="tab" aria-selected="false" data-filter="other">other engagements</button>
           </div>
           <div class="grid">
-            <article class="card" data-cat="live">
+            <article class="card" data-cat="live" data-universe-id="328327220">
               <div class="shot has-img" style="background-image:url('Cooked.png')">
                 <div class="labels">
                   <a class="see-more pink" href="#" aria-label="explore about cooked" data-project-id="cooked">explore</a>
@@ -414,11 +414,11 @@
                 statsPlaying.textContent = 'loading...';
                 projectDetailStats.classList.remove('hidden');
 
-                const proxyUrl = `https://cors-anywhere.herokuapp.com/https://games.roblox.com/v1/games?universeIds=${universeId}`;
+                const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(`https://games.roblox.com/v1/games?universeIds=${universeId}`)}`;
                 
                 try {
-                    const response = await fetch(proxyUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
-                    if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+                    const response = await fetch(proxyUrl);
+                    if (!response.ok) throw new Error('Network response was not ok.');
                     
                     const data = await response.json();
                     

@@ -121,13 +121,15 @@
     }
     .footer-link{color:var(--muted); text-decoration:underline; text-underline-offset:2px}
     .footer-link:hover{color:var(--ink)}
-    .cl-modal{position:fixed; inset:0; display:none; z-index:50}
-    .cl-modal[aria-hidden="false"]{display:block}
-    .cl-backdrop{position:absolute; inset:0; background:rgba(0,0,0,.35)}
-    .cl-panel{position:relative; margin:6vh auto; max-width:720px; background:var(--card); color:var(--ink); border:1px solid var(--pink); border-radius:16px; box-shadow:var(--shadow); overflow:hidden}
-    .cl-header{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid var(--pink)}
-    .cl-close{background:transparent; border:none; font-size:18px; cursor:pointer; color:var(--muted)}
-    .cl-content{max-height:60vh; overflow:auto; padding:8px 16px 16px}
+    .cl-modal, .gallery-modal, .img-modal {position:fixed; inset:0; z-index:50; display:none;}
+    .cl-modal[aria-hidden="false"], .gallery-modal[aria-hidden="false"], .img-modal[aria-hidden="false"]{display:grid; place-items:center;}
+    .cl-backdrop, .gallery-backdrop, .img-backdrop {position:absolute; inset:0; background:rgba(0,0,0,.58); backdrop-filter:blur(4px);}
+    .cl-panel, .gallery-panel {position:relative; background:var(--card); color:var(--ink); border:1px solid var(--pink); border-radius:16px; box-shadow:var(--shadow); display:flex; flex-direction:column; width: 90%;}
+    .cl-panel { max-width: 720px; margin: 6vh auto; overflow: hidden; }
+    .gallery-panel { max-width: 1000px; max-height: 80vh; }
+    .cl-header, .gallery-header {display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid var(--pink)}
+    .cl-close, .gallery-close {background:transparent; border:none; font-size:18px; cursor:pointer; color:var(--muted)}
+    .cl-content, .gallery-content {overflow:auto; padding:16px;}
     .cl-list{list-style:none; padding:0; margin:0; display:grid; gap:12px}
     .cl-item{border:1px solid var(--pink); border-radius:12px; padding:10px 12px; background:var(--bg)}
     .cl-item time{font-size:11px; color:var(--muted)}
@@ -136,6 +138,7 @@
     .hidden { display: none !important; }
     .project-detail-header { margin: 20px 0; }
     .project-detail-content { display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; align-items: start; }
+    .project-detail-image-container { display: flex; flex-direction: column; align-items: center; gap: 12px; }
     .project-detail-image img { width: 100%; border-radius: var(--radius); background: var(--card); }
     .project-detail-text h2 { display: flex; align-items: center; gap: 12px; margin-top: 0; margin-bottom: 16px; font-size: 24px; color: var(--ink); }
     .project-detail-text .game-link { color: var(--muted); display: inline-flex; transition: color 0.2s ease; }
@@ -149,6 +152,12 @@
     .marketing-section p, .marketing-section ul { font-size: 14px; line-height: 1.8; color: var(--muted); margin: 0; }
     .marketing-section ul { list-style: disc; padding-left: 20px; margin-top: 12px; }
     .marketing-section li { margin-bottom: 8px; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .gallery-item img:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(255,155,200,.3); }
+    .img-panel{position:relative; max-width:min(96vw,1100px); max-height:86vh; border:1px solid var(--pink); border-radius:8px; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08)}
+    .img-panel img{display:block; width:100%; height:100%; object-fit:contain; background:#0f0d11}
+    .img-close{position:absolute; top:8px; right:8px; background:rgba(0,0,0,.55); color:#fff; border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:6px 10px; font-size:12px; cursor:pointer}
     @media (max-width: 768px) { .project-detail-content { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -236,8 +245,9 @@
             <button class="btn" id="back-to-home-btn">&larr; back to projects</button>
         </div>
         <div class="project-detail-content">
-            <div class="project-detail-image">
+            <div class="project-detail-image-container">
                 <img id="project-detail-img" src="" alt="Project highlight image" />
+                <button id="gallery-btn" class="btn hidden">Open Gallery</button>
             </div>
             <div class="project-detail-text">
                 <h2 id="project-detail-title">
@@ -281,18 +291,28 @@
           <button class="cl-close" aria-label="close changelog" data-close>✕</button>
         </header>
         <div class="cl-content">
-          <div class="cl-controls">
-            <label>
-              <span class="sr-only">filter</span>
-              <select id="cl-filter">
-                <option value="all">all</option>
-                <option value="2025" selected>2025</option>
-              </select>
-            </label>
-          </div>
           <ol id="cl-list" class="cl-list"></ol>
         </div>
       </div>
+    </div>
+    <div id="gallery-modal" class="gallery-modal" aria-hidden="true" role="dialog">
+        <div class="gallery-backdrop" data-close></div>
+        <div class="gallery-panel" role="document">
+            <header class="gallery-header">
+                <h3 id="gallery-title">Project Gallery</h3>
+                <button class="gallery-close" aria-label="close gallery" data-close>✕</button>
+            </header>
+            <div class="gallery-content">
+                <div id="gallery-grid" class="gallery-grid"></div>
+            </div>
+        </div>
+    </div>
+    <div id="imgModal" class="img-modal" aria-hidden="true" role="dialog" aria-label="image viewer">
+      <div class="img-backdrop" data-close></div>
+      <figure class="img-panel">
+        <button class="img-close" aria-label="close image" data-close>✕</button>
+        <img id="imgModalImg" alt="highlight image"/>
+      </figure>
     </div>
     <audio id="egg-audio" src="logoeasteregg.mp3" preload="none"></audio>
     <script>
@@ -315,15 +335,11 @@
 
         // Fog Gradient Background Effect
         (function() { 
-            if (window.__fogFX) return; 
-            window.__fogFX = true; 
-            const cvs = document.getElementById('fogFX'); 
-            if (!cvs) return; 
+            if (window.__fogFX) return; window.__fogFX = true; 
+            const cvs = document.getElementById('fogFX'); if (!cvs) return; 
             const ctx = cvs.getContext('2d'); 
             let W = 0, H = 0, DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1)); 
-            const SCALE = 2; 
-            let last = 0; 
-            let blobs = []; 
+            const SCALE = 2; let last = 0; let blobs = []; 
             const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark'; 
             const isReduced = () => document.documentElement.getAttribute('data-motion') === 'reduced'; 
             function colors() { return isDark() ? ['rgba(255,190,220,0.16)', 'rgba(255,190,220,0)'] : ['rgba(255,216,234,0.50)', 'rgba(255,216,234,0)']; } 
@@ -331,26 +347,16 @@
             function resize() { W = innerWidth; H = innerHeight; cvs.style.width = W + 'px'; cvs.style.height = H + 'px'; cvs.width = Math.ceil(W / SCALE) * DPR; cvs.height = Math.ceil(H / SCALE) * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.imageSmoothingEnabled = false; seed(); } 
             function draw(dt) { ctx.clearRect(0, 0, cvs.width, cvs.height); const [c0, c1] = colors(); for (const b of blobs) { const m = isReduced() ? 0.5 : 1; b.wob += b.wobSpd * dt * m; b.x += b.vx * dt * m + Math.cos(b.wob) * 0.02 * dt; b.y += b.vy * dt * m + Math.sin(b.wob) * 0.02 * dt; const pad = b.r + 40; if (b.x < -pad) b.x = W + pad; if (b.x > W + pad) b.x = -pad; if (b.y < -pad) b.y = H + pad; if (b.y > H + pad) b.y = -pad; const cx = b.x / SCALE, cy = b.y / SCALE, rr = b.r / SCALE; const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, rr); g.addColorStop(0, c0); g.addColorStop(1, c1); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, rr, 0, Math.PI * 2); ctx.fill(); } } 
             function loop(ts) { const dt = Math.min(50, (ts - last) || 16); last = ts; draw(dt); requestAnimationFrame(loop); } 
-            window.addEventListener('resize', resize, { passive: true }); 
-            document.addEventListener('theme:changed', resize); 
-            document.addEventListener('motion:changed', resize); 
-            resize(); 
-            requestAnimationFrame(loop); 
+            window.addEventListener('resize', resize, { passive: true }); document.addEventListener('theme:changed', resize); document.addEventListener('motion:changed', resize); resize(); requestAnimationFrame(loop); 
         })();
 
         // Shimmer/Galaxy FX overlay for logo easter egg
         (function() { 
-            if (window.__shimmerFX3) return; 
-            window.__shimmerFX3 = true; 
-            const cvs = document.getElementById('shimmerFX'); 
-            if (!cvs) return; 
+            if (window.__shimmerFX3) return; window.__shimmerFX3 = true; 
+            const cvs = document.getElementById('shimmerFX'); if (!cvs) return; 
             const ctx = cvs.getContext('2d'); 
             let W = 0, H = 0, DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1)); 
-            const SCALE = 2; 
-            let t = 0; 
-            let stars = []; 
-            let comets = []; 
-            let cometT = 0; 
+            const SCALE = 2; let t = 0; let stars = []; let comets = []; let cometT = 0; 
             const isReduced = () => document.documentElement.getAttribute('data-motion') === 'reduced'; 
             function resize() { W = innerWidth; H = innerHeight; cvs.style.width = W + 'px'; cvs.style.height = H + 'px'; cvs.width = Math.ceil(W / SCALE) * DPR; cvs.height = Math.ceil(H / SCALE) * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.imageSmoothingEnabled = false; seedStars(); } 
             function seedStars() { const base = Math.max(120, Math.round((W * H) / 18000)); const count = Math.round(base * (isReduced() ? 0.5 : 1)); stars = Array.from({ length: count }, () => ({ x: Math.random() * W, y: Math.random() * H, tw: Math.random() * Math.PI * 2, s: (Math.random() * 2 + 0.6), hue: Math.random() < 0.18 ? 'orange' : 'blue' })); } 
@@ -359,22 +365,19 @@
             function spawnComet() { if (isReduced()) return; const fromLeft = Math.random() < 0.5; const y = Math.random() * H * 0.9; const x = fromLeft ? -50 : W + 50; const vx = (fromLeft ? 1 : -1) * (2 + Math.random() * 3); const vy = -0.4 + Math.random() * 0.8; comets.push({ x, y, vx, vy, life: 220 }); } 
             function drawComets() { for (let i = comets.length - 1; i >= 0; i--) { const c = comets[i]; c.x += c.vx; c.y += c.vy; c.life -= 1; for (let tix = 0; tix < 6; tix++) { const trailX = c.x - c.vx * tix * 3; const trailY = c.y - c.vy * tix * 3; const alpha = 0.18 - tix * 0.025; if (alpha <= 0) continue; ctx.fillStyle = `rgba(${tix%2?200:150},${tix%2?120:180},255,${alpha})`; ctx.fillRect(Math.round(trailX / SCALE), Math.round(trailY / SCALE), 3, 2); } ctx.fillStyle = 'rgba(255,170,80,0.9)'; ctx.fillRect(Math.round(c.x / SCALE), Math.round(c.y / SCALE), 2, 2); if (c.life <= 0 || c.x < -100 || c.x > W + 100 || c.y < -100 || c.y > H + 100) comets.splice(i, 1); } } 
             function loop() { t += isReduced() ? 0.4 : 0.8; ctx.clearRect(0, 0, cvs.width, cvs.height); const root = document.documentElement; if (root.classList.contains('galaxy-on')) { drawNebula(); drawStars(); drawComets(); if(!isReduced()){ cometT-=16; if(cometT<=0){ cometT = 1500 + Math.random()*2000; spawnComet(); } } } requestAnimationFrame(loop); } 
-            window.addEventListener('resize', resize, { passive: true }); 
-            document.addEventListener('motion:changed', () => { resize(); }); 
-            resize(); 
-            loop(); 
+            window.addEventListener('resize', resize, { passive: true }); document.addEventListener('motion:changed', () => { resize(); }); resize(); loop(); 
         })();
 
         // --- Scripts that need to wait for the DOM to be ready ---
         document.addEventListener('DOMContentLoaded', () => {
 
-            // --- Page/View Switching Logic ---
             const pageHome = document.getElementById('page-home');
             const pageProjectDetail = document.getElementById('page-project-detail');
             const exploreButtons = document.querySelectorAll('.see-more[data-project-id]');
             const backButton = document.getElementById('back-to-home-btn');
             const navHome = document.getElementById('nav-home');
             const navProjects = document.getElementById('nav-projects');
+            const galleryBtn = document.getElementById('gallery-btn');
 
             const projectData = {
                 'cooked': {
@@ -382,7 +385,15 @@
                     imageSrc: 'Cooked.png',
                     gameUrl: 'https://www.roblox.com/games/108476688850509/Cooked',
                     description: `<p>Joining <a href="https://www.roblox.com/groups/4619164/BloxByte-Games" target="_blank" rel="noopener" class="text-link">BloxByte Games</a> in late 2024, I took on the role of Creative Lead Director for their new project, 'Cooked!'. I was responsible for steering the game's overall creative vision, taking leadership in both 3D asset creation and establishing the definitive art style. A key part of my role involved directing and personally designing the entire user interface to ensure a seamless and intuitive player experience.</p><p>Drawing on over a decade of experience, I helped guide the project from concept to completion in an accelerated timeline of just six months. My workflow involved a suite of professional tools, including Blender for 3D modeling, Pixelmator Pro for graphics, and Roblox Studio as the core development platform. This project was also a fantastic opportunity for growth, as I learned to texture in Procreate on the iPad Pro. I used this new skill to craft the game's standout visual feature: its hyper-realistic dishes. By applying Physically-Based Rendering (PBR) textures, the food was given a detailed, lifelike quality that truly pops on screen.</p>`,
-                    marketing: `<div class="marketing-section"><h3>Marketing & Social Media</h3><p>Beyond my core responsibilities, I always bring my passion for marketing and community management to every project. For 'Cooked!', while creative control over the game's official social channels was a collaborative effort, presenting some unique challenges, I was proud to contribute significantly to the game's public-facing presence.</p><p>I developed and produced several key video assets using Final Cut Pro to build hype and inform the community, including:</p><ul><li><a href="https://x.com/BloxByteGames/status/1903159823497101743" target="_blank" rel="noopener" class="text-link">Initial Community Hype Trailer</a></li><li><a href="https://x.com/BloxByteGames/status/1916222788001481066" target="_blank" rel="noopener" class="text-link">First Look at Gameplay</a></li><li><a href="https://x.com/BloxByteGames/status/1935064836280566224" target="_blank" rel="noopener" class="text-link">Release Date Announcement</a></li><li><a href="https://x.com/BloxByteGames/status/1938757576356737369" target="_blank" rel="noopener" class="text-link">Final Game Release Trailer</a></li></ul><p>I also took the lead as the primary public-facing voice for the project, engaging directly with our audience. I've always believed that the goal is not just to make a great game, but to put smiles on people's faces through positive interaction and exciting content. This philosophy drove my creation of graphical assets in Pixelmator Pro, from countdown images to the final game icon and thumbnails. It’s just one more way I bring a comprehensive skill set to the table. (A huge thanks to our amazing testing team for their help in the trailers!)</p></div>`
+                    marketing: `<div class="marketing-section"><h3>Marketing & Social Media</h3><p>Beyond my core responsibilities, I always bring my passion for marketing and community management to every project. For 'Cooked!', while creative control over the game's official social channels was a collaborative effort, presenting some unique challenges, I was proud to contribute significantly to the game's public-facing presence.</p><p>I developed and produced several key video assets using Final Cut Pro to build hype and inform the community, including:</p><ul><li><a href="https://x.com/BloxByteGames/status/1903159823497101743" target="_blank" rel="noopener" class="text-link">Initial Community Hype Trailer</a></li><li><a href="https://x.com/BloxByteGames/status/1916222788001481066" target="_blank" rel="noopener" class="text-link">First Look at Gameplay</a></li><li><a href="https://x.com/BloxByteGames/status/1935064836280566224" target="_blank" rel="noopener" class="text-link">Release Date Announcement</a></li><li><a href="https://x.com/BloxByteGames/status/1938757576356737369" target="_blank" rel="noopener" class="text-link">Final Game Release Trailer</a></li></ul><p>I also took the lead as the primary public-facing voice for the project, engaging directly with our audience. I've always believed that the goal is not just to make a great game, but to put smiles on people's faces through positive interaction and exciting content. This philosophy drove my creation of graphical assets in Pixelmator Pro, from countdown images to the final game icon and thumbnails. It’s just one more way I bring a comprehensive skill set to the table. (A huge thanks to our amazing testing team for their help in the trailers!)</p></div>`,
+                    galleryImages: [
+                        'https://placehold.co/600x400/ffd8ea/1f1f24?text=Image+1',
+                        'https://placehold.co/600x400/b6f2c1/1f1f24?text=Image+2',
+                        'https://placehold.co/600x400/ff9bc8/1f1f24?text=Image+3',
+                        'https://placehold.co/600x400/cccccc/1f1f24?text=Image+4',
+                        'https://placehold.co/600x400/ffd8ea/1f1f24?text=Image+5',
+                        'https://placehold.co/600x400/b6f2c1/1f1f24?text=Image+6'
+                    ]
                 },
                 'voyage': {
                     title: 'The Voyage',
@@ -431,7 +442,14 @@
                         projectDetailMarketing.innerHTML = '';
                         projectDetailMarketing.classList.add('hidden');
                     }
-
+                    
+                    if (data.galleryImages && data.galleryImages.length > 0) {
+                        galleryBtn.textContent = `Open ${data.title}'s Gallery`;
+                        galleryBtn.dataset.projectId = projectId;
+                        galleryBtn.classList.remove('hidden');
+                    } else {
+                        galleryBtn.classList.add('hidden');
+                    }
                     showPage(pageProjectDetail);
                 }
             }
@@ -460,25 +478,75 @@
                 document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
             });
 
-            // --- Changelog Modal Logic ---
             const CHANGELOG = [
-                { date: '2025-09-13', title: 'Feature Update', items: ['Added a "Marketing & Social Media" section to project details.', 'Replaced live stats with a direct, clickable link to the game on the project detail page.'] },
+                { date: '2025-09-13', title: 'Gallery Feature', items: ['Added a project-specific image gallery, starting with "Cooked!".', 'Removed unreliable live stats feature.'] },
                 { date: '2025-09-12', title: 'Portfolio Curation', items: ['Simplified the portfolio grid to feature key projects.'] }, 
                 { date: '2025-08-31', title: 'Highlights', items: ['Added “Rising Mountains” to Showcases', 'Added “Light House Map” to Projects'] }
             ];
             const clModal = document.getElementById('changelogModal');
-            const openBtn = document.getElementById('open-changelog');
-            const list = document.getElementById('cl-list');
-            const filterSel = document.getElementById('cl-filter');
+            const openClBtn = document.getElementById('open-changelog');
+            const clList = document.getElementById('cl-list');
             const openClModal = () => { clModal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
             const closeClModal = () => { clModal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
-            const renderCl = () => { if (!list || !filterSel) return; const y = filterSel.value; list.innerHTML = ''; CHANGELOG.filter(e => y === 'all' || new Date(e.date).getFullYear().toString() === y).forEach(e => { const li = document.createElement('li'); li.className = 'cl-item'; li.innerHTML = `<time datetime="${e.date}">${e.date}</time><h4>${e.title}</h4><ul>${e.items.map(it=>`<li>${it}</li>`).join('')}</ul>`; list.appendChild(li); }); };
-            if (openBtn) { openBtn.addEventListener('click', (e) => { e.preventDefault(); renderCl(); openClModal(); }); }
+            const renderCl = () => { if (!clList) return; clList.innerHTML = ''; CHANGELOG.forEach(e => { const li = document.createElement('li'); li.className = 'cl-item'; li.innerHTML = `<time datetime="${e.date}">${e.date}</time><h4>${e.title}</h4><ul>${e.items.map(it=>`<li>${it}</li>`).join('')}</ul>`; clList.appendChild(li); }); };
+            if (openClBtn) { openClBtn.addEventListener('click', (e) => { e.preventDefault(); renderCl(); openClModal(); }); }
             clModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeClModal));
-            filterSel?.addEventListener('change', renderCl);
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && clModal?.getAttribute('aria-hidden') === 'false') closeClModal(); });
 
-            // --- Tabs Filter Logic ---
+            const galleryModal = document.getElementById('gallery-modal');
+            const galleryGrid = document.getElementById('gallery-grid');
+            const galleryTitle = document.getElementById('gallery-title');
+            const imgModal = document.getElementById('imgModal');
+            const imgModalImg = document.getElementById('imgModalImg');
+
+            const openImgModal = (src) => {
+                imgModalImg.src = src;
+                imgModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+            const closeImgModal = () => {
+                imgModal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
+            imgModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeImgModal));
+
+            const openGalleryModal = (projectId) => {
+                const data = projectData[projectId];
+                if(data && data.galleryImages) {
+                    galleryTitle.textContent = `${data.title} Gallery`;
+                    galleryGrid.innerHTML = '';
+                    data.galleryImages.forEach(imgSrc => {
+                        const item = document.createElement('div');
+                        item.className = 'gallery-item';
+                        const img = document.createElement('img');
+                        img.src = imgSrc;
+                        img.addEventListener('click', () => openImgModal(imgSrc));
+                        item.appendChild(img);
+                        galleryGrid.appendChild(item);
+                    });
+                    galleryModal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                }
+            };
+
+            const closeGalleryModal = () => {
+                galleryModal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            };
+
+            galleryBtn.addEventListener('click', (e) => {
+                const projectId = e.target.dataset.projectId;
+                openGalleryModal(projectId);
+            });
+            galleryModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeGalleryModal));
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (clModal.getAttribute('aria-hidden') === 'false') closeClModal();
+                    if (galleryModal.getAttribute('aria-hidden') === 'false') closeGalleryModal();
+                    if (imgModal.getAttribute('aria-hidden') === 'false') closeImgModal();
+                }
+            });
+
             const tabs = document.querySelectorAll('.tabs .tab'); 
             const cards = document.querySelectorAll('.grid .card'); 
             function applyFilter(filter) { 
@@ -499,7 +567,6 @@
             }); 
             document.getElementById('view-all')?.addEventListener('click', (e) => { applyFilter('all'); }); 
             
-            // --- Logo Easter Egg Logic ---
             const logo = document.getElementById('logoEgg'); 
             const audio = document.getElementById('egg-audio'); 
             const root = document.documentElement;
@@ -522,7 +589,6 @@
             logo.addEventListener('click', toggleAudio); 
             logo.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAudio(); } });
             
-            // --- Image Fallback Logic ---
             const shots = document.querySelectorAll('.shot[data-src-primary]');
             shots.forEach(shot => {
                 const primary = shot.getAttribute('data-src-primary');

@@ -20,12 +20,6 @@
   --accent: #ff9bc8;
   --green: #3bb273;
 }
-
-/* Hide Canvas Background Effects */
-#fogFX, #shimmerFX {
-  display: none;
-}
-
 * {
   box-sizing: border-box
 }
@@ -185,10 +179,6 @@ header {
   color: #e9e6ea;
   border: 1px solid rgba(255, 155, 200, .35);
   transition: all .2s ease
-}
-:root[data-theme="dark"] #fogFX {
-  mix-blend-mode: screen;
-  filter: blur(3px)
 }
 :root[data-theme="dark"] .tab.is-active {
   background: var(--accent);
@@ -582,4 +572,3 @@ footer {
     grid-template-columns: 1fr;
   }
 }
-```eof

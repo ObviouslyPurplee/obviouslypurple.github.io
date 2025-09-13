@@ -429,6 +429,15 @@
     .project-detail-image img { width: 100%; border-radius: var(--radius); background: var(--card); }
     .project-detail-text h2 { margin-top: 0; margin-bottom: 16px; font-size: 24px; color: var(--ink); }
     .project-detail-text p { font-size: 14px; line-height: 1.8; color: var(--muted); margin: 0; }
+    .project-detail-text .text-link {
+        color: #38b6ff;
+        text-decoration: underline;
+        text-decoration-color: #38b6ff;
+        transition: color 0.2s ease;
+    }
+    .project-detail-text .text-link:hover {
+        color: #6acbff;
+    }
     @media (max-width: 768px) { .project-detail-content { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -657,7 +666,7 @@
                 'cooked': {
                     title: '🔥 Cooked!',
                     imageSrc: 'Cooked.png',
-                    description: `Joining BloxByte Games in late 2024, I took on the role of Creative Lead Director for their new project, 'Cooked!'. I was responsible for steering the game's overall creative vision, taking leadership in both 3D asset creation and establishing the definitive art style. A key part of my role involved directing and personally designing the entire user interface to ensure a seamless and intuitive player experience.<br><br>Drawing on over a decade of experience, I helped guide the project from concept to completion in an accelerated timeline of just six months. My workflow involved a suite of professional tools, including Blender for 3D modeling, Pixelmator Pro for graphics, and Roblox Studio as the core development platform. This project was also a fantastic opportunity for growth, as I learned to texture in Procreate on the iPad Pro. I used this new skill to craft the game's standout visual feature: its hyper-realistic dishes. By applying Physically-Based Rendering (PBR) textures, the food was given a detailed, lifelike quality that truly pops on screen.`
+                    description: `Joining <a href="https://www.roblox.com/communities/4619164/BloxByte-Games#!/about" target="_blank" rel="noopener" class="text-link">BloxByte Games</a> in late 2024, I took on the role of Creative Lead Director for their new project, 'Cooked!'. I was responsible for steering the game's overall creative vision, taking leadership in both 3D asset creation and establishing the definitive art style. A key part of my role involved directing and personally designing the entire user interface to ensure a seamless and intuitive player experience.<br><br>Drawing on over a decade of experience, I helped guide the project from concept to completion in an accelerated timeline of just six months. My workflow involved a suite of professional tools, including Blender for 3D modeling, Pixelmator Pro for graphics, and Roblox Studio as the core development platform. This project was also a fantastic opportunity for growth, as I learned to texture in Procreate on the iPad Pro. I used this new skill to craft the game's standout visual feature: its hyper-realistic dishes. By applying Physically-Based Rendering (PBR) textures, the food was given a detailed, lifelike quality that truly pops on screen.`
                 },
                 'voyage': {
                     title: 'The Voyage',

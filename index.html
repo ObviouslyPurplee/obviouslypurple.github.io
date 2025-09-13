@@ -33,14 +33,8 @@
       --accent:#ff9bc8;
       --green:#3bb273;
     }
-    body[data-active-theme="cooked"] {
-        --accent: #ff6b35;
-        --pink: #ffad99;
-    }
-    body[data-active-theme="treasure"] {
-        --accent: #ffcc00;
-        --pink: #bde0fe;
-    }
+    body[data-active-theme="cooked"] { --accent: #ff6b35; --pink: #ffad99; }
+    body[data-active-theme="treasure"] { --accent: #ffcc00; --pink: #bde0fe; }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -169,6 +163,11 @@
     .img-panel{position:relative; max-width:min(96vw,1100px); max-height:86vh; border:1px solid var(--pink); border-radius:8px; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08)}
     .img-panel img{display:block; width:100%; height:100%; object-fit:contain; background:#0f0d11}
     .img-close{position:absolute; top:8px; right:8px; background:rgba(0,0,0,.55); color:#fff; border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:6px 10px; font-size:12px; cursor:pointer}
+    .news-item { display: flex; gap: 16px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--pink); }
+    .news-pfp { flex-shrink: 0; }
+    .news-pfp img { width: 60px; height: 60px; border-radius: 50%; }
+    .news-content h3 { margin: 0 0 8px; font-size: 16px; }
+    .news-content p { margin: 0; font-size: 14px; line-height: 1.7; color: var(--muted); }
     @media (max-width: 768px) { .project-detail-content { grid-template-columns: 1fr; } .project-detail-image-container { max-width: 400px; margin: 0 auto; } }
   </style>
 </head>
@@ -180,6 +179,7 @@
         <nav class="left-nav">
           <a id="nav-home">home</a>
           <a id="nav-projects">projects</a>
+          <a id="nav-news">news</a>
         </nav>
         <div class="brand" id="logoEgg" role="button" tabindex="0" aria-label="play a secret audio">
           <img src="officialogo.png" alt="obviouslypurple logo" class="brand-logo" />
@@ -272,6 +272,11 @@
                 <div id="project-detail-marketing" class="hidden"></div>
             </div>
         </div>
+      </main>
+
+      <main id="page-news" class="hidden">
+        <h2>News & Updates</h2>
+        <div id="news-container"></div>
       </main>
 
       <footer id="contact">
@@ -393,10 +398,12 @@
 
             const pageHome = document.getElementById('page-home');
             const pageProjectDetail = document.getElementById('page-project-detail');
+            const pageNews = document.getElementById('page-news');
             const exploreButtons = document.querySelectorAll('.see-more[data-project-id]');
             const backButton = document.getElementById('back-to-home-btn');
             const navHome = document.getElementById('nav-home');
             const navProjects = document.getElementById('nav-projects');
+            const navNews = document.getElementById('nav-news');
             const galleryBtn = document.getElementById('gallery-btn');
 
             const projectData = {
@@ -431,16 +438,29 @@
                     description: '<p>Provide a description for The Voyage here.</p>'
                 }
             };
+            
+            const newsData = [
+                {
+                    title: 'Welcome to the new site!',
+                    content: 'Hey everyone! I\'m so excited to finally launch my new portfolio. This has been a long time in the making, and I can\'t wait to share my work with you all. Feel free to look around and check out my projects.'
+                },
+                {
+                    title: 'New Project: Cart Ride for Treasure',
+                    content: 'I\'m thrilled to announce my latest game, "Cart Ride for Treasure"! It\'s been a passion project of mine for a while, and I\'m so happy with how it turned out. Go check it out and let me know what you think!'
+                }
+            ];
 
             const projectGameLink = document.getElementById('project-game-link');
             const projectTitleText = document.getElementById('project-title-text');
             const projectDetailImg = document.getElementById('project-detail-img');
             const projectDetailDescription = document.getElementById('project-detail-description');
             const projectDetailMarketing = document.getElementById('project-detail-marketing');
+            const newsContainer = document.getElementById('news-container');
 
             function showPage(pageToShow, theme) {
                 pageHome.classList.add('hidden');
                 pageProjectDetail.classList.add('hidden');
+                pageNews.classList.add('hidden');
                 pageToShow.classList.remove('hidden');
                 document.body.dataset.activeTheme = theme || '';
                 document.dispatchEvent(new CustomEvent('theme:changed'));
@@ -480,6 +500,24 @@
                     showPage(pageProjectDetail, data.theme);
                 }
             }
+            
+            function renderNews() {
+                newsContainer.innerHTML = '';
+                newsData.forEach(item => {
+                    const newsItem = document.createElement('article');
+                    newsItem.className = 'news-item';
+                    newsItem.innerHTML = `
+                        <div class="news-pfp">
+                            <img src="pfp.png" alt="obviouslypurple profile picture">
+                        </div>
+                        <div class="news-content">
+                            <h3>${item.title}</h3>
+                            <p>${item.content}</p>
+                        </div>
+                    `;
+                    newsContainer.appendChild(newsItem);
+                });
+            }
 
             exploreButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
@@ -505,9 +543,16 @@
                 document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
             });
 
+            navNews.addEventListener('click', (e) => {
+                e.preventDefault();
+                renderNews();
+                showPage(pageNews);
+            });
+
             const CHANGELOG = [
+                { date: '2025-09-13', title: 'Site Structure', items: ['Added a "News" page to the website for announcements and updates.'] },
                 { date: '2025-09-13', title: 'New Project & Theming', items: ['Added "Cart Ride for Treasure" with a unique color theme.'] },
-                { date: '2025-09-13', title: 'Feature Update', items: ['Added project-specific image galleries.', 'Removed unreliable live stats in favor of a direct game link on the project page.'] },
+                { date: '2025-09-13', title: 'Feature Update', items: ['Added project-specific image galleries.', 'Replaced live stats with a direct game link on the project page.'] },
                 { date: '2025-09-12', title: 'Portfolio Curation', items: ['Simplified the portfolio grid to feature key projects.'] }, 
                 { date: '2025-08-31', title: 'Highlights', items: ['Added “Rising Mountains” to Showcases', 'Added “Light House Map” to Projects'] }
             ];

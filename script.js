@@ -199,5 +199,23 @@ document.addEventListener('DOMContentLoaded', () => {
     audio.addEventListener('pause', onPause);
     audio.addEventListener('ended', onPause);
     logo.addEventListener('click', toggleAudio); 
-    logo.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAudio(); } }); 
+    logo.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAudio(); } });
+    
+    // --- Image Fallback Logic ---
+    const shots = document.querySelectorAll('.shot[data-src-primary]');
+    shots.forEach(shot => {
+        const primary = shot.getAttribute('data-src-primary');
+        const fallback = shot.getAttribute('data-src-fallback');
+        if (!primary) return;
+        const img = new Image();
+        img.onload = () => {
+            shot.style.backgroundImage = `url('${primary}')`;
+        };
+        img.onerror = () => {
+            if (fallback) {
+                shot.style.backgroundImage = `url('${fallback}')`;
+            }
+        };
+        img.src = primary;
+    });
 });

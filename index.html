@@ -39,7 +39,7 @@
     }
     body[data-active-theme="treasure"] {
         --accent: #ffcc00;
-        --pink: #d4a373;
+        --pink: #bde0fe;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -229,13 +229,13 @@
               <div class="meta"><span>🔥 cooked!</span><span>creative lead • ui & 3d • live ops</span></div>
             </article>
             <article class="card" data-cat="live">
-                <div class="shot has-img" style="background-image:url('crft.png')">
-                  <div class="labels">
-                    <a class="see-more pink" href="#" aria-label="explore about cart ride for treasure" data-project-id="treasure">explore</a>
-                    <a class="see-more green" href="https://www.roblox.com/games/18814515603/Treasure-Mine-Simulator" target="_blank" rel="noopener" aria-label="play cart ride for treasure">play</a>
-                  </div>
+              <div class="shot has-img" style="background-image:url('crft.png')">
+                <div class="labels">
+                  <a class="see-more pink" href="#" aria-label="explore about cart ride for treasure" data-project-id="treasure">explore</a>
+                  <a class="see-more green" href="https://www.roblox.com/games/18814515603/Treasure-Mine-Simulator" target="_blank" rel="noopener" aria-label="play cart ride for treasure">play</a>
                 </div>
-                <div class="meta"><span>💎 cart ride for treasure</span><span>Owner • UI, 3D & Live Ops</span></div>
+              </div>
+              <div class="meta"><span>💎 cart ride for treasure</span><span>Owner • UI, 3D & Live Ops</span></div>
             </article>
             <article class="card" data-cat="projects">
               <div class="shot has-img" style="background-image:url('TheVoyage.png')">
@@ -358,7 +358,7 @@
                 const activeTheme = document.body.dataset.activeTheme;
                 if (isDark()) {
                     if (activeTheme === 'cooked') return ['rgba(255, 107, 53, 0.16)', 'rgba(255, 107, 53, 0)'];
-                    if (activeTheme === 'treasure') return ['rgba(255, 204, 0, 0.16)', 'rgba(255, 204, 0, 0)'];
+                    if (activeTheme === 'treasure') return ['rgba(173, 216, 230, 0.16)', 'rgba(173, 216, 230, 0)'];
                     return ['rgba(255,190,220,0.16)', 'rgba(255,190,220,0)'];
                 }
                 return ['rgba(255,216,234,0.50)', 'rgba(255,216,234,0)'];

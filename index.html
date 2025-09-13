@@ -137,8 +137,8 @@
     .cl-item ul{margin:0; padding-left:18px}
     .hidden { display: none !important; }
     .project-detail-header { margin: 20px 0; }
-    .project-detail-content { display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; align-items: start; }
-    .project-detail-image-container { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .project-detail-content { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; }
+    .project-detail-image-container { display: flex; flex-direction: column; align-items: stretch; gap: 12px; }
     .project-detail-image img { width: 100%; border-radius: var(--radius); background: var(--card); }
     .project-detail-text h2 { display: flex; align-items: center; gap: 12px; margin-top: 0; margin-bottom: 16px; font-size: 24px; color: var(--ink); }
     .project-detail-text .game-link { color: var(--muted); display: inline-flex; transition: color 0.2s ease; }
@@ -158,7 +158,7 @@
     .img-panel{position:relative; max-width:min(96vw,1100px); max-height:86vh; border:1px solid var(--pink); border-radius:8px; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08)}
     .img-panel img{display:block; width:100%; height:100%; object-fit:contain; background:#0f0d11}
     .img-close{position:absolute; top:8px; right:8px; background:rgba(0,0,0,.55); color:#fff; border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:6px 10px; font-size:12px; cursor:pointer}
-    @media (max-width: 768px) { .project-detail-content { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) { .project-detail-content { grid-template-columns: 1fr; } .project-detail-image-container { max-width: 400px; margin: 0 auto; } }
   </style>
 </head>
 <body>
@@ -479,7 +479,7 @@
             });
 
             const CHANGELOG = [
-                { date: '2025-09-13', title: 'Feature Update', items: ['Added project-specific image galleries.', 'Removed unreliable live stats in favor of a direct game link on the project page.'] },
+                { date: '2025-09-13', title: 'Feature Update', items: ['Added project-specific image galleries.', 'Replaced live stats with a direct, clickable link to the game on the project detail page.'] },
                 { date: '2025-09-12', title: 'Portfolio Curation', items: ['Simplified the portfolio grid to feature key projects.'] }, 
                 { date: '2025-08-31', title: 'Highlights', items: ['Added “Rising Mountains” to Showcases', 'Added “Light House Map” to Projects'] }
             ];
@@ -498,8 +498,8 @@
             const imgModal = document.getElementById('imgModal');
             const imgModalImg = document.getElementById('imgModalImg');
 
-            const openImgModal = (src) => { imgModalImg.src = src; imgModal.setAttribute('aria-hidden', 'false'); };
-            const closeImgModal = () => { imgModal.setAttribute('aria-hidden', 'true'); };
+            const openImgModal = (src) => { imgModalImg.src = src; imgModal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
+            const closeImgModal = () => { imgModal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
             imgModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeImgModal));
 
             const openGalleryModal = (projectId) => {
@@ -512,7 +512,7 @@
                         item.className = 'gallery-item';
                         const img = document.createElement('img');
                         img.src = imgSrc;
-                        img.addEventListener('click', () => { closeGalleryModal(); openImgModal(imgSrc); });
+                        img.addEventListener('click', () => openImgModal(imgSrc));
                         item.appendChild(img);
                         galleryGrid.appendChild(item);
                     });

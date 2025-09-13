@@ -299,15 +299,6 @@
           </div>
           <div class="meta"><span>the voyage</span><span>environment • studio build</span></div>
         </article>
-        <article class="card" data-cat="projects">
-          <div class="shot has-img" id="shot-lighthouse" data-src-primary="Lighthousemap.png" data-src-fallback="Lighthousemap.jpeg" style="background-image:url('Lighthousemap.png')">
-            <div class="labels">
-              <a class="see-more pink" href="#" aria-label="explore about light house map" data-ink="#201018">explore</a>
-            </div>
-          </div>
-          <div class="meta"><span>light house map</span><span>projects</span></div>
-        </article>
-        
         <article class="card" data-cat="graphic">
           <div class="shot has-img" id="shot-cooked-ui" data-src-primary="MainUI.png" data-src-fallback="UIMain.png" style="background-image:url('MainUI.png')">
             <div class="labels">
@@ -315,30 +306,6 @@
             </div>
           </div>
           <div class="meta"><span>cooked ui</span><span>graphic design • ui systems</span></div>
-        </article>
-        <article class="card" data-cat="showcases">
-          <div class="shot has-img" id="shot-rising-mountains" data-src-primary="MountainShowcase.png" data-src-fallback="RisingMountains.png" style="background-image:url('MountainShowcase.png')">
-            <div class="labels">
-              <a class="see-more pink" href="#" aria-label="explore about rising mountains" data-ink="#201018">explore</a>
-            </div>
-          </div>
-          <div class="meta"><span>rising mountains</span><span>showcase</span></div>
-        </article>
-        <article class="card" data-cat="showcases">
-          <div class="shot has-img" id="shot-ntltc" data-src-primary="ntltc.png" data-src-fallback="ntltc.jpg" style="background-image:url('ntltc.png')">
-            <div class="labels">
-              <a class="see-more pink" href="#" aria-label="explore about no tears left to cry (ariana grande scene recreation)" data-ink="#201018">explore</a>
-            </div>
-          </div>
-          <div class="meta"><span>no tears left to cry (ariana grande scene recreation)</span><span>showcase</span></div>
-        </article>
-              <article class="card" data-cat="showcases">
-          <div class="shot has-img" id="shot-ariels-tropic" data-src-primary="arielstropic.png" data-src-fallback="arielstropic.jpeg" style="background-image:url('arielstropic.png')">
-            <div class="labels">
-              <a class="see-more pink" href="#" aria-label="explore about ariels tropic" data-ink="#201018">explore</a>
-            </div>
-          </div>
-          <div class="meta"><span>ariels tropic</span><span>showcase</span></div>
         </article>
       </div>
 
@@ -361,7 +328,6 @@
       <p style="margin-top:10px">© 2025 team op • <a href="#" id="open-changelog" class="footer-link">change logs</a></p>
     </footer>
 
-    <!-- changelog modal -->
     <div id="changelogModal" class="cl-modal" aria-hidden="true" role="dialog" aria-labelledby="cl-title">
       <div class="cl-backdrop" data-close></div>
       <div class="cl-panel" role="document">
@@ -386,8 +352,7 @@
   </div>
 
 
-  <!-- image lightbox -->
-<div id="imgModal" class="img-modal" aria-hidden="true" role="dialog" aria-label="image viewer">
+  <div id="imgModal" class="img-modal" aria-hidden="true" role="dialog" aria-label="image viewer">
   <div class="img-backdrop" data-close></div>
   <figure class="img-panel">
     <button class="img-close" aria-label="close image" data-close>✕</button>
@@ -395,8 +360,7 @@
   </figure>
 </div>
 
-<!-- easter egg audio -->
-  <audio id="egg-audio" src="logoeasteregg.mp3" preload="none"></audio>
+<audio id="egg-audio" src="logoeasteregg.mp3" preload="none"></audio>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
@@ -652,3 +616,6 @@ document.addEventListener('DOMContentLoaded', function(){
     const size = `${drawW}px ${drawH}px`;
 
     shot.querySelectorAll('.see-more'
+}
+</script>
+</html>

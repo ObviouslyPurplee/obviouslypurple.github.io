@@ -67,7 +67,7 @@
     .btn{font-size:12px; padding:8px 10px; border:1px solid var(--ink); background:transparent; cursor:pointer; color:var(--ink)}
     .btn:hover{background:var(--pink); border-color:var(--pink); color:var(--ink)}
 
-    .tabs{display:flex; gap:10px; justify-content:center; margin-bottom:20px}
+    .tabs{display:flex; flex-wrap: wrap; gap:10px; justify-content:center; margin-bottom:20px}
     .tab{appearance:none; border:1px solid #f0d9e6; background:#fff; color:#6c6068; padding:6px 10px; border-radius:999px; font-size:11px; cursor:pointer}
     .tab:hover{background:var(--pink-200); color:#2a2a30; border-color:var(--pink)}
     .tab.is-active{background:var(--ink); color:#fff; border-color:var(--ink)}
@@ -143,7 +143,7 @@
     .project-detail-text .text-link:hover { color: #6acbff; }
     .project-detail-stats { display: flex; gap: 24px; margin-bottom: 20px; color: var(--muted); font-size: 14px; align-items: center; }
     .project-detail-stats.hidden { display: none; }
-    .stat-item { display: flex; align-items: center; gap: 8px; }
+    .stat-item { display: inline-flex; align-items: center; gap: 8px; }
     .stat-item svg { width: 18px; height: 18px; fill: currentColor; }
     @media (max-width: 768px) { .project-detail-content { grid-template-columns: 1fr; } }
   </style>
@@ -273,7 +273,6 @@
         <p style="margin-top:10px">© 2025 team op • <a href="#" id="open-changelog" class="footer-link">change logs</a></p>
       </footer>
     </div>
-    <!-- Modals -->
     <div id="changelogModal" class="cl-modal" aria-hidden="true" role="dialog" aria-labelledby="cl-title">
       <div class="cl-backdrop" data-close></div>
       <div class="cl-panel" role="document">
@@ -295,9 +294,7 @@
         </div>
       </div>
     </div>
-    <!-- Audio -->
     <audio id="egg-audio" src="logoeasteregg.mp3" preload="none"></audio>
-    <!-- Scripts -->
     <script>
         // --- Immediately Invoked Function Expressions (IIFEs) for page setup ---
         (function() { 
@@ -384,7 +381,7 @@
                     title: '🔥 Cooked!',
                     imageSrc: 'Cooked.png',
                     universeId: '328327220',
-                    description: `Joining <a href="https://www.roblox.com/communities/4619164/BloxByte-Games#!/about" target="_blank" rel="noopener" class="text-link">BloxByte Games</a> in late 2024, I took on the role of Creative Lead Director for their new project, 'Cooked!'. I was responsible for steering the game's overall creative vision, taking leadership in both 3D asset creation and establishing the definitive art style. A key part of my role involved directing and personally designing the entire user interface to ensure a seamless and intuitive player experience.<br><br>Drawing on over a decade of experience, I helped guide the project from concept to completion in an accelerated timeline of just six months. My workflow involved a suite of professional tools, including Blender for 3D modeling, Pixelmator Pro for graphics, and Roblox Studio as the core development platform. This project was also a fantastic opportunity for growth, as I learned to texture in Procreate on the iPad Pro. I used this new skill to craft the game's standout visual feature: its hyper-realistic dishes. By applying Physically-Based Rendering (PBR) textures, the food was given a detailed, lifelike quality that truly pops on screen.`
+                    description: `Joining <a href="https://www.roblox.com/groups/4619164/BloxByte-Games" target="_blank" rel="noopener" class="text-link">BloxByte Games</a> in late 2024, I took on the role of Creative Lead Director for their new project, 'Cooked!'. I was responsible for steering the game's overall creative vision, taking leadership in both 3D asset creation and establishing the definitive art style. A key part of my role involved directing and personally designing the entire user interface to ensure a seamless and intuitive player experience.<br><br>Drawing on over a decade of experience, I helped guide the project from concept to completion in an accelerated timeline of just six months. My workflow involved a suite of professional tools, including Blender for 3D modeling, Pixelmator Pro for graphics, and Roblox Studio as the core development platform. This project was also a fantastic opportunity for growth, as I learned to texture in Procreate on the iPad Pro. I used this new skill to craft the game's standout visual feature: its hyper-realistic dishes. By applying Physically-Based Rendering (PBR) textures, the food was given a detailed, lifelike quality that truly pops on screen.`
                 },
                 'voyage': {
                     title: 'The Voyage',
@@ -417,20 +414,20 @@
                 statsPlaying.textContent = 'loading...';
                 projectDetailStats.classList.remove('hidden');
 
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://games.roblox.com/v1/games?universeIds=${universeId}`)}`;
+                const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(`https://games.roblox.com/v1/games?universeIds=${universeId}`)}`;
                 
                 try {
                     const response = await fetch(proxyUrl);
                     if (!response.ok) throw new Error('Network response was not ok.');
                     
                     const data = await response.json();
-                    const gameData = JSON.parse(data.contents).data[0];
-
-                    if (gameData) {
+                    
+                    if (data && data.data && data.data[0]) {
+                        const gameData = data.data[0];
                         statsVisits.textContent = gameData.visits.toLocaleString();
                         statsPlaying.textContent = gameData.playing.toLocaleString();
                     } else {
-                        throw new Error('Game data not found.');
+                        throw new Error('Game data not found in response.');
                     }
                 } catch (error) {
                     console.error("Failed to fetch Roblox game stats:", error);

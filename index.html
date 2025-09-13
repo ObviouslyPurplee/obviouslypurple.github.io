@@ -144,6 +144,11 @@
     .project-detail-text p { font-size: 14px; line-height: 1.8; color: var(--muted); margin: 0; }
     .project-detail-text .text-link { color: #38b6ff; text-decoration: underline; text-decoration-color: #38b6ff; transition: color 0.2s ease; }
     .project-detail-text .text-link:hover { color: #6acbff; }
+    .marketing-section { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--pink); }
+    .marketing-section h3 { margin-top: 0; margin-bottom: 12px; font-size: 16px; color: var(--ink); }
+    .marketing-section p, .marketing-section ul { font-size: 14px; line-height: 1.8; color: var(--muted); margin: 0; }
+    .marketing-section ul { list-style: disc; padding-left: 20px; margin-top: 12px; }
+    .marketing-section li { margin-bottom: 8px; }
     @media (max-width: 768px) { .project-detail-content { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -241,7 +246,8 @@
                     </a>
                     <span id="project-title-text"></span>
                 </h2>
-                <p id="project-detail-description"></p>
+                <div id="project-detail-description"></div>
+                <div id="project-detail-marketing" class="hidden"></div>
             </div>
         </div>
       </main>
@@ -375,154 +381,8 @@
                     title: '🔥 Cooked!',
                     imageSrc: 'Cooked.png',
                     gameUrl: 'https://www.roblox.com/games/108476688850509/Cooked',
-                    description: `Joining <a href="https://www.roblox.com/groups/4619164/BloxByte-Games" target="_blank" rel="noopener" class="text-link">BloxByte Games</a> in late 2024, I took on the role of Creative Lead Director for their new project, 'Cooked!'. I was responsible for steering the game's overall creative vision, taking leadership in both 3D asset creation and establishing the definitive art style. A key part of my role involved directing and personally designing the entire user interface to ensure a seamless and intuitive player experience.<br><br>Drawing on over a decade of experience, I helped guide the project from concept to completion in an accelerated timeline of just six months. My workflow involved a suite of professional tools, including Blender for 3D modeling, Pixelmator Pro for graphics, and Roblox Studio as the core development platform. This project was also a fantastic opportunity for growth, as I learned to texture in Procreate on the iPad Pro. I used this new skill to craft the game's standout visual feature: its hyper-realistic dishes. By applying Physically-Based Rendering (PBR) textures, the food was given a detailed, lifelike quality that truly pops on screen.`
+                    description: `<p>Joining <a href="https://www.roblox.com/groups/4619164/BloxByte-Games" target="_blank" rel="noopener" class="text-link">BloxByte Games</a> in late 2024, I took on the role of Creative Lead Director for their new project, 'Cooked!'. I was responsible for steering the game's overall creative vision, taking leadership in both 3D asset creation and establishing the definitive art style. A key part of my role involved directing and personally designing the entire user interface to ensure a seamless and intuitive player experience.</p><p>Drawing on over a decade of experience, I helped guide the project from concept to completion in an accelerated timeline of just six months. My workflow involved a suite of professional tools, including Blender for 3D modeling, Pixelmator Pro for graphics, and Roblox Studio as the core development platform. This project was also a fantastic opportunity for growth, as I learned to texture in Procreate on the iPad Pro. I used this new skill to craft the game's standout visual feature: its hyper-realistic dishes. By applying Physically-Based Rendering (PBR) textures, the food was given a detailed, lifelike quality that truly pops on screen.</p>`,
+                    marketing: `<div class="marketing-section"><h3>Marketing & Social Media</h3><p>Beyond my core responsibilities, I always bring my passion for marketing and community management to every project. For 'Cooked!', while creative control over the game's official social channels was a collaborative effort, presenting some unique challenges, I was proud to contribute significantly to the game's public-facing presence.</p><p>I developed and produced several key video assets using Final Cut Pro to build hype and inform the community, including:</p><ul><li><a href="https://x.com/BloxByteGames/status/1903159823497101743" target="_blank" rel="noopener" class="text-link">Initial Community Hype Trailer</a></li><li><a href="https://x.com/BloxByteGames/status/1916222788001481066" target="_blank" rel="noopener" class="text-link">First Look at Gameplay</a></li><li><a href="https://x.com/BloxByteGames/status/1935064836280566224" target="_blank" rel="noopener" class="text-link">Release Date Announcement</a></li><li><a href="https://x.com/BloxByteGames/status/1938757576356737369" target="_blank" rel="noopener" class="text-link">Final Game Release Trailer</a></li></ul><p>I also took the lead as the primary public-facing voice for the project, engaging directly with our audience. I've always believed that the goal is not just to make a great game, but to put smiles on people's faces through positive interaction and exciting content. This philosophy drove my creation of graphical assets in Pixelmator Pro, from countdown images to the final game icon and thumbnails. It’s just one more way I bring a comprehensive skill set to the table. (A huge thanks to our amazing testing team for their help in the trailers!)</p></div>`
                 },
                 'voyage': {
-                    title: 'The Voyage',
-                    imageSrc: 'TheVoyage.png',
-                    description: 'Provide a description for The Voyage here.'
-                },
-                'cooked-ui': {
-                    title: 'Cooked UI',
-                    imageSrc: 'MainUI.png',
-                    description: 'Provide a description for the Cooked UI project here.'
-                }
-            };
-
-            const projectGameLink = document.getElementById('project-game-link');
-            const projectTitleText = document.getElementById('project-title-text');
-            const projectDetailImg = document.getElementById('project-detail-img');
-            const projectDetailDescription = document.getElementById('project-detail-description');
-
-            function showPage(pageToShow) {
-                pageHome.classList.add('hidden');
-                pageProjectDetail.classList.add('hidden');
-                pageToShow.classList.remove('hidden');
-                window.scrollTo(0, 0);
-            }
-
-            function showProjectDetail(projectId) {
-                const data = projectData[projectId];
-                if (data) {
-                    projectTitleText.textContent = data.title;
-                    projectDetailImg.src = data.imageSrc;
-                    projectDetailImg.alt = `Highlight image for ${data.title}`;
-                    projectDetailDescription.innerHTML = data.description;
-                    
-                    if (data.gameUrl) {
-                        projectGameLink.href = data.gameUrl;
-                        projectGameLink.classList.remove('hidden');
-                    } else {
-                        projectGameLink.classList.add('hidden');
-                    }
-                    showPage(pageProjectDetail);
-                }
-            }
-
-            exploreButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const projectId = button.dataset.projectId;
-                    showProjectDetail(projectId);
-                });
-            });
-
-            backButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                showPage(pageHome);
-            });
-            
-            navHome.addEventListener('click', (e) => {
-                e.preventDefault();
-                showPage(pageHome);
-            });
-
-            navProjects.addEventListener('click', (e) => {
-                e.preventDefault();
-                showPage(pageHome);
-                document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
-            });
-
-            // --- Changelog Modal Logic ---
-            const CHANGELOG = [
-                { date: '2025-09-13', title: 'Site Improvements', items: ['Replaced live game stats with a direct, clickable link to the game on the project detail page for a cleaner and more reliable experience.'] },
-                { date: '2025-09-12', title: 'Portfolio Curation', items: ['Simplified the portfolio grid to feature key projects.'] }, 
-                { date: '2025-08-31', title: 'Highlights', items: ['Added “Rising Mountains” to Showcases', 'Added “Light House Map” to Projects'] }
-            ];
-            const clModal = document.getElementById('changelogModal');
-            const openBtn = document.getElementById('open-changelog');
-            const list = document.getElementById('cl-list');
-            const filterSel = document.getElementById('cl-filter');
-            const openClModal = () => { clModal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
-            const closeClModal = () => { clModal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
-            const renderCl = () => { if (!list || !filterSel) return; const y = filterSel.value; list.innerHTML = ''; CHANGELOG.filter(e => y === 'all' || new Date(e.date).getFullYear().toString() === y).forEach(e => { const li = document.createElement('li'); li.className = 'cl-item'; li.innerHTML = `<time datetime="${e.date}">${e.date}</time><h4>${e.title}</h4><ul>${e.items.map(it=>`<li>${it}</li>`).join('')}</ul>`; list.appendChild(li); }); };
-            if (openBtn) { openBtn.addEventListener('click', (e) => { e.preventDefault(); renderCl(); openClModal(); }); }
-            clModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeClModal));
-            filterSel?.addEventListener('change', renderCl);
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && clModal?.getAttribute('aria-hidden') === 'false') closeClModal(); });
-
-            // --- Tabs Filter Logic ---
-            const tabs = document.querySelectorAll('.tabs .tab'); 
-            const cards = document.querySelectorAll('.grid .card'); 
-            function applyFilter(filter) { 
-                tabs.forEach(t => { 
-                    const active = t.dataset.filter === filter; 
-                    t.classList.toggle('is-active', active); 
-                    t.setAttribute('aria-selected', String(active)); 
-                }); 
-                cards.forEach(c => { 
-                    c.style.display = (filter === 'all' || c.dataset.cat === filter) ? '' : 'none'; 
-                }); 
-            } 
-            const initialFilter = document.querySelector('.tabs .tab.is-active')?.dataset.filter || 'all'; 
-            applyFilter(initialFilter); 
-            tabs.forEach(t => { 
-                t.addEventListener('click', () => applyFilter(t.dataset.filter)); 
-                t.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applyFilter(t.dataset.filter); } }); 
-            }); 
-            document.getElementById('view-all')?.addEventListener('click', (e) => { applyFilter('all'); }); 
-            
-            // --- Logo Easter Egg Logic ---
-            const logo = document.getElementById('logoEgg'); 
-            const audio = document.getElementById('egg-audio'); 
-            const root = document.documentElement;
-            if (!logo || !audio) return; 
-            audio.volume = 0.6; 
-            function onPlay() { root.classList.add('galaxy-on'); root.classList.add('shimmer-on'); }
-            function onPause() { root.classList.remove('galaxy-on'); root.classList.remove('shimmer-on'); }
-            function toggleAudio() { 
-                if (audio.paused) { 
-                    audio.currentTime = 0; 
-                    const p = audio.play(); 
-                    if (p && typeof p.then === 'function') { p.catch(() => {}); } 
-                } else { 
-                    audio.pause(); 
-                } 
-            } 
-            audio.addEventListener('play', onPlay);
-            audio.addEventListener('pause', onPause);
-            audio.addEventListener('ended', onPause);
-            logo.addEventListener('click', toggleAudio); 
-            logo.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAudio(); } });
-            
-            // --- Image Fallback Logic ---
-            const shots = document.querySelectorAll('.shot[data-src-primary]');
-            shots.forEach(shot => {
-                const primary = shot.getAttribute('data-src-primary');
-                const fallback = shot.getAttribute('data-src-fallback');
-                if (!primary) return;
-                const img = new Image();
-                img.onload = () => {
-                    shot.style.backgroundImage = `url('${primary}')`;
-                };
-                img.onerror = () => {
-                    if (fallback) {
-                        shot.style.backgroundImage = `url('${fallback}')`;
-                    }
-                };
-                img.src = primary;
-            });
-        });
-    </script>
-</body>
-</html>
+                    title: '

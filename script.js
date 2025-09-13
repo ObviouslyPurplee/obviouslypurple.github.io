@@ -1,3 +1,76 @@
+// --- Project Detail Modal Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Define Project Data
+    const projectData = {
+        'cooked': {
+            title: '🔥 Cooked!',
+            imageSrc: 'Cooked.png',
+            description: `Joining BloxByte Games in late 2024, I took on the role of Creative Lead Director for their new project, 'Cooked!'. I was responsible for steering the game's overall creative vision, taking leadership in both 3D asset creation and establishing the definitive art style. A key part of my role involved directing and personally designing the entire user interface to ensure a seamless and intuitive player experience.<br><br>Drawing on over a decade of experience, I helped guide the project from concept to completion in an accelerated timeline of just six months. My workflow involved a suite of professional tools, including Blender for 3D modeling, Pixelmat_pro for graphics, and Roblox Studio as the core development platform. This project was also a fantastic opportunity for growth, as I learned to texture in Procreate on the iPad Pro. I used this new skill to craft the game's standout visual feature: its hyper-realistic dishes. By applying Physically-Based Rendering (PBR) textures, the food was given a detailed, lifelike quality that truly pops on screen.`
+        },
+        'voyage': {
+            title: 'The Voyage',
+            imageSrc: 'TheVoyage.png',
+            description: 'Provide a description for The Voyage here.'
+        },
+        'cooked-ui': {
+            title: 'Cooked UI',
+            imageSrc: 'MainUI.png',
+            description: 'Provide a description for the Cooked UI project here.'
+        }
+    };
+
+    // 2. Get References to Modal Elements
+    const modal = document.getElementById('project-modal');
+    const modalTitle = document.getElementById('project-modal-title');
+    const modalImage = document.getElementById('project-modal-image');
+    const modalDescription = document.getElementById('project-modal-description');
+    const exploreButtons = document.querySelectorAll('.see-more[data-project-id]');
+
+    // 3. Functions to Open and Close Modal
+    const openModal = () => {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
+
+    // 4. Attach Event Listeners
+    exploreButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const projectId = button.dataset.projectId;
+            const data = projectData[projectId];
+
+            if (data) {
+                // Populate modal with data
+                modalTitle.textContent = data.title;
+                modalImage.src = data.imageSrc;
+                modalDescription.innerHTML = data.description; // Use innerHTML to allow <br> tags
+                openModal();
+            }
+        });
+    });
+
+    // Close modal listeners
+    modal.querySelectorAll('[data-close]').forEach(el => {
+        el.addEventListener('click', closeModal);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+            closeModal();
+        }
+    });
+});
+
+
+// --- Everything below this line is your original code ---
+
 // Fog Gradient FX (slow, subtle) — works in light & dark, motion-aware
 (function() {
   if (window.__fogFX) return;
@@ -204,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// Tabs filter (all/live/projects/other)
+// tabs filter (all/live/projects/other)
 (function() {
   const tabs = document.querySelectorAll('.tabs .tab');
   const cards = document.querySelectorAll('.grid .card');

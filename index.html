@@ -429,15 +429,12 @@
     .project-detail-image img { width: 100%; border-radius: var(--radius); background: var(--card); }
     .project-detail-text h2 { margin-top: 0; margin-bottom: 16px; font-size: 24px; color: var(--ink); }
     .project-detail-text p { font-size: 14px; line-height: 1.8; color: var(--muted); margin: 0; }
-    .project-detail-text .text-link {
-        color: #38b6ff;
-        text-decoration: underline;
-        text-decoration-color: #38b6ff;
-        transition: color 0.2s ease;
-    }
-    .project-detail-text .text-link:hover {
-        color: #6acbff;
-    }
+    .project-detail-text .text-link { color: #38b6ff; text-decoration: underline; text-decoration-color: #38b6ff; transition: color 0.2s ease; }
+    .project-detail-text .text-link:hover { color: #6acbff; }
+    .project-detail-stats { display: flex; gap: 24px; margin-bottom: 20px; color: var(--muted); font-size: 14px; align-items: center; }
+    .project-detail-stats.hidden { display: none; }
+    .stat-item { display: flex; align-items: center; gap: 8px; }
+    .stat-item svg { width: 18px; height: 18px; fill: currentColor; }
     @media (max-width: 768px) { .project-detail-content { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -488,7 +485,7 @@
             <button class="tab" type="button" role="tab" aria-selected="false" data-filter="other">other engagements</button>
           </div>
           <div class="grid">
-            <article class="card" data-cat="live">
+            <article class="card" data-cat="live" data-universe-id="328327220">
               <div class="shot has-img" style="background-image:url('Cooked.png')">
                 <div class="labels">
                   <a class="see-more pink" href="#" aria-label="explore about cooked" data-project-id="cooked">explore</a>
@@ -530,6 +527,16 @@
             </div>
             <div class="project-detail-text">
                 <h2 id="project-detail-title"></h2>
+                <div id="project-detail-stats" class="project-detail-stats hidden">
+                    <div class="stat-item" id="stat-item-visits">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" fill="currentColor"></path><path d="M21.82 10.74c-.08-.21-.16-.42-.25-.63-.5-1.1-1.15-2.11-1.94-3.02-.35-.4-.73-.78-1.13-1.13-.8-.79-1.8-1.44-2.9-1.94a10.8 10.8 0 0 0-1.26-.52c-1.3-.5-2.69-.76-4.1-.76-1.41 0-2.8.26-4.1.76a10.8 10.8 0 0 0-1.26.52c-1.1.5-2.11 1.15-2.91 1.94-.4.35-.78.73-1.13 1.13-.79.8-1.44 1.8-1.94 2.9-.1.21-.18.42-.25.63a12.1 12.1 0 0 0-.53 2.52c0 .7.1 1.38.29 2.05.08.21.16.42.25.63.5 1.1 1.15 2.11 1.94 3.02.35.4.73.78 1.13 1.13.8.79 1.8 1.44 2.9 1.94.41.16.83.31 1.26.43.09.02.18.04.27.06A10.8 10.8 0 0 0 7.9 21c1.3.5 2.69.76 4.1.76 1.41 0 2.8-.26 4.1-.76a10.8 10.8 0 0 0 1.53-.59c1.1-.5 2.11-1.15 2.9-1.94.4-.35.78-.73 1.13-1.13.8-.8 1.44-1.8 1.94-2.9.1-.21.18-.42.25-.63.2-.67.3-1.35.3-2.05a12.1 12.1 0 0 0-.53-2.52ZM12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z" fill="currentColor"></path></svg>
+                        <span id="stats-visits">--</span>
+                    </div>
+                    <div class="stat-item" id="stat-item-playing">
+                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.1 13.9c.5-1 .5-2.4 0-3.4-.6-.9-1.4-1.4-2.4-1.8-.8-.3-1.7-.3-2.5-.2-1.1.2-2.2.6-3.2 1.2-2.7 1.6-4.5 5-4.5 8.1 0 .2 0 .4.1.6 0 .1.1.1.2.1h13.1c.1 0 .2 0 .2-.1 0-.2.1-.4.1-.6 0-3.1-1.8-6.5-4.1-8.1Z" fill="currentColor"></path><path d="M12.5 2a3.5 3.5 0 1 1-5 3.2 3.5 3.5 0 0 1 5-3.2Z" fill="currentColor"></path></svg>
+                        <span id="stats-playing">--</span>
+                    </div>
+                </div>
                 <p id="project-detail-description"></p>
             </div>
         </div>
@@ -661,6 +668,7 @@
             const backButton = document.getElementById('back-to-home-btn');
             const navHome = document.getElementById('nav-home');
             const navProjects = document.getElementById('nav-projects');
+            const projectCards = document.querySelectorAll('.grid .card');
 
             const projectData = {
                 'cooked': {
@@ -683,6 +691,9 @@
             const projectDetailTitle = document.getElementById('project-detail-title');
             const projectDetailImg = document.getElementById('project-detail-img');
             const projectDetailDescription = document.getElementById('project-detail-description');
+            const projectDetailStats = document.getElementById('project-detail-stats');
+            const statsVisits = document.getElementById('stats-visits');
+            const statsPlaying = document.getElementById('stats-playing');
 
             function showPage(pageToShow) {
                 pageHome.classList.add('hidden');
@@ -690,14 +701,51 @@
                 pageToShow.classList.remove('hidden');
                 window.scrollTo(0, 0);
             }
+            
+            async function fetchGameStats(universeId) {
+                statsVisits.textContent = 'loading...';
+                statsPlaying.textContent = 'loading...';
+                projectDetailStats.classList.remove('hidden');
+
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://games.roblox.com/v1/games?universeIds=${universeId}`)}`;
+                
+                try {
+                    const response = await fetch(proxyUrl);
+                    if (!response.ok) throw new Error('Network response was not ok.');
+                    
+                    const data = await response.json();
+                    const gameData = JSON.parse(data.contents).data[0];
+
+                    if (gameData) {
+                        statsVisits.textContent = gameData.visits.toLocaleString();
+                        statsPlaying.textContent = gameData.playing.toLocaleString();
+                    } else {
+                        throw new Error('Game data not found.');
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch Roblox game stats:", error);
+                    statsVisits.textContent = 'n/a';
+                    statsPlaying.textContent = 'n/a';
+                }
+            }
 
             function showProjectDetail(projectId) {
                 const data = projectData[projectId];
+                const card = document.querySelector(`.card[data-project-id="${projectId}"]`);
+                const universeId = card ? card.dataset.universeId : null;
+
                 if (data) {
                     projectDetailTitle.textContent = data.title;
                     projectDetailImg.src = data.imageSrc;
                     projectDetailImg.alt = `Highlight image for ${data.title}`;
                     projectDetailDescription.innerHTML = data.description;
+                    
+                    if (universeId) {
+                        fetchGameStats(universeId);
+                    } else {
+                        projectDetailStats.classList.add('hidden');
+                    }
+
                     showPage(pageProjectDetail);
                 }
             }

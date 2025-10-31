@@ -184,7 +184,7 @@
                 <a class="see-more green" href="https://www.roblox.com/games/18814515603/Treasure-Mine-Simulator" target="_blank">play</a>
               </div>
             </div>
-            <div class="meta"><span>cart ride for treasure</span><span>owner • ui, 3d & live ops</span></div>
+            <div class="meta"><span>cart ride for treasure</span><span>co-founder • lead artist • ui & 3d</span></div>
           </article>
 
           <article class="card" data-cat="projects">
@@ -211,6 +211,7 @@
           <button id="gallery-btn" class="btn hidden" style="margin-top:12px; width:100%"></button>
           <button id="fall-gallery-btn" class="btn hidden" style="margin-top:8px; width:100%"></button>
           <button id="ui-gallery-btn" class="btn hidden" style="margin-top:8px; width:100%"></button>
+          <button id="treasure-ui-gallery-btn" class="btn hidden" style="margin-top:8px; width:100%"></button>
         </div>
         <div>
           <h2 id="project-detail-title" style="display:flex; align-items:center; gap:12px; margin:0 0 16px; font-size:24px">
@@ -324,12 +325,19 @@
           uiGalleryImages:Array.from({length:11},(_,i)=>`COUI_Image${i+1}.png`)
         },
         treasure:{
-          title:'Cart Ride for Treasure',
-          imageSrc:'crft.png',
+          title:'Cart Ride For Treasure',
+          imageSrc:'CRFTBanner.png',
           gameUrl:'https://www.roblox.com/games/18814515603/Treasure-Mine-Simulator',
           theme:'treasure',
-          description:`<p>Began as a personal showcase project in early 2024, evolved into a full live game with over 5M visits.</p><p>Full ownership of UI, 3D modeling, and live ops. Built custom cart physics and treasure hunting mechanics from scratch.</p>`,
-          galleryImages:['https://placehold.co/600x400/ffcc00/1f1f24?text=1','https://placehold.co/600x400/bde0fe/1f1f24?text=2']
+          description:`<p>Served as <strong>Co-Founder & Lead Artist</strong> for the independent project, <em>Cart Ride For Treasure</em>. This role involved <strong>full creative and technical ownership</strong> over the game's visual identity, environment design, and core asset creation. The project demonstrated my commitment to competitive design and ability to adapt quickly to development challenges.</p>
+<h3>Key Achievements</h3>
+<ul>
+  <li><strong>Secured high-profile testing and design feedback</strong> from industry leaders <strong>Asimo3089</strong> and <strong>Badcc</strong> (Jailbreak), validating design choices early in the cycle.</li>
+  <li><strong>Executed all environment creation and lighting design</strong>, ensuring atmospheric quality and performance efficiency for the initial soft launch.</li>
+  <li><strong>Managed the full development lifecycle</strong> from concept to soft launch, demonstrating expertise in project management and resilience in pivoting away from the project due to unforeseen challenges.</li>
+</ul>`,
+          galleryImages:Array.from({length:38},(_,i)=>`CR_Image${i+1}.png`),
+          uiGalleryImages:Array.from({length:14},(_,i)=>`CRUI_Image${i+1}.png`)
         },
         voyage:{title:'The Voyage',imageSrc:'TheVoyage.png',description:'<p>Environment build and cinematic showcase. Focused on atmospheric lighting, terrain sculpting, and narrative-driven world design.</p>'}
       };
@@ -343,6 +351,7 @@
       const galleryBtn=document.getElementById('gallery-btn');
       const fallGalleryBtn=document.getElementById('fall-gallery-btn');
       const uiGalleryBtn=document.getElementById('ui-gallery-btn');
+      const treasureUiGalleryBtn=document.getElementById('treasure-ui-gallery-btn');
 
       document.querySelectorAll('.see-more[data-project-id]').forEach(b=>{
         b.onclick=e=>{
@@ -365,7 +374,7 @@
             galleryBtn.classList.add('hidden');
           }
 
-          // Fall Map Gallery
+          // Fall Map Gallery (Cooked only)
           if (id === 'cooked' && d.fallGalleryImages?.length) {
             fallGalleryBtn.textContent=`open cooked!'s fall map gallery`;
             fallGalleryBtn.dataset.projectId=id;
@@ -375,7 +384,7 @@
             fallGalleryBtn.classList.add('hidden');
           }
 
-          // UI Gallery
+          // UI Gallery (Cooked)
           if (id === 'cooked' && d.uiGalleryImages?.length) {
             uiGalleryBtn.textContent=`open cooked!'s ui gallery`;
             uiGalleryBtn.dataset.projectId=id;
@@ -383,6 +392,16 @@
             uiGalleryBtn.classList.remove('hidden');
           } else {
             uiGalleryBtn.classList.add('hidden');
+          }
+
+          // UI Gallery (Treasure)
+          if (id === 'treasure' && d.uiGalleryImages?.length) {
+            treasureUiGalleryBtn.textContent=`open cart ride for treasure's ui gallery`;
+            treasureUiGalleryBtn.dataset.projectId=id;
+            treasureUiGalleryBtn.dataset.galleryType='ui';
+            treasureUiGalleryBtn.classList.remove('hidden');
+          } else {
+            treasureUiGalleryBtn.classList.add('hidden');
           }
 
           showPage(pages.detail,d.theme);
@@ -419,7 +438,7 @@
         }
       });
 
-      [galleryBtn, fallGalleryBtn, uiGalleryBtn].forEach(btn => {
+      [galleryBtn, fallGalleryBtn, uiGalleryBtn, treasureUiGalleryBtn].forEach(btn => {
         btn.onclick=e=>{
           const id=e.target.dataset.projectId;
           const type=e.target.dataset.galleryType;
@@ -431,7 +450,7 @@
             title = "Cooked!'s Fall Map Gallery";
           } else if (type === 'ui') {
             images = d.uiGalleryImages;
-            title = "Cooked!'s UI Gallery";
+            title = id === 'cooked' ? "Cooked!'s UI Gallery" : "Cart Ride For Treasure's UI Gallery";
           } else {
             images = d.galleryImages;
             title = `${d.title} Gallery`;

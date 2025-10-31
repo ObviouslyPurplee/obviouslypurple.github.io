@@ -81,7 +81,29 @@
     #shimmerFX{opacity:0; transition:opacity .35s}
     :root.shimmer-on #shimmerFX{opacity:.5}
     :root.galaxy-on #shimmerFX{opacity:.78}
-    :root.galaxy-on{--accent:#b79bff; background:radial-gradient(circle at center, #0a001f 0%, #000 70%);}
+
+    /* GALAXY BACKGROUND - FIXED */
+    :root.galaxy-on {
+      --accent:#b79bff;
+      background: radial-gradient(ellipse at center, #0f0033 0%, #000000 70%);
+      background-attachment: fixed;
+    }
+    :root.galaxy-on::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 80, 255, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(80, 200, 255, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(255, 150, 255, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: -1;
+      animation: nebula 20s ease-in-out infinite alternate;
+    }
+    @keyframes nebula {
+      0% { transform: rotate(0deg) scale(1); }
+      100% { transform: rotate(1deg) scale(1.05); }
+    }
 
     .labels{position:absolute; top:10px; left:10px; right:10px; display:flex; justify-content:space-between; gap:8px; z-index:5;}
     .see-more{--t:255,120,196; --ring:255,220,240; --label-ink:#fff; position:relative; display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:12px; font-weight:700; border-radius:999px; opacity:0; transform:translateY(-6px); transition:.18s; pointer-events:none; color:var(--label-ink); border:1px solid rgba(var(--ring),.7); background:linear-gradient(180deg,rgba(var(--t),.42),rgba(var(--t),.18)); backdrop-filter:blur(12px) saturate(160%);}
@@ -308,8 +330,8 @@
       <div class="changelog-content" id="changelog-content">
         <div class="changelog-item">
           <time>October 31, 2025</time>
-          <p>Restored easter egg background + shimmer FX on logo click</p>
-          <p>Fixed change-log modal — now fully functional</p>
+          <p>Fixed galaxy easter egg background — now shows deep space + nebula</p>
+          <p>Restored easter egg shimmer + fog color sync</p>
         </div>
         <div class="changelog-item">
           <time>October 31, 2025</time>
@@ -349,10 +371,10 @@
       const ctx=cvs.getContext('2d'); let W=0,H=0,DPR=Math.max(1,Math.min(2,window.devicePixelRatio||1));
       const SCALE=2; let last=0; let blobs=[];
       function colors(){
-        const t=document.body.dataset.activeTheme;
         if (document.documentElement.classList.contains('galaxy-on')) {
-          return ['rgba(183,155,255,.2)','rgba(183,155,255,0)'];
+          return ['rgba(183,155,255,.25)','rgba(183,155,255,0)'];
         }
+        const t=document.body.dataset.activeTheme;
         return t==='cooked'?['rgba(255,107,53,.16)','rgba(255,107,53,0)']
           :t==='treasure'?['rgba(173,216,230,.16)','rgba(173,216,230,0)']
           :t==='showcases'?['rgba(139,92,246,.16)','rgba(139,92,246,0)']
@@ -394,9 +416,53 @@
 
       // Project Data
       const projectData={
-        cooked:{ /* ... unchanged ... */ },
-        treasure:{ /* ... unchanged ... */ },
-        wmg:{ /* ... unchanged ... */ },
+        cooked:{
+          title:'Cooked!',
+          imageSrc:'Cooked.png',
+          gameUrl:'https://www.roblox.com/games/108476688850509/Cooked',
+          theme:'cooked',
+          description:`<p>As the <strong>Creative Lead Artist</strong> for <em>Cooked!</em> (BloxByte Games), I drive the <strong>aesthetic strategy and technical execution</strong> for this popular chaos-cooking game (<strong>2.1M+ visits</strong>), ensuring visual quality and performance for the player base.</p>
+<h3>Key Achievements</h3>
+<ul>
+  <li><strong>Led the design of all core game environments</strong>, focusing on visual storytelling and atmospheric lighting to maximize player immersion.</li>
+  <li><strong>Drove the communication pipeline</strong> with design and engineering leads to ensure all art assets supported core gameplay loops.</li>
+  <li><strong>Specialized in creating unique, stylized UI elements</strong> that provided clear information while maintaining the chaotic theme of the game.</li>
+  <li><strong>Defined and implemented a streamlined PBR texturing workflow</strong> to maximize visual fidelity while adhering to strict performance budgets.</li>
+  <li><strong>Initiated and independently managed the social media marketing strategy</strong>, driving initial audience growth and ensuring all promotional visual assets aligned with the game's aesthetic and core branding.</li>
+</ul>`,
+          galleryImages:Array.from({length:40},(_,i)=>`CO_Image${i+1}.png`),
+          fallGalleryImages:Array.from({length:8},(_,i)=>`COFall_Image${i+1}.png`),
+          uiGalleryImages:Array.from({length:11},(_,i)=>`COUI_Image${i+1}.png`)
+        },
+        treasure:{
+          title:'Cart Ride For Treasure',
+          imageSrc:'CRFTBanner.png',
+          gameUrl:'https://www.roblox.com/games/18814515603/Treasure-Mine-Simulator',
+          theme:'treasure',
+          description:`<p>Served as <strong>Co-Founder & Lead Artist</strong> for the independent project, <em>Cart Ride For Treasure</em>. This role involved <strong>full creative and technical ownership</strong> over the game's visual identity, environment design, and core asset creation. The project demonstrated my commitment to competitive design and ability to adapt quickly to development challenges.</p>
+<h3>Key Achievements</h3>
+<ul>
+  <li><strong>Secured high-profile testing and design feedback</strong> from industry leaders <strong>Asimo3089</strong> and <strong>Badcc</strong> (Jailbreak), validating design choices early in the cycle.</li>
+  <li><strong>Executed all environment creation and lighting design</strong>, ensuring atmospheric quality and performance efficiency for the initial soft launch.</li>
+  <li><strong>Managed the full development lifecycle</strong> from concept to soft launch, demonstrating expertise in project management and resilience in pivoting away from the project due to unforeseen challenges.</li>
+</ul>`,
+          galleryImages:Array.from({length:38},(_,i)=>`CR_Image${i+1}.png`),
+          uiGalleryImages:Array.from({length:14},(_,i)=>`CRUI_Image${i+1}.png`),
+          minecartGalleryImages:Array.from({length:4},(_,i)=>`MV_Image${i+1}.png`)
+        },
+        wmg:{
+          title:'Warner Music Group',
+          imageSrc:'WMGBanner.png',
+          theme:'wmg',
+          description:`<p>Served as a core <strong>Environment Artist</strong> for high-profile brand activations, focusing on translating external celebrity and WMG brand identities into high-fidelity, performant Roblox experiences.</p>
+<h3>Key Achievements</h3>
+<ul>
+  <li><strong>Executed the visual integration</strong> for multiple WMG partnership events, ensuring each celebrity’s brand identity was accurately represented in the virtual environment.</li>
+  <li><strong>Developed optimized assets and environments</strong> for the events that generated massive player reach, demonstrating mastery of the live event asset pipeline.</li>
+  <li><strong>Worked closely with engineering leads</strong> to ensure all custom-modeled partnership items were fully functional and performant within the live game environment.</li>
+</ul>`,
+          galleryImages:Array.from({length:26},(_,i)=>`WMG_Image${i+1}.png`)
+        },
         voyage:{
           title:'The Voyage',
           imageSrc:'TVBanner.png',
@@ -415,12 +481,211 @@
             {name:'The Voyage (V1)', prefix:'TV01', count:8}
           ]
         },
-        showcases:{ /* ... unchanged ... */ }
+        showcases:{
+          title:'Showcases',
+          imageSrc:'ShowcasesBanner.png',
+          theme:'showcases',
+          description:`<p>A gallery of personal passion projects and technical skill demos. Explore unique environments and visual storytelling where I experiment with new styles.</p>`,
+          galleries:[
+            {name:'Halloween 2021 Showcase', prefix:'HS', count:4},
+            {name:'Mars Cart Short Environment Experiment', prefix:'MC', count:3},
+            {name:'Modern House Rough Showcase', prefix:'MH', count:3},
+            {name:'Mountain Atmosphere Experiment', prefix:'MS', count:5},
+            {name:'Powerhouse Sketch Recreation', prefix:'PH', count:4},
+            {name:'Selection Of Studio Builds For The Hour', prefix:'RSB', count:10},
+            {name:'Project Robot', prefix:'PR', count:13},
+            {name:'Save Your Favourite', prefix:'SYF', count:4},
+            {name:'Spirit Busters', prefix:'SB', count:6},
+            {name:'The Unknown', prefix:'TU', count:3},
+            {name:'Willow Showcase', prefix:'WS', count:4}
+          ]
+        }
       };
 
-      // ... [rest of project detail logic unchanged] ...
+      // Project Detail Logic (unchanged)
+      const pdImg=document.getElementById('project-detail-img');
+      const pdTitle=document.getElementById('project-title-text');
+      const pdDesc=document.getElementById('project-detail-description');
+      const pdMarketing=document.getElementById('project-detail-marketing');
+      const pdLink=document.getElementById('project-game-link');
+      const galleryButtonsContainer=document.getElementById('gallery-buttons');
 
-      // Logo Easter Egg
+      document.querySelectorAll('.see-more[data-project-id]').forEach(b=>{
+        b.onclick=e=>{
+          e.preventDefault();
+          const id=b.dataset.projectId;
+          const d=projectData[id];
+          pdTitle.textContent=d.title;
+          pdImg.src=d.imageSrc;
+          pdDesc.innerHTML=d.description;
+          pdMarketing.innerHTML=d.marketing||''; pdMarketing.classList.toggle('hidden',!d.marketing);
+          pdLink.href=d.gameUrl||'#'; pdLink.classList.toggle('hidden',!d.gameUrl);
+
+          galleryButtonsContainer.innerHTML='';
+
+          if ((id === 'showcases' || id === 'voyage') && d.galleries) {
+            d.galleries.forEach(gal=>{
+              const btn=document.createElement('button');
+              btn.className='btn';
+              btn.style.cssText='width:100%; margin:0;';
+              btn.textContent=`open ${gal.name.toLowerCase()}`;
+              btn.dataset.galleryPrefix=gal.prefix;
+              btn.dataset.galleryCount=gal.count;
+              btn.dataset.galleryName=gal.name;
+              btn.onclick=()=>{openShowcaseGallery(gal);};
+              galleryButtonsContainer.appendChild(btn);
+            });
+          } else {
+            // Standard gallery logic (unchanged)
+            const galleryBtn=document.createElement('button');
+            galleryBtn.className='btn hidden';
+            galleryBtn.id='gallery-btn';
+            galleryButtonsContainer.appendChild(galleryBtn);
+
+            const fallGalleryBtn=document.createElement('button');
+            fallGalleryBtn.className='btn hidden';
+            fallGalleryBtn.id='fall-gallery-btn';
+            galleryButtonsContainer.appendChild(fallGalleryBtn);
+
+            const uiGalleryBtn=document.createElement('button');
+            uiGalleryBtn.className='btn hidden';
+            uiGalleryBtn.id='ui-gallery-btn';
+            galleryButtonsContainer.appendChild(uiGalleryBtn);
+
+            const treasureUiGalleryBtn=document.createElement('button');
+            treasureUiGalleryBtn.className='btn hidden';
+            treasureUiGalleryBtn.id='treasure-ui-gallery-btn';
+            galleryButtonsContainer.appendChild(treasureUiGalleryBtn);
+
+            const minecartGalleryBtn=document.createElement('button');
+            minecartGalleryBtn.className='btn hidden';
+            minecartGalleryBtn.id='minecart-gallery-btn';
+            galleryButtonsContainer.appendChild(minecartGalleryBtn);
+
+            if (d.galleryImages?.length) {
+              galleryBtn.textContent=`open ${d.title.toLowerCase()}'s gallery`;
+              galleryBtn.dataset.projectId=id;
+              galleryBtn.dataset.galleryType='main';
+              galleryBtn.classList.remove('hidden');
+            }
+
+            if (id === 'cooked' && d.fallGalleryImages?.length) {
+              fallGalleryBtn.textContent=`open cooked!'s fall map gallery`;
+              fallGalleryBtn.dataset.projectId=id;
+              fallGalleryBtn.dataset.galleryType='fall';
+              fallGalleryBtn.classList.remove('hidden');
+            }
+
+            if (id === 'cooked' && d.uiGalleryImages?.length) {
+              uiGalleryBtn.textContent=`open cooked!'s ui gallery`;
+              uiGalleryBtn.dataset.projectId=id;
+              uiGalleryBtn.dataset.galleryType='ui';
+              uiGalleryBtn.classList.remove('hidden');
+            }
+
+            if (id === 'treasure' && d.uiGalleryImages?.length) {
+              treasureUiGalleryBtn.textContent=`open cart ride for treasure's ui gallery`;
+              treasureUiGalleryBtn.dataset.projectId=id;
+              treasureUiGalleryBtn.dataset.galleryType='ui';
+              treasureUiGalleryBtn.classList.remove('hidden');
+            }
+
+            if (id === 'treasure' && d.minecartGalleryImages?.length) {
+              minecartGalleryBtn.textContent=`open minecart value (demo)`;
+              minecartGalleryBtn.dataset.projectId=id;
+              minecartGalleryBtn.dataset.galleryType='minecart';
+              minecartGalleryBtn.classList.remove('hidden');
+            }
+          }
+
+          showPage(pages.detail,d.theme);
+        };
+      });
+
+      function openShowcaseGallery(gal){
+        const images = Array.from({length:gal.count},(_,i)=>`${gal.prefix}_Image${i+1}.png`);
+        const gModal=document.getElementById('gallery-modal');
+        const gGrid=document.getElementById('gallery-grid');
+        const gTitle=document.getElementById('gallery-title');
+        gTitle.textContent=gal.name;
+        gGrid.innerHTML='';
+        images.forEach((src,i)=>{
+          const div=document.createElement('div');div.className='gallery-item';
+          const img=document.createElement('img');img.src=src;img.alt=`${i+1}`;
+          img.onclick=()=>{openLB(images,i);gModal.setAttribute('aria-hidden','true');};
+          div.appendChild(img);gGrid.appendChild(div);
+        });
+        gModal.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+      }
+
+      const gModal=document.getElementById('gallery-modal');
+      const gGrid=document.getElementById('gallery-grid');
+      const gTitle=document.getElementById('gallery-title');
+      const lb=document.getElementById('imgModal');
+      const lbImg=document.getElementById('imgModalImg');
+      const lbPrev=document.querySelector('.img-nav.prev');
+      const lbNext=document.querySelector('.img-nav.next');
+      let lbImages=[], lbIdx=0;
+
+      function openLB(imgs,idx){
+        lbImages=imgs; lbIdx=idx; lbImg.src=lbImages[lbIdx];
+        lb.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+        updateLB();
+      }
+      function closeLB(){lb.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+      function updateLB(){lbPrev.style.display=lbIdx>0?'flex':'none';lbNext.style.display=lbIdx<lbImages.length-1?'flex':'none';}
+      function goPrev(){if(lbIdx>0){lbIdx--;lbImg.src=lbImages[lbIdx];updateLB();}}
+      function goNext(){if(lbIdx<lbImages.length-1){lbIdx++;lbImg.src=lbImages[lbIdx];updateLB();}}
+      lbPrev.onclick=goPrev; lbNext.onclick=goNext;
+      lb.querySelectorAll('[data-close]').forEach(el=>el.onclick=closeLB);
+      document.addEventListener('keydown',e=>{
+        if(lb.getAttribute('aria-hidden')==='false'){
+          if(e.key==='ArrowLeft')goPrev();
+          if(e.key==='ArrowRight')goNext();
+          if(e.key==='Escape')closeLB();
+        }
+      });
+
+      galleryButtonsContainer.addEventListener('click', e => {
+        if (e.target.matches('#gallery-btn, #fall-gallery-btn, #ui-gallery-btn, #treasure-ui-gallery-btn, #minecart-gallery-btn')) {
+          const btn = e.target;
+          const id = btn.dataset.projectId;
+          const type = btn.dataset.galleryType;
+          const d = projectData[id];
+          let images, title;
+
+          if (type === 'fall') { images = d.fallGalleryImages; title = "Cooked!'s Fall Map Gallery"; }
+          else if (type === 'ui') { images = d.uiGalleryImages; title = id === 'cooked' ? "Cooked!'s UI Gallery" : "Cart Ride For Treasure's UI Gallery"; }
+          else if (type === 'minecart') { images = d.minecartGalleryImages; title = "Minecart Value (demo)"; }
+          else { images = d.galleryImages; title = `${d.title} Gallery`; }
+
+          gTitle.textContent=title;
+          gGrid.innerHTML='';
+          images.forEach((src,i)=>{
+            const div=document.createElement('div');div.className='gallery-item';
+            const img=document.createElement('img');img.src=src;img.alt=`${i+1}`;
+            img.onclick=()=>{openLB(images,i);gModal.setAttribute('aria-hidden','true');};
+            div.appendChild(img);gGrid.appendChild(div);
+          });
+          gModal.setAttribute('aria-hidden','false');
+          document.body.style.overflow='hidden';
+        }
+      });
+
+      gModal.querySelectorAll('[data-close]').forEach(el=>el.onclick=()=>{gModal.setAttribute('aria-hidden','true');document.body.style.overflow='';});
+
+      const tabs=document.querySelectorAll('.tab');
+      const cards=document.querySelectorAll('.grid .card');
+      function filter(f){
+        tabs.forEach(t=>t.classList.toggle('is-active',t.dataset.filter===f));
+        cards.forEach(c=>c.style.display=(f==='all'||c.dataset.cat===f)?'':'none');
+      }
+      tabs.forEach(t=>t.onclick=()=>filter(t.dataset.filter));
+      filter('all');
+
+      // Logo Easter Egg - FIXED
       const logo=document.getElementById('logoEgg');
       const audio=document.getElementById('egg-audio');
       audio.volume=0.6;
@@ -437,7 +702,13 @@
       };
       audio.onended=()=>{document.documentElement.classList.remove('galaxy-on','shimmer-on'); isPlaying=false;};
 
-      // ... [rest of script unchanged] ...
+      function renderNews(){
+        const c=document.getElementById('news-container');
+        c.innerHTML=`<article style="display:flex;gap:20px;margin-bottom:30px;padding-bottom:30px;border-bottom:1px solid var(--pink)">
+          <div><img src="pfp.png" alt="" style="width:60px;height:60px;border-radius:50%"></div>
+          <div><h3>Welcome to the new site!</h3><time>September 13, 2025 at 11:21 am</time><p>hey reader! i'm so excited to finally launch my new portfolio...</p></div>
+        </article>`;
+      }
     });
   </script>
 </body>

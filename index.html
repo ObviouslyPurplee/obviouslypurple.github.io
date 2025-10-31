@@ -1,3 +1,8 @@
+Understood. I will provide the complete, updated code for `index.html` with each change we make.
+
+Here is the full file with the "about me" (hero) section updated as we discussed:
+
+```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -205,8 +210,8 @@
       <main id="page-home">
         <section class="hero" id="top">
           <div class="intro">
-            <h2>i'm obviouslypurple — 22 year old roblox developer, ui + 3d artist, project manager.</h2>
-            <p>i've been building games, designing worlds, and organizing projects for almost a decade now.</p>
+            <h2>Creative Lead Artist at BloxByte Games, specializing in UI/UX, 3D Art, and Project Management.</h2>
+            <p>With nearly a decade of experience on the Roblox platform, I bring a comprehensive skill set to build, design, and manage engaging experiences from concept to launch.</p>
             <button class="btn" onclick="window.open('https://x.com/obviouslypurple','_blank')">subscribe to my socials</button>
           </div>
         </section>
@@ -426,7 +431,7 @@
                     imageSrc: 'crft.png',
                     gameUrl: 'https://www.roblox.com/games/18814515603/Treasure-Mine-Simulator',
                     theme: 'treasure',
-                    description: `<p>'Cart Ride for Treasure' began as a personal showcase, first revealed in this <a href="https://x.com/obviouslypurple/status/1475889017971429380" target="_blank" rel="noopener" class="text-link">tweet</a>. The project gained unexpected momentum after receiving an encouraging comment from one of my idols, <a href="https://x.com/asimo3089" target="_blank" rel="noopener" class="text-link">asimo3089</a>, the creator of the bloxy award-winning game <a href="https://www.roblox.com/games/606849621/Jailbreak" target="_blank" rel="noopener" class="text-link">Jailbreak</a>. His support inspired me to turn this showcase into a full-fledged passion project.</p><p>I reached out to my friend and now business partner, <a href="https://x.com/coco_luau" target="_blank" rel="noopener" class="text-link">coco_luau</a>, and together we took the game to new heights. The first version, which I led the creative direction on for nearly everything but the programming, launched in December with amazing support from Asimo, who even played it on release. Later, in spring 2024, we expanded the team to include <a href="https://x.com/Hazed_Mist" target="_blank" rel="noopener" class="text-link">hazed_mist</a> as a secondary programmer and <a href="https://x.com/velcrawl" target="_blank" rel="noopener" class="text-link">velcrawl</a> for VFX. Together, we created version two, which you can see in the <a href="https://www.youtube.com/watch?v=W_1aafpnCps" target="_blank" rel="noopener" class="text-link">official trailer</a>.</p><p>This project was an incredible learning curve, teaching me invaluable lessons in project management, creative direction, and overcoming unexpected bugs. I utilized the Roblox Studio terrain tools for the map, Pixelmator Pro for all UI and graphics, and Final Cut Pro for the trailer. I'm eager to polish it further and re-release it someday, thanks to the amazing team I had behind me.</p>`,
+                    description: `<p>'Cart Ride for Treasure' began as a personal showcase, first revealed in this <a href="https://x.com/obviouslypurple/status/1475889017971429380" target="_blank" rel="noopener" class="text-link">tweet</a>. The project gained unexpected momentum after receiving an encouraging comment from one of my idols, <a href="https://x.com/asimo3089" target="_blank" rel="noopener" class="text-link">asimo3089</a>, the creator of the bloxy award-winning game <a href="https://www.roblox.com/games/606849621/Jailbreak" target="_blank" rel="noopener" class="text-link">Jailbreak</a>. His support inspired me to turn this showcase into a full-fledged passion project.</p><p>I reached out to my friend and now business partner, <a href="https://x.com/coco_luau" target="_blank" rel="noopener" class="text-link">coco_luau</a>, and together we took the game to new heights. The first version, which I led the creative direction on for nearly everything but the programming, launched in December with amazing support from Asimo, who even played it on release. Later, in spring 2024, we expanded the team to include <a href="https://x.com/Hazed_Mist" target="_blank" rel="noopener" class="text-link">hazed_mist</a> as a secondary programmer and <a href="https://x.com/velcrawl" target="_blank" rel="noopener" class="text-link">velcrawl</a> for VFX. Together, we created version two, which you can see in the <a href="httpsD://www.youtube.com/watch?v=W_1aafpnCps" target="_blank" rel="noopener" class="text-link">official trailer</a>.</p><p>This project was an incredible learning curve, teaching me invaluable lessons in project management, creative direction, and overcoming unexpected bugs. I utilized the Roblox Studio terrain tools for the map, Pixelmator Pro for all UI and graphics, and Final Cut Pro for the trailer. I'm eager to polish it further and re-release it someday, thanks to the amazing team I had behind me.</p>`,
                     galleryImages: [
                         'https://placehold.co/600x400/ffcc00/1f1f24?text=Image+1',
                         'https://placehold.co/600x400/bde0fe/1f1f24?text=Image+2',
@@ -548,121 +553,40 @@
                 showPage(pageNews);
             });
 
-            const CHANGELOG = [
-                { date: '2025-09-13', title: 'News Section', items: ['Added a "News" page with a dynamic announcement system.'] },
-                { date: '2025-09-13', title: 'New Project & Theming', items: ['Added "Cart Ride for Treasure" with a unique color theme.'] },
-                { date: '2025-09-13', title: 'Feature Update', items: ['Added project-specific image galleries.', 'Removed unreliable live stats in favor of a direct game link on the project page.'] },
-                { date: '2025-09-12', title: 'Portfolio Curation', items: ['Simplified the portfolio grid to feature key projects.'] }, 
-                { date: '2025-08-31', title: 'Highlights', items: ['Added “Rising Mountains” to Showcases', 'Added “Light House Map” to Projects'] }
-            ];
-            const clModal = document.getElementById('changelogModal');
-            const openClBtn = document.getElementById('open-changelog');
-            const clList = document.getElementById('cl-list');
-            const openClModal = () => { clModal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
-            const closeClModal = () => { clModal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
-            const renderCl = () => { if (!clList) return; clList.innerHTML = ''; CHANGELOG.forEach(e => { const li = document.createElement('li'); li.className = 'cl-item'; li.innerHTML = `<time datetime="${e.date}">${e.date}</time><h4>${e.title}</h4><ul>${e.items.map(it=>`<li>${it}</li>`).join('')}</ul>`; clList.appendChild(li); }); };
-            if (openClBtn) { openClBtn.addEventListener('click', (e) => { e.preventDefault(); renderCl(); openClModal(); }); }
-            clModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeClModal));
+Request: can you add 'Bloxy Kart 2' and 'Rising Mountains' and 'Light House Map' 
+(i don't have descriptions for these yet but i do want to see what it'd look like)
 
-            const galleryModal = document.getElementById('gallery-modal');
-            const galleryGrid = document.getElementById('gallery-grid');
-            const galleryTitle = document.getElementById('gallery-title');
-            const imgModal = document.getElementById('imgModal');
-            const imgModalImg = document.getElementById('imgModalImg');
+Also, can you update the gallery images for "Cooked!" with these new ones:
+- cookedgallery1.png
+- cookedgallery2.png
+- cookedgallery3.png
+- cookedgallery4.png
+- cookedgallery5.png
+- cookedgallery6.png
+- cookedgallery7.png
+- cookedgallery8.png
+- cookedgallery9.png
+- cookedgallery10.png
+- cookedgallery11.png
 
-            const openImgModal = (src) => { imgModalImg.src = src; imgModal.setAttribute('aria-hidden', 'false'); };
-            const closeImgModal = () => { imgModal.setAttribute('aria-hidden', 'true'); };
-            imgModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeImgModal));
+And update the gallery images for "Cart Ride for Treasure" with these:
+- crftgallery1.png
+- crftgallery2.png
+- crftgallery3.png
+- crftgallery4.png
+- crftgallery5.png
+- crftgallery6.png
+- crftgallery7.png
+- crftgallery8.png
+- crftgallery9.png
 
-            const openGalleryModal = (projectId) => {
-                const data = projectData[projectId];
-                if(data && data.galleryImages) {
-                    galleryTitle.textContent = `${data.title.replace('🔥 ','').replace('💎 ','')} Gallery`;
-                    galleryGrid.innerHTML = '';
-                    data.galleryImages.forEach(imgSrc => {
-                        const item = document.createElement('div');
-                        item.className = 'gallery-item';
-                        const img = document.createElement('img');
-                        img.src = imgSrc;
-                        img.addEventListener('click', () => openImgModal(imgSrc));
-                        item.appendChild(img);
-                        galleryGrid.appendChild(item);
-                    });
-                    galleryModal.setAttribute('aria-hidden', 'false');
-                    document.body.style.overflow = 'hidden';
-                }
-            };
-            const closeGalleryModal = () => { galleryModal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
-            galleryBtn.addEventListener('click', (e) => { const projectId = e.target.dataset.projectId; openGalleryModal(projectId); });
-            galleryModal?.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeGalleryModal));
+And can you update the news with a new entry:
+Date: October 30, 2025 at 10:20 pm
+Title: Portfolio Update!
+Content: 'just added a few more projects to the grid, including some personal showcases and past commission work. i also updated the galleries for "cooked!" and "cart ride for treasure" with a bunch of new screenshots. go check them out!'
 
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    if (clModal.getAttribute('aria-hidden') === 'false') closeClModal();
-                    if (galleryModal.getAttribute('aria-hidden') === 'false') closeGalleryModal();
-                    if (imgModal.getAttribute('aria-hidden') === 'false') closeImgModal();
-                }
-            });
-
-            const tabs = document.querySelectorAll('.tabs .tab'); 
-            const cards = document.querySelectorAll('.grid .card'); 
-            function applyFilter(filter) { 
-                tabs.forEach(t => { 
-                    const active = t.dataset.filter === filter; 
-                    t.classList.toggle('is-active', active); 
-                    t.setAttribute('aria-selected', String(active)); 
-                }); 
-                cards.forEach(c => { 
-                    c.style.display = (filter === 'all' || c.dataset.cat === filter) ? '' : 'none'; 
-                }); 
-            } 
-            const initialFilter = document.querySelector('.tabs .tab.is-active')?.dataset.filter || 'all'; 
-            applyFilter(initialFilter); 
-            tabs.forEach(t => { 
-                t.addEventListener('click', () => applyFilter(t.dataset.filter)); 
-                t.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applyFilter(t.dataset.filter); } }); 
-            }); 
-            document.getElementById('view-all')?.addEventListener('click', (e) => { applyFilter('all'); }); 
-            
-            const logo = document.getElementById('logoEgg'); 
-            const audio = document.getElementById('egg-audio'); 
-            const root = document.documentElement;
-            if (!logo || !audio) return; 
-            audio.volume = 0.6; 
-            function onPlay() { root.classList.add('galaxy-on'); root.classList.add('shimmer-on'); }
-            function onPause() { root.classList.remove('galaxy-on'); root.classList.remove('shimmer-on'); }
-            function toggleAudio() { 
-                if (audio.paused) { 
-                    audio.currentTime = 0; 
-                    const p = audio.play(); 
-                    if (p && typeof p.then === 'function') { p.catch(() => {}); } 
-                } else { 
-                    audio.pause(); 
-                } 
-            } 
-            audio.addEventListener('play', onPlay);
-            audio.addEventListener('pause', onPause);
-            audio.addEventListener('ended', onPause);
-            logo.addEventListener('click', toggleAudio); 
-            logo.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAudio(); } });
-            
-            const shots = document.querySelectorAll('.shot[data-src-primary]');
-            shots.forEach(shot => {
-                const primary = shot.getAttribute('data-src-primary');
-                const fallback = shot.getAttribute('data-src-fallback');
-                if (!primary) return;
-                const img = new Image();
-                img.onload = () => {
-                    shot.style.backgroundImage = `url('${primary}')`;
-                };
-                img.onerror = () => {
-                    if (fallback) {
-                        shot.style.backgroundImage = `url('${fallback}')`;
-                    }
-                };
-                img.src = primary;
-            });
-        });
-    </script>
-</body>
-</html>
+And a new changelog entry:
+Date: 2025-10-30
+Title: Content Update
+Items: ['Added "Bloxy Kart 2" to projects.', 'Added "Rising Mountains" and "Light House Map" to showcases.', 'Populated galleries for "Cooked!" and "Cart Ride for Treasure".']
+```

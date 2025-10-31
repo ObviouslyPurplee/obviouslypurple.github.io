@@ -357,7 +357,8 @@
   <li><strong>Managed the full development lifecycle</strong> from concept to soft launch, demonstrating expertise in project management and resilience in pivoting away from the project due to unforeseen challenges.</li>
 </ul>`,
           galleryImages:Array.from({length:38},(_,i)=>`CR_Image${i+1}.png`),
-          uiGalleryImages:Array.from({length:14},(_,i)=>`CRUI_Image${i+1}.png`)
+          uiGalleryImages:Array.from({length:14},(_,i)=>`CRUI_Image${i+1}.png`),
+          minecartGalleryImages:Array.from({length:4},(_,i)=>`MV_Image${i+1}.png`)
         },
         wmg:{
           title:'Warner Music Group',
@@ -455,6 +456,11 @@
             treasureUiGalleryBtn.id='treasure-ui-gallery-btn';
             galleryButtonsContainer.appendChild(treasureUiGalleryBtn);
 
+            const minecartGalleryBtn=document.createElement('button');
+            minecartGalleryBtn.className='btn hidden';
+            minecartGalleryBtn.id='minecart-gallery-btn';
+            galleryButtonsContainer.appendChild(minecartGalleryBtn);
+
             if (d.galleryImages?.length) {
               galleryBtn.textContent=`open ${d.title.toLowerCase()}'s gallery`;
               galleryBtn.dataset.projectId=id;
@@ -481,6 +487,13 @@
               treasureUiGalleryBtn.dataset.projectId=id;
               treasureUiGalleryBtn.dataset.galleryType='ui';
               treasureUiGalleryBtn.classList.remove('hidden');
+            }
+
+            if (id === 'treasure' && d.minecartGalleryImages?.length) {
+              minecartGalleryBtn.textContent=`open minecart value (demo)`;
+              minecartGalleryBtn.dataset.projectId=id;
+              minecartGalleryBtn.dataset.galleryType='minecart';
+              minecartGalleryBtn.classList.remove('hidden');
             }
           }
 
@@ -538,7 +551,7 @@
 
       // Existing gallery buttons
       galleryButtonsContainer.addEventListener('click', e => {
-        if (e.target.matches('#gallery-btn, #fall-gallery-btn, #ui-gallery-btn, #treasure-ui-gallery-btn')) {
+        if (e.target.matches('#gallery-btn, #fall-gallery-btn, #ui-gallery-btn, #treasure-ui-gallery-btn, #minecart-gallery-btn')) {
           const btn = e.target;
           const id = btn.dataset.projectId;
           const type = btn.dataset.galleryType;
@@ -547,6 +560,7 @@
 
           if (type === 'fall') { images = d.fallGalleryImages; title = "Cooked!'s Fall Map Gallery"; }
           else if (type === 'ui') { images = d.uiGalleryImages; title = id === 'cooked' ? "Cooked!'s UI Gallery" : "Cart Ride For Treasure's UI Gallery"; }
+          else if (type === 'minecart') { images = d.minecartGalleryImages; title = "Minecart Value (demo)"; }
           else { images = d.galleryImages; title = `${d.title} Gallery`; }
 
           gTitle.textContent=title;

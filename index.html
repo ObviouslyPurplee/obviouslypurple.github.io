@@ -164,8 +164,6 @@
           <button class="tab" data-filter="live">live experiences</button>
           <button class="tab" data-filter="projects">projects</button>
           <button class="tab" data-filter="showcases">showcases</button>
-          <button class="tab" data-filter="graphic">graphic design</button>
-          <button class="tab" data-filter="other">other engagements</button>
         </div>
 
         <div class="grid">
@@ -233,7 +231,7 @@
       <div style="display:grid; grid-template-columns:400px 1fr; gap:24px; align-items:start">
         <div>
           <img id="project-detail-img" src="" alt="" style="width:100%; border-radius:10px">
-          <div id="gallery-buttons"></div>
+          <div id="gallery-buttons" style="margin-top:12px; display:flex; flex-direction:column; gap:8px;"></div>
         </div>
         <div>
           <h2 id="project-detail-title" style="display:flex; align-items:center; gap:12px; margin:0 0 16px; font-size:24px">
@@ -427,8 +425,7 @@
             d.galleries.forEach(gal=>{
               const btn=document.createElement('button');
               btn.className='btn';
-              btn.style.marginTop='8px';
-              btn.style.width='100%';
+              btn.style.cssText='width:100%; margin:0;';
               btn.textContent=`open ${gal.name.toLowerCase()}`;
               btn.dataset.galleryPrefix=gal.prefix;
               btn.dataset.galleryCount=gal.count;

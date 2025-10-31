@@ -22,6 +22,7 @@
     body[data-active-theme="treasure"] { --accent:#ffcc00; --pink:#bde0fe; }
     body[data-active-theme="showcases"] { --accent:#8b5cf6; --pink:#e0d4ff; }
     body[data-active-theme="wmg"] { --accent:#1e90ff; --pink:#a0d8f1; }
+    body[data-active-theme="voyage"] { --accent:#00bfff; --pink:#b3e5fc; }
 
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -302,7 +303,7 @@
       const cvs=document.getElementById('fogFX'); if(!cvs)return;
       const ctx=cvs.getContext('2d'); let W=0,H=0,DPR=Math.max(1,Math.min(2,window.devicePixelRatio||1));
       const SCALE=2; let last=0; let blobs=[];
-      function colors(){const t=document.body.dataset.activeTheme;return t==='cooked'?['rgba(255,107,53,.16)','rgba(255,107,53,0)']:t==='treasure'?['rgba(173,216,230,.16)','rgba(173,216,230,0)']:t==='showcases'?['rgba(139,92,246,.16)','rgba(139,92,246,0)']:t==='wmg'?['rgba(30,144,255,.16)','rgba(30,144,255,0)']:['rgba(255,190,220,.16)','rgba(255,190,220,0)'];}
+      function colors(){const t=document.body.dataset.activeTheme;return t==='cooked'?['rgba(255,107,53,.16)','rgba(255,107,53,0)']:t==='treasure'?['rgba(173,216,230,.16)','rgba(173,216,230,0)']:t==='showcases'?['rgba(139,92,246,.16)','rgba(139,92,246,0)']:t==='wmg'?['rgba(30,144,255,.16)','rgba(30,144,255,0)']:t==='voyage'?['rgba(0,191,255,.16)','rgba(0,191,255,0)']:['rgba(255,190,220,.16)','rgba(255,190,220,0)'];}
       function seed(){blobs=[];const n=Math.min(22,Math.max(10,Math.round((W*H)/300000)));for(let i=0;i<n;i++){const r=160+Math.random()*320;const a=Math.random()*Math.PI*2;const s=0.004+Math.random()*0.002;blobs.push({x:Math.random()*W,y:Math.random()*H,r,vx:Math.cos(a)*s,vy:Math.sin(a)*s});}}
       function resize(){W=innerWidth;H=innerHeight;cvs.style.width=W+'px';cvs.style.height=H+'px';cvs.width=Math.ceil(W/SCALE)*DPR;cvs.height=Math.ceil(H/SCALE)*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);seed();}
       function draw(dt){ctx.clearRect(0,0,cvs.width,cvs.height);const[c0,c1]=colors();for(const b of blobs){b.x+=b.vx*dt;b.y+=b.vy*dt;const p=b.r+40;if(b.x<-p)b.x=W+p;if(b.x>W+p)b.x=-p;if(b.y<-p)b.y=H+p;if(b.y>H+p)b.y=-p;const cx=b.x/SCALE,cy=b.y/SCALE,rr=b.r/SCALE;const g=ctx.createRadialGradient(cx,cy,0,cx,cy,rr);g.addColorStop(0,c0);g.addColorStop(1,c1);ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,rr,0,Math.PI*2);ctx.fill();}}
@@ -339,7 +340,6 @@
   <li><strong>Defined and implemented a streamlined PBR texturing workflow</strong> to maximize visual fidelity while adhering to strict performance budgets.</li>
   <li><strong>Initiated and independently managed the social media marketing strategy</strong>, driving initial audience growth and ensuring all promotional visual assets aligned with the game's aesthetic and core branding.</li>
 </ul>`,
-          marketing:``,
           galleryImages:Array.from({length:40},(_,i)=>`CO_Image${i+1}.png`),
           fallGalleryImages:Array.from({length:8},(_,i)=>`COFall_Image${i+1}.png`),
           uiGalleryImages:Array.from({length:11},(_,i)=>`COUI_Image${i+1}.png`)
@@ -376,7 +376,20 @@
         voyage:{
           title:'The Voyage',
           imageSrc:'TheVoyage.png',
-          description:'<p>Environment build and cinematic showcase. Focused on atmospheric lighting, terrain sculpting, and narrative-driven world design.</p>'
+          theme:'voyage',
+          description:`<p><strong>The Voyage</strong> was my foundational, long-term independent development project that served as a catalyst for my professional career. The project was primarily focused on mastering high-fidelity asset creation and building community, culminating in unique validation from the Roblox ecosystem.</p>
+<h3>Key Achievements</h3>
+<ul>
+  <li><strong>Publicly recognized and showcased at RDC (Roblox Developer Conference)</strong>, providing direct insight into the platform's future and networking with top-tier developers.</li>
+  <li><strong>Established a significant name within the Roblox Twitter Community (DevRel)</strong> through consistent promotion and high-quality build showcases, building a reputation of trust and creative excellence.</li>
+  <li><strong>Contributed to official Roblox Blogs and community discussions</strong>, positioning the project as a key example of high-fidelity environmental storytelling.</li>
+  <li><strong>Served as a full-cycle creator and art director</strong> for the project, handling all 3D modeling, environment design, and in-engine lighting systems from 2020 to 2022.</li>
+</ul>`,
+          galleries:[
+            {name:'The Voyage (2022)', prefix:'TV022', count:41},
+            {name:'The Voyage (V2)', prefix:'TV03', count:12},
+            {name:'The Voyage (V1)', prefix:'TV01', count:8}
+          ]
         },
         showcases:{
           title:'Showcases',
@@ -421,8 +434,8 @@
           // Clear previous buttons
           galleryButtonsContainer.innerHTML='';
 
-          // Handle Showcases
-          if (id === 'showcases' && d.galleries) {
+          // Handle Showcases & Voyage (multi-gallery)
+          if ((id === 'showcases' || id === 'voyage') && d.galleries) {
             d.galleries.forEach(gal=>{
               const btn=document.createElement('button');
               btn.className='btn';

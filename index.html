@@ -20,6 +20,7 @@
     }
     body[data-active-theme="cooked"] { --accent:#ff6b35; --pink:#ffad99; }
     body[data-active-theme="treasure"] { --accent:#ffcc00; --pink:#bde0fe; }
+    body[data-active-theme="showcases"] { --accent:#8b5cf6; --pink:#e0d4ff; }
 
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -167,6 +168,7 @@
         </div>
 
         <div class="grid">
+          <!-- COOKED -->
           <article class="card" data-cat="live">
             <div class="shot has-img" style="background-image:url('Cooked.png')">
               <div class="labels">
@@ -177,6 +179,7 @@
             <div class="meta"><span>cooked!</span><span>creative lead • ui & 3d • live ops</span></div>
           </article>
 
+          <!-- CART RIDE FOR TREASURE -->
           <article class="card" data-cat="live">
             <div class="shot has-img" style="background-image:url('CRFTBanner.png')">
               <div class="labels">
@@ -187,11 +190,22 @@
             <div class="meta"><span>cart ride for treasure</span><span>co-founder • lead artist • ui & 3d</span></div>
           </article>
 
+          <!-- THE VOYAGE -->
           <article class="card" data-cat="projects">
             <div class="shot has-img" style="background-image:url('TheVoyage.png')">
               <div class="labels"><a class="see-more pink" href="#" data-project-id="voyage">explore</a></div>
             </div>
             <div class="meta"><span>the voyage</span><span>environment • studio build</span></div>
+          </article>
+
+          <!-- SHOWCASES -->
+          <article class="card" data-cat="showcases">
+            <div class="shot has-img" style="background-image:url('showcase_banner.png')">
+              <div class="labels">
+                <a class="see-more pink" href="#" data-project-id="showcases">explore</a>
+              </div>
+            </div>
+            <div class="meta"><span>showcases</span><span>personal • passion • experiments</span></div>
           </article>
         </div>
 
@@ -208,10 +222,7 @@
       <div style="display:grid; grid-template-columns:400px 1fr; gap:24px; align-items:start">
         <div>
           <img id="project-detail-img" src="" alt="" style="width:100%; border-radius:10px">
-          <button id="gallery-btn" class="btn hidden" style="margin-top:12px; width:100%"></button>
-          <button id="fall-gallery-btn" class="btn hidden" style="margin-top:8px; width:100%"></button>
-          <button id="ui-gallery-btn" class="btn hidden" style="margin-top:8px; width:100%"></button>
-          <button id="treasure-ui-gallery-btn" class="btn hidden" style="margin-top:8px; width:100%"></button>
+          <div id="gallery-buttons"></div>
         </div>
         <div>
           <h2 id="project-detail-title" style="display:flex; align-items:center; gap:12px; margin:0 0 16px; font-size:24px">
@@ -282,7 +293,7 @@
       const cvs=document.getElementById('fogFX'); if(!cvs)return;
       const ctx=cvs.getContext('2d'); let W=0,H=0,DPR=Math.max(1,Math.min(2,window.devicePixelRatio||1));
       const SCALE=2; let last=0; let blobs=[];
-      function colors(){const t=document.body.dataset.activeTheme;return t==='cooked'?['rgba(255,107,53,.16)','rgba(255,107,53,0)']:t==='treasure'?['rgba(173,216,230,.16)','rgba(173,216,230,0)']:['rgba(255,190,220,.16)','rgba(255,190,220,0)'];}
+      function colors(){const t=document.body.dataset.activeTheme;return t==='cooked'?['rgba(255,107,53,.16)','rgba(255,107,53,0)']:t==='treasure'?['rgba(173,216,230,.16)','rgba(173,216,230,0)']:t==='showcases'?['rgba(139,92,246,.16)','rgba(139,92,246,0)']:['rgba(255,190,220,.16)','rgba(255,190,220,0)'];}
       function seed(){blobs=[];const n=Math.min(22,Math.max(10,Math.round((W*H)/300000)));for(let i=0;i<n;i++){const r=160+Math.random()*320;const a=Math.random()*Math.PI*2;const s=0.004+Math.random()*0.002;blobs.push({x:Math.random()*W,y:Math.random()*H,r,vx:Math.cos(a)*s,vy:Math.sin(a)*s});}}
       function resize(){W=innerWidth;H=innerHeight;cvs.style.width=W+'px';cvs.style.height=H+'px';cvs.width=Math.ceil(W/SCALE)*DPR;cvs.height=Math.ceil(H/SCALE)*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);seed();}
       function draw(dt){ctx.clearRect(0,0,cvs.width,cvs.height);const[c0,c1]=colors();for(const b of blobs){b.x+=b.vx*dt;b.y+=b.vy*dt;const p=b.r+40;if(b.x<-p)b.x=W+p;if(b.x>W+p)b.x=-p;if(b.y<-p)b.y=H+p;if(b.y>H+p)b.y=-p;const cx=b.x/SCALE,cy=b.y/SCALE,rr=b.r/SCALE;const g=ctx.createRadialGradient(cx,cy,0,cx,cy,rr);g.addColorStop(0,c0);g.addColorStop(1,c1);ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,rr,0,Math.PI*2);ctx.fill();}}
@@ -339,7 +350,30 @@
           galleryImages:Array.from({length:38},(_,i)=>`CR_Image${i+1}.png`),
           uiGalleryImages:Array.from({length:14},(_,i)=>`CRUI_Image${i+1}.png`)
         },
-        voyage:{title:'The Voyage',imageSrc:'TheVoyage.png',description:'<p>Environment build and cinematic showcase. Focused on atmospheric lighting, terrain sculpting, and narrative-driven world design.</p>'}
+        voyage:{
+          title:'The Voyage',
+          imageSrc:'TheVoyage.png',
+          description:'<p>Environment build and cinematic showcase. Focused on atmospheric lighting, terrain sculpting, and narrative-driven world design.</p>'
+        },
+        showcases:{
+          title:'Showcases',
+          imageSrc:'showcase_banner.png',
+          theme:'showcases',
+          description:`<p>A gallery of personal passion projects and technical skill demos. Explore unique environments and visual storytelling where I experiment with new styles.</p>`,
+          galleries:[
+            {name:'Halloween 2021 Showcase', prefix:'HS', count:4},
+            {name:'Mars Cart Short Environment Experiment', prefix:'MC', count:3},
+            {name:'Modern House Rough Showcase', prefix:'MH', count:3},
+            {name:'Mountain Atmosphere Experiment', prefix:'MS', count:5},
+            {name:'Powerhouse Sketch Recreation', prefix:'PH', count:4},
+            {name:'Selection Of Studio Builds For The Hour', prefix:'RSB', count:10},
+            {name:'Project Robot', prefix:'PR', count:13},
+            {name:'Save Your Favourite', prefix:'SYF', count:4},
+            {name:'Spirit Busters', prefix:'SB', count:6},
+            {name:'The Unknown', prefix:'TU', count:3},
+            {name:'Willow Showcase', prefix:'WS', count:4}
+          ]
+        }
       };
 
       // Project Detail
@@ -348,10 +382,7 @@
       const pdDesc=document.getElementById('project-detail-description');
       const pdMarketing=document.getElementById('project-detail-marketing');
       const pdLink=document.getElementById('project-game-link');
-      const galleryBtn=document.getElementById('gallery-btn');
-      const fallGalleryBtn=document.getElementById('fall-gallery-btn');
-      const uiGalleryBtn=document.getElementById('ui-gallery-btn');
-      const treasureUiGalleryBtn=document.getElementById('treasure-ui-gallery-btn');
+      const galleryButtonsContainer=document.getElementById('gallery-buttons');
 
       document.querySelectorAll('.see-more[data-project-id]').forEach(b=>{
         b.onclick=e=>{
@@ -364,49 +395,96 @@
           pdMarketing.innerHTML=d.marketing||''; pdMarketing.classList.toggle('hidden',!d.marketing);
           pdLink.href=d.gameUrl||'#'; pdLink.classList.toggle('hidden',!d.gameUrl);
 
-          // Main Gallery
-          if (d.galleryImages?.length) {
-            galleryBtn.textContent=`open ${d.title.toLowerCase()}'s gallery`;
-            galleryBtn.dataset.projectId=id;
-            galleryBtn.dataset.galleryType='main';
-            galleryBtn.classList.remove('hidden');
-          } else {
-            galleryBtn.classList.add('hidden');
-          }
+          // Clear previous buttons
+          galleryButtonsContainer.innerHTML='';
 
-          // Fall Map Gallery (Cooked only)
-          if (id === 'cooked' && d.fallGalleryImages?.length) {
-            fallGalleryBtn.textContent=`open cooked!'s fall map gallery`;
-            fallGalleryBtn.dataset.projectId=id;
-            fallGalleryBtn.dataset.galleryType='fall';
-            fallGalleryBtn.classList.remove('hidden');
+          // Handle Showcases (dynamic galleries)
+          if (id === 'showcases' && d.galleries) {
+            d.galleries.forEach(gal=>{
+              const btn=document.createElement('button');
+              btn.className='btn';
+              btn.style.marginTop='8px';
+              btn.style.width='100%';
+              btn.textContent=`open ${gal.name.toLowerCase()}`;
+              btn.dataset.galleryPrefix=gal.prefix;
+              btn.dataset.galleryCount=gal.count;
+              btn.dataset.galleryName=gal.name;
+              btn.onclick=()=>{openShowcaseGallery(gal);};
+              galleryButtonsContainer.appendChild(btn);
+            });
           } else {
-            fallGalleryBtn.classList.add('hidden');
-          }
+            // Existing gallery logic for cooked & treasure
+            const galleryBtn=document.createElement('button');
+            galleryBtn.className='btn hidden';
+            galleryBtn.id='gallery-btn';
+            galleryButtonsContainer.appendChild(galleryBtn);
 
-          // UI Gallery (Cooked)
-          if (id === 'cooked' && d.uiGalleryImages?.length) {
-            uiGalleryBtn.textContent=`open cooked!'s ui gallery`;
-            uiGalleryBtn.dataset.projectId=id;
-            uiGalleryBtn.dataset.galleryType='ui';
-            uiGalleryBtn.classList.remove('hidden');
-          } else {
-            uiGalleryBtn.classList.add('hidden');
-          }
+            const fallGalleryBtn=document.createElement('button');
+            fallGalleryBtn.className='btn hidden';
+            fallGalleryBtn.id='fall-gallery-btn';
+            galleryButtonsContainer.appendChild(fallGalleryBtn);
 
-          // UI Gallery (Treasure)
-          if (id === 'treasure' && d.uiGalleryImages?.length) {
-            treasureUiGalleryBtn.textContent=`open cart ride for treasure's ui gallery`;
-            treasureUiGalleryBtn.dataset.projectId=id;
-            treasureUiGalleryBtn.dataset.galleryType='ui';
-            treasureUiGalleryBtn.classList.remove('hidden');
-          } else {
-            treasureUiGalleryBtn.classList.add('hidden');
+            const uiGalleryBtn=document.createElement('button');
+            uiGalleryBtn.className='btn hidden';
+            uiGalleryBtn.id='ui-gallery-btn';
+            galleryButtonsContainer.appendChild(uiGalleryBtn);
+
+            const treasureUiGalleryBtn=document.createElement('button');
+            treasureUiGalleryBtn.className='btn hidden';
+            treasureUiGalleryBtn.id='treasure-ui-gallery-btn';
+            galleryButtonsContainer.appendChild(treasureUiGalleryBtn);
+
+            // Re-run logic for other projects
+            if (d.galleryImages?.length) {
+              galleryBtn.textContent=`open ${d.title.toLowerCase()}'s gallery`;
+              galleryBtn.dataset.projectId=id;
+              galleryBtn.dataset.galleryType='main';
+              galleryBtn.classList.remove('hidden');
+            }
+
+            if (id === 'cooked' && d.fallGalleryImages?.length) {
+              fallGalleryBtn.textContent=`open cooked!'s fall map gallery`;
+              fallGalleryBtn.dataset.projectId=id;
+              fallGalleryBtn.dataset.galleryType='fall';
+              fallGalleryBtn.classList.remove('hidden');
+            }
+
+            if (id === 'cooked' && d.uiGalleryImages?.length) {
+              uiGalleryBtn.textContent=`open cooked!'s ui gallery`;
+              uiGalleryBtn.dataset.projectId=id;
+              uiGalleryBtn.dataset.galleryType='ui';
+              uiGalleryBtn.classList.remove('hidden');
+            }
+
+            if (id === 'treasure' && d.uiGalleryImages?.length) {
+              treasureUiGalleryGalleryBtn.textContent=`open cart ride for treasure's ui gallery`;
+              treasureUiGalleryBtn.dataset.projectId=id;
+              treasureUiGalleryBtn.dataset.galleryType='ui';
+              treasureUiGalleryBtn.classList.remove('hidden');
+            }
           }
 
           showPage(pages.detail,d.theme);
         };
       });
+
+      // Open Showcase Gallery
+      function openShowcaseGallery(gal){
+        const images = Array.from({length:gal.count},(_,i)=>`${gal.prefix}_Image${i+1}.png`);
+        const gModal=document.getElementById('gallery-modal');
+        const gGrid=document.getElementById('gallery-grid');
+        const gTitle=document.getElementById('gallery-title');
+        gTitle.textContent=gal.name;
+        gGrid.innerHTML='';
+        images.forEach((src,i)=>{
+          const div=document.createElement('div');div.className='gallery-item';
+          const img=document.createElement('img');img.src=src;img.alt=`${i+1}`;
+          img.onclick=()=>{openLB(images,i);gModal.setAttribute('aria-hidden','true');};
+          div.appendChild(img);gGrid.appendChild(div);
+        });
+        gModal.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+      }
 
       // Gallery & Lightbox
       const gModal=document.getElementById('gallery-modal');
@@ -438,23 +516,18 @@
         }
       });
 
-      [galleryBtn, fallGalleryBtn, uiGalleryBtn, treasureUiGalleryBtn].forEach(btn => {
-        btn.onclick=e=>{
-          const id=e.target.dataset.projectId;
-          const type=e.target.dataset.galleryType;
-          const d=projectData[id];
+      // Existing gallery buttons
+      galleryButtonsContainer.addEventListener('click', e => {
+        if (e.target.matches('#gallery-btn, #fall-gallery-btn, #ui-gallery-btn, #treasure-ui-gallery-btn')) {
+          const btn = e.target;
+          const id = btn.dataset.projectId;
+          const type = btn.dataset.galleryType;
+          const d = projectData[id];
           let images, title;
 
-          if (type === 'fall') {
-            images = d.fallGalleryImages;
-            title = "Cooked!'s Fall Map Gallery";
-          } else if (type === 'ui') {
-            images = d.uiGalleryImages;
-            title = id === 'cooked' ? "Cooked!'s UI Gallery" : "Cart Ride For Treasure's UI Gallery";
-          } else {
-            images = d.galleryImages;
-            title = `${d.title} Gallery`;
-          }
+          if (type === 'fall') { images = d.fallGalleryImages; title = "Cooked!'s Fall Map Gallery"; }
+          else if (type === 'ui') { images = d.uiGalleryImages; title = id === 'cooked' ? "Cooked!'s UI Gallery" : "Cart Ride For Treasure's UI Gallery"; }
+          else { images = d.galleryImages; title = `${d.title} Gallery`; }
 
           gTitle.textContent=title;
           gGrid.innerHTML='';
@@ -466,7 +539,7 @@
           });
           gModal.setAttribute('aria-hidden','false');
           document.body.style.overflow='hidden';
-        };
+        }
       });
 
       gModal.querySelectorAll('[data-close]').forEach(el=>el.onclick=()=>{gModal.setAttribute('aria-hidden','true');document.body.style.overflow='';});

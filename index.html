@@ -209,6 +209,7 @@
         <div>
           <img id="project-detail-img" src="" alt="" style="width:100%; border-radius:10px">
           <button id="gallery-btn" class="btn hidden" style="margin-top:12px; width:100%"></button>
+          <button id="fall-gallery-btn" class="btn hidden" style="margin-top:8px; width:100%"></button>
         </div>
         <div>
           <h2 id="project-detail-title" style="display:flex; align-items:center; gap:12px; margin:0 0 16px; font-size:24px">
@@ -302,13 +303,24 @@
 
       // Project Data
       const projectData={
-        cooked:{title:'Cooked!',imageSrc:'Cooked.png',gameUrl:'https://www.roblox.com/games/108476688850509/Cooked',theme:'cooked',
+        cooked:{
+          title:'Cooked!',
+          imageSrc:'Cooked.png',
+          gameUrl:'https://www.roblox.com/games/108476688850509/Cooked',
+          theme:'cooked',
           description:`<p>Joining BloxByte Games in late 2024...</p>`,
           marketing:`<div class="marketing-section"><h3>Marketing & Social Media</h3>...</div>`,
-          galleryImages:Array.from({length:40},(_,i)=>`CO_Image${i+1}.png`)},
-        treasure:{title:'Cart Ride for Treasure',imageSrc:'crft.png',gameUrl:'https://www.roblox.com/games/18814515603/Treasure-Mine-Simulator',theme:'treasure',
+          galleryImages:Array.from({length:40},(_,i)=>`CO_Image${i+1}.png`),
+          fallGalleryImages:Array.from({length:40},(_,i)=>`CO_FallMap${i+1}.png`)
+        },
+        treasure:{
+          title:'Cart Ride for Treasure',
+          imageSrc:'crft.png',
+          gameUrl:'https://www.roblox.com/games/18814515603/Treasure-Mine-Simulator',
+          theme:'treasure',
           description:`<p>Began as a personal showcase...</p>`,
-          galleryImages:['https://placehold.co/600x400/ffcc00/1f1f24?text=1','https://placehold.co/600x400/bde0fe/1f1f24?text=2']},
+          galleryImages:['https://placehold.co/600x400/ffcc00/1f1f24?text=1','https://placehold.co/600x400/bde0fe/1f1f24?text=2']
+        },
         voyage:{title:'The Voyage',imageSrc:'TheVoyage.png',description:'<p>Environment build...</p>'}
       };
 
@@ -319,6 +331,7 @@
       const pdMarketing=document.getElementById('project-detail-marketing');
       const pdLink=document.getElementById('project-game-link');
       const galleryBtn=document.getElementById('gallery-btn');
+      const fallGalleryBtn=document.getElementById('fall-gallery-btn');
 
       document.querySelectorAll('.see-more[data-project-id]').forEach(b=>{
         b.onclick=e=>{
@@ -330,9 +343,27 @@
           pdDesc.innerHTML=d.description;
           pdMarketing.innerHTML=d.marketing||''; pdMarketing.classList.toggle('hidden',!d.marketing);
           pdLink.href=d.gameUrl||'#'; pdLink.classList.toggle('hidden',!d.gameUrl);
-          galleryBtn.textContent=`open ${d.title.toLowerCase()}'s gallery`;
-          galleryBtn.dataset.projectId=id;
-          galleryBtn.classList.toggle('hidden',!d.galleryImages?.length);
+
+          // Main Gallery
+          if (d.galleryImages?.length) {
+            galleryBtn.textContent=`open ${d.title.toLowerCase()}'s gallery`;
+            galleryBtn.dataset.projectId=id;
+            galleryBtn.dataset.galleryType='main';
+            galleryBtn.classList.remove('hidden');
+          } else {
+            galleryBtn.classList.add('hidden');
+          }
+
+          // Fall Map Gallery (only for cooked)
+          if (id === 'cooked' && d.fallGalleryImages?.length) {
+            fallGalleryBtn.textContent=`open cooked!'s fall map gallery`;
+            fallGalleryBtn.dataset.projectId=id;
+            fallGalleryBtn.dataset.galleryType='fall';
+            fallGalleryBtn.classList.remove('hidden');
+          } else {
+            fallGalleryBtn.classList.add('hidden');
+          }
+
           showPage(pages.detail,d.theme);
         };
       });
@@ -367,21 +398,27 @@
         }
       });
 
-      galleryBtn.onclick=e=>{
-        const id=e.target.dataset.projectId;
-        const d=projectData[id];
-        if(!d?.galleryImages)return;
-        gTitle.textContent=`${d.title} Gallery`;
-        gGrid.innerHTML='';
-        d.galleryImages.forEach((src,i)=>{
-          const div=document.createElement('div');div.className='gallery-item';
-          const img=document.createElement('img');img.src=src;img.alt=`${i+1}`;
-          img.onclick=()=>{openLB(d.galleryImages,i);gModal.setAttribute('aria-hidden','true');};
-          div.appendChild(img);gGrid.appendChild(div);
-        });
-        gModal.setAttribute('aria-hidden','false');
-        document.body.style.overflow='hidden';
-      };
+      [galleryBtn, fallGalleryBtn].forEach(btn => {
+        btn.onclick=e=>{
+          const id=e.target.dataset.projectId;
+          const type=e.target.dataset.galleryType;
+          const d=projectData[id];
+          const images = type === 'fall' ? d.fallGalleryImages : d.galleryImages;
+          const title = type === 'fall' ? "Cooked!'s Fall Map Gallery" : `${d.title} Gallery`;
+
+          gTitle.textContent=title;
+          gGrid.innerHTML='';
+          images.forEach((src,i)=>{
+            const div=document.createElement('div');div.className='gallery-item';
+            const img=document.createElement('img');img.src=src;img.alt=`${i+1}`;
+            img.onclick=()=>{openLB(images,i);gModal.setAttribute('aria-hidden','true');};
+            div.appendChild(img);gGrid.appendChild(div);
+          });
+          gModal.setAttribute('aria-hidden','false');
+          document.body.style.overflow='hidden';
+        };
+      });
+
       gModal.querySelectorAll('[data-close]').forEach(el=>el.onclick=()=>{gModal.setAttribute('aria-hidden','true');document.body.style.overflow='';});
 
       // Tabs

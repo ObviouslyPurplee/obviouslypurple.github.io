@@ -210,6 +210,7 @@
           <img id="project-detail-img" src="" alt="" style="width:100%; border-radius:10px">
           <button id="gallery-btn" class="btn hidden" style="margin-top:12px; width:100%"></button>
           <button id="fall-gallery-btn" class="btn hidden" style="margin-top:8px; width:100%"></button>
+          <button id="ui-gallery-btn" class="btn hidden" style="margin-top:8px; width:100%"></button>
         </div>
         <div>
           <h2 id="project-detail-title" style="display:flex; align-items:center; gap:12px; margin:0 0 16px; font-size:24px">
@@ -319,7 +320,8 @@
 </ul>`,
           marketing:``,
           galleryImages:Array.from({length:40},(_,i)=>`CO_Image${i+1}.png`),
-          fallGalleryImages:Array.from({length:8},(_,i)=>`COFall_Image${i+1}.png`)
+          fallGalleryImages:Array.from({length:8},(_,i)=>`COFall_Image${i+1}.png`),
+          uiGalleryImages:Array.from({length:11},(_,i)=>`COUI_Image${i+1}.png`)
         },
         treasure:{
           title:'Cart Ride for Treasure',
@@ -340,6 +342,7 @@
       const pdLink=document.getElementById('project-game-link');
       const galleryBtn=document.getElementById('gallery-btn');
       const fallGalleryBtn=document.getElementById('fall-gallery-btn');
+      const uiGalleryBtn=document.getElementById('ui-gallery-btn');
 
       document.querySelectorAll('.see-more[data-project-id]').forEach(b=>{
         b.onclick=e=>{
@@ -362,7 +365,7 @@
             galleryBtn.classList.add('hidden');
           }
 
-          // Fall Map Gallery (only for cooked)
+          // Fall Map Gallery
           if (id === 'cooked' && d.fallGalleryImages?.length) {
             fallGalleryBtn.textContent=`open cooked!'s fall map gallery`;
             fallGalleryBtn.dataset.projectId=id;
@@ -370,6 +373,16 @@
             fallGalleryBtn.classList.remove('hidden');
           } else {
             fallGalleryBtn.classList.add('hidden');
+          }
+
+          // UI Gallery
+          if (id === 'cooked' && d.uiGalleryImages?.length) {
+            uiGalleryBtn.textContent=`open cooked!'s ui gallery`;
+            uiGalleryBtn.dataset.projectId=id;
+            uiGalleryBtn.dataset.galleryType='ui';
+            uiGalleryBtn.classList.remove('hidden');
+          } else {
+            uiGalleryBtn.classList.add('hidden');
           }
 
           showPage(pages.detail,d.theme);
@@ -406,13 +419,23 @@
         }
       });
 
-      [galleryBtn, fallGalleryBtn].forEach(btn => {
+      [galleryBtn, fallGalleryBtn, uiGalleryBtn].forEach(btn => {
         btn.onclick=e=>{
           const id=e.target.dataset.projectId;
           const type=e.target.dataset.galleryType;
           const d=projectData[id];
-          const images = type === 'fall' ? d.fallGalleryImages : d.galleryImages;
-          const title = type === 'fall' ? "Cooked!'s Fall Map Gallery" : `${d.title} Gallery`;
+          let images, title;
+
+          if (type === 'fall') {
+            images = d.fallGalleryImages;
+            title = "Cooked!'s Fall Map Gallery";
+          } else if (type === 'ui') {
+            images = d.uiGalleryImages;
+            title = "Cooked!'s UI Gallery";
+          } else {
+            images = d.galleryImages;
+            title = `${d.title} Gallery`;
+          }
 
           gTitle.textContent=title;
           gGrid.innerHTML='';

@@ -131,10 +131,10 @@
     .cl-backdrop, .gallery-backdrop, .img-backdrop {position:absolute; inset:0; background:rgba(0,0,0,.58); backdrop-filter:blur(4px);}
     .cl-panel, .gallery-panel {position:relative; background:var(--card); color:var(--ink); border:1px solid var(--pink); border-radius:16px; box-shadow:var(--shadow); display:flex; flex-direction:column; width: 90%; transition: border-color 0.3s ease;}
     .cl-panel { max-width: 720px; margin: 6vh auto; overflow: hidden; }
-    .gallery-panel { max-width: 1000px; max-height: 80vh; }
+    .gallery-panel { max-width: 1000px; max-height: 80vh; overflow: hidden; }
     .cl-header, .gallery-header {display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid var(--pink); transition: border-color 0.3s ease;}
     .cl-close, .gallery-close {background:transparent; border:none; font-size:18px; cursor:pointer; color:var(--muted)}
-    .cl-content, .gallery-content {overflow:auto; padding:16px;}
+    .cl-content, .gallery-content {overflow:auto; padding:16px; max-height: calc(80vh - 100px);}
     .cl-list{list-style:none; padding:0; margin:0; display:grid; gap:12px}
     .cl-item{border:1px solid var(--pink); border-radius:12px; padding:10px 12px; background:var(--bg)}
     .cl-item time{font-size:11px; color:var(--muted)}
@@ -157,9 +157,27 @@
     .marketing-section p, .marketing-section ul { font-size: 14px; line-height: 1.8; color: var(--muted); margin: 0; }
     .marketing-section ul { list-style: disc; padding-left: 20px; margin-top: 12px; }
     .marketing-section li { margin-bottom: 8px; }
-    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .gallery-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+      gap: 12px; 
+      padding: 8px 0;
+    }
+    .gallery-item { position: relative; overflow: hidden; border-radius: var(--radius); }
+    .gallery-item img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      border-radius: var(--radius); 
+      cursor: pointer; 
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      min-height: 150px;
+      background: #f0f0f0;
+    }
     .gallery-item img:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(255,155,200,.3); }
+    .gallery-item img.error-img {
+      content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23e0e0e0"/><text x="50" y="50" font-family="sans-serif" font-size="14" fill="%23999" text-anchor="middle" dominant-baseline="middle">Image Missing</text></svg>');
+    }
     .img-panel{position:relative; max-width:min(96vw,1100px); max-height:86vh; border:1px solid var(--pink); border-radius:8px; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08)}
     .img-panel img{display:block; width:100%; height:100%; object-fit:contain; background:#0f0d11}
     .img-close{position:absolute; top:8px; right:8px; background:rgba(0,0,0,.55); color:#fff; border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:6px 10px; font-size:12px; cursor:pointer}
@@ -169,7 +187,10 @@
     .news-content h3 { margin: 0 0 4px; font-size: 16px; }
     .news-content time { font-size: 11px; color: var(--muted); margin-bottom: 10px; display: block; }
     .news-content p { margin: 0; font-size: 14px; line-height: 1.7; color: var(--muted); }
-    @media (max-width: 768px) { .project-detail-content { grid-template-columns: 1fr; } .project-detail-image-container { max-width: 400px; margin: 0 auto; } }
+    @media (max-width: 768px) { 
+      .project-detail-content { grid-template-columns: 1fr; } 
+      .project-detail-image-container { max-width: 400px; margin: 0 auto; } 
+    }
   </style>
 </head>
 <body>
@@ -416,16 +437,7 @@
                     description: `<p>Joining <a href="https://www.roblox.com/groups/4619164/BloxByte-Games" target="_blank" rel="noopener" class="text-link">BloxByte Games</a> in late 2024, I took on the role of Creative Lead Director for their new project, 'Cooked!'. I was responsible for steering the game's overall creative vision, taking leadership in both 3D asset creation and establishing the definitive art style. A key part of my role involved directing and personally designing the entire user interface to ensure a seamless and intuitive player experience.</p><p>Drawing on over a decade of experience, I helped guide the project from concept to completion in an accelerated timeline of just six months. My workflow involved a suite of professional tools, including Blender for 3D modeling, Pixelmator Pro for graphics, and Roblox Studio as the core development platform. This project was also a fantastic opportunity for growth, as I learned to texture in Procreate on the iPad Pro. I used this new skill to craft the game's standout visual feature: its hyper-realistic dishes. By applying Physically-Based Rendering (PBR) textures, the food was given a detailed, lifelike quality that truly pops on screen.</p>`,
                     marketing: `<div class="marketing-section"><h3>Marketing & Social Media</h3><p>Beyond my core responsibilities, I always bring my passion for marketing and community management to every project. For 'Cooked!', while creative control over the game's official social channels was a collaborative effort, presenting some unique challenges, I was proud to contribute significantly to the game's public-facing presence.</p><p>I developed and produced several key video assets using Final Cut Pro to build hype and inform the community, including:</p><ul><li><a href="https://x.com/BloxByteGames/status/1903159823497101743" target="_blank" rel="noopener" class="text-link">Initial Community Hype Trailer</a></li><li><a href="https://x.com/BloxByteGames/status/1916222788001481066" target="_blank" rel="noopener" class="text-link">First Look at Gameplay</a></li><li><a href="https://x.com/BloxByteGames/status/1935064836280566224" target="_blank" rel="noopener" class="text-link">Release Date Announcement</a></li><li><a href="https://x.com/BloxByteGames/status/1938757576356737369" target="_blank" rel="noopener" class="text-link">Final Game Release Trailer</a></li></ul><p>I also took the lead as the primary public-facing voice for the project, engaging directly with our audience. I've always believed that the goal is not just to make a great game, but to put smiles on people's faces through positive interaction and exciting content. This philosophy drove my creation of graphical assets in Pixelmator Pro, from countdown images to the final game icon and thumbnails. It’s just one more way I bring a comprehensive skill set to the table. (A huge thanks to our amazing testing team for their help in the trailers!)</p></div>`,
                     galleryTitle: 'cooked! main gallery',
-                    galleryImages: [
-                        'CO_Image1.jpg','CO_Image2.jpg','CO_Image3.jpg','CO_Image4.jpg','CO_Image5.jpg',
-                        'CO_Image6.jpg','CO_Image7.jpg','CO_Image8.jpg','CO_Image9.jpg','CO_Image10.jpg',
-                        'CO_Image11.jpg','CO_Image12.jpg','CO_Image13.jpg','CO_Image14.jpg','CO_Image15.jpg',
-                        'CO_Image16.jpg','CO_Image17.jpg','CO_Image18.jpg','CO_Image19.jpg','CO_Image20.jpg',
-                        'CO_Image21.jpg','CO_Image22.jpg','CO_Image23.jpg','CO_Image24.jpg','CO_Image25.jpg',
-                        'CO_Image26.jpg','CO_Image27.jpg','CO_Image28.jpg','CO_Image29.jpg','CO_Image30.jpg',
-                        'CO_Image31.jpg','CO_Image32.jpg','CO_Image33.jpg','CO_Image34.jpg','CO_Image35.jpg',
-                        'CO_Image36.jpg','CO_Image37.jpg','CO_Image38.jpg','CO_Image39.jpg','CO_Image40.jpg'
-                    ]
+                    galleryImages: Array.from({length: 40}, (_, i) => `CO_Image${i+1}.png`)
                 },
                 'treasure': {
                     title: 'Cart Ride for Treasure',
@@ -583,7 +595,6 @@
             const openGalleryModal = (projectId) => {
                 const data = projectData[projectId];
                 if(data && data.galleryImages) {
-                    // Use custom title if defined, otherwise fallback
                     galleryTitle.textContent = data.galleryTitle || `${data.title.replace('🔥 ','').replace('💎 ','')} Gallery`;
                     galleryGrid.innerHTML = '';
                     data.galleryImages.forEach(imgSrc => {
@@ -591,6 +602,11 @@
                         item.className = 'gallery-item';
                         const img = document.createElement('img');
                         img.src = imgSrc;
+                        img.alt = `Gallery image: ${imgSrc}`;
+                        img.addEventListener('error', function() {
+                            this.classList.add('error-img');
+                            console.warn('Failed to load image:', imgSrc);
+                        });
                         img.addEventListener('click', () => openImgModal(imgSrc));
                         item.appendChild(img);
                         galleryGrid.appendChild(item);

@@ -21,6 +21,7 @@
     body[data-active-theme="cooked"] { --accent:#ff6b35; --pink:#ffad99; }
     body[data-active-theme="treasure"] { --accent:#ffcc00; --pink:#bde0fe; }
     body[data-active-theme="showcases"] { --accent:#8b5cf6; --pink:#e0d4ff; }
+    body[data-active-theme="wmg"] { --accent:#1e90ff; --pink:#a0d8f1; }
 
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -190,6 +191,16 @@
             <div class="meta"><span>cart ride for treasure</span><span>co-founder • lead artist • ui & 3d</span></div>
           </article>
 
+          <!-- WARNER MUSIC GROUP -->
+          <article class="card" data-cat="live">
+            <div class="shot has-img" style="background-image:url('WMGBanner.png')">
+              <div class="labels">
+                <a class="see-more pink" href="#" data-project-id="wmg">explore</a>
+              </div>
+            </div>
+            <div class="meta"><span>warner music group</span><span>environment artist • brand activations</span></div>
+          </article>
+
           <!-- THE VOYAGE -->
           <article class="card" data-cat="projects">
             <div class="shot has-img" style="background-image:url('TheVoyage.png')">
@@ -293,7 +304,7 @@
       const cvs=document.getElementById('fogFX'); if(!cvs)return;
       const ctx=cvs.getContext('2d'); let W=0,H=0,DPR=Math.max(1,Math.min(2,window.devicePixelRatio||1));
       const SCALE=2; let last=0; let blobs=[];
-      function colors(){const t=document.body.dataset.activeTheme;return t==='cooked'?['rgba(255,107,53,.16)','rgba(255,107,53,0)']:t==='treasure'?['rgba(173,216,230,.16)','rgba(173,216,230,0)']:t==='showcases'?['rgba(139,92,246,.16)','rgba(139,92,246,0)']:['rgba(255,190,220,.16)','rgba(255,190,220,0)'];}
+      function colors(){const t=document.body.dataset.activeTheme;return t==='cooked'?['rgba(255,107,53,.16)','rgba(255,107,53,0)']:t==='treasure'?['rgba(173,216,230,.16)','rgba(173,216,230,0)']:t==='showcases'?['rgba(139,92,246,.16)','rgba(139,92,246,0)']:t==='wmg'?['rgba(30,144,255,.16)','rgba(30,144,255,0)']:['rgba(255,190,220,.16)','rgba(255,190,220,0)'];}
       function seed(){blobs=[];const n=Math.min(22,Math.max(10,Math.round((W*H)/300000)));for(let i=0;i<n;i++){const r=160+Math.random()*320;const a=Math.random()*Math.PI*2;const s=0.004+Math.random()*0.002;blobs.push({x:Math.random()*W,y:Math.random()*H,r,vx:Math.cos(a)*s,vy:Math.sin(a)*s});}}
       function resize(){W=innerWidth;H=innerHeight;cvs.style.width=W+'px';cvs.style.height=H+'px';cvs.width=Math.ceil(W/SCALE)*DPR;cvs.height=Math.ceil(H/SCALE)*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);seed();}
       function draw(dt){ctx.clearRect(0,0,cvs.width,cvs.height);const[c0,c1]=colors();for(const b of blobs){b.x+=b.vx*dt;b.y+=b.vy*dt;const p=b.r+40;if(b.x<-p)b.x=W+p;if(b.x>W+p)b.x=-p;if(b.y<-p)b.y=H+p;if(b.y>H+p)b.y=-p;const cx=b.x/SCALE,cy=b.y/SCALE,rr=b.r/SCALE;const g=ctx.createRadialGradient(cx,cy,0,cx,cy,rr);g.addColorStop(0,c0);g.addColorStop(1,c1);ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,rr,0,Math.PI*2);ctx.fill();}}
@@ -350,6 +361,19 @@
           galleryImages:Array.from({length:38},(_,i)=>`CR_Image${i+1}.png`),
           uiGalleryImages:Array.from({length:14},(_,i)=>`CRUI_Image${i+1}.png`)
         },
+        wmg:{
+          title:'Warner Music Group',
+          imageSrc:'WMGBanner.png',
+          theme:'wmg',
+          description:`<p>Served as a core <strong>Environment Artist</strong> for high-profile brand activations, focusing on translating external celebrity and WMG brand identities into high-fidelity, performant Roblox experiences.</p>
+<h3>Key Achievements</h3>
+<ul>
+  <li><strong>Executed the visual integration</strong> for multiple WMG partnership events, ensuring each celebrity’s brand identity was accurately represented in the virtual environment.</li>
+  <li><strong>Developed optimized assets and environments</strong> for the events that generated massive player reach, demonstrating mastery of the live event asset pipeline.</li>
+  <li><strong>Worked closely with engineering leads</strong> to ensure all custom-modeled partnership items were fully functional and performant within the live game environment.</li>
+</ul>`,
+          galleryImages:Array.from({length:26},(_,i)=>`WMG_Image${i+1}.png`)
+        },
         voyage:{
           title:'The Voyage',
           imageSrc:'TheVoyage.png',
@@ -398,7 +422,7 @@
           // Clear previous buttons
           galleryButtonsContainer.innerHTML='';
 
-          // Handle Showcases (dynamic galleries)
+          // Handle Showcases
           if (id === 'showcases' && d.galleries) {
             d.galleries.forEach(gal=>{
               const btn=document.createElement('button');
@@ -413,7 +437,7 @@
               galleryButtonsContainer.appendChild(btn);
             });
           } else {
-            // Existing gallery logic for cooked & treasure
+            // Standard gallery logic
             const galleryBtn=document.createElement('button');
             galleryBtn.className='btn hidden';
             galleryBtn.id='gallery-btn';
@@ -434,7 +458,6 @@
             treasureUiGalleryBtn.id='treasure-ui-gallery-btn';
             galleryButtonsContainer.appendChild(treasureUiGalleryBtn);
 
-            // Re-run logic for other projects
             if (d.galleryImages?.length) {
               galleryBtn.textContent=`open ${d.title.toLowerCase()}'s gallery`;
               galleryBtn.dataset.projectId=id;

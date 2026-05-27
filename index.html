@@ -1,726 +1,268 @@
-doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>obviouslypurple — portfolio</title>
-  $1  <meta name="color-scheme" content="dark" />
-<title>obviouslypurple — portfolio</title>
-  <meta name="description" content="obviouslypurple — roblox developer • ui + 3d artist • project manager" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <title>obviouslypurple</title>
+  <meta name="description" content="Official obviouslypurple homepage." />
   <style>
-    :root{
-      --bg:#ffffff;
-      --ink:#1f1f24;
-      --muted:#5f5f6b;
-      --pink:#ffd8ea;
-      --pink-200:#ffe6f1;
-      --accent:#ff9bc8;
-      --green:#b6f2c1;
-      --card:#ffffff;
-      --radius:10px;
-      --shadow:0 8px 26px rgba(31,31,36,.08);
-      --max:1000px;
+    :root {
+      --text: #f4f4f4;
+      --panel-w: min(1080px, 92vw);
     }
-    :root[data-theme="dark"]{
-      --bg:#1a1a1a;
-      --ink:#ffffff;
-      --muted:#cccccc;
-      --card:#2a2a2a;
-      --shadow:0 8px 26px rgba(0,0,0,.6);
-      --accent:#ff9bc8;
-      --green:#3bb273;
+
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "FreeSerif", "Times New Roman", Georgia, serif;
+      background: #07090d url("WebsiteBackground@3x.png") center top / cover no-repeat fixed;
+      cursor: none;
+      overflow-x: hidden;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:'Space Mono', monospace; color:var(--ink);
-      background:var(--bg);
-      text-transform:lowercase;
+
+    .page {
+      min-height: 100vh;
+      position: relative;
+      isolation: isolate;
+      padding: 8px 0 64px;
     }
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:var(--max); margin:0 auto; padding:20px 16px 64px; position:relative; z-index:1}
 
-    header{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:12px 0; border-bottom:1px solid #f2e6ee;}
-    :root[data-theme="dark"] header{border-bottom:1px solid var(--pink);}
+    .cutout {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(98vw, 1980px);
+      pointer-events: none;
+      z-index: 10;
+    }
 
-    .left-nav{display:flex; gap:18px; align-items:center}
-    .left-nav a{position:relative; padding:6px 2px; color:var(--ink)}
-    .left-nav a::after{content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform .2s ease, background .2s ease}
-    .left-nav a:hover::after{transform:scaleX(1)}
-    .left-nav a:hover{color:var(--accent)}
+    .site-header {
+      width: min(1980px, 98vw);
+      margin: 6px auto 0;
+      position: relative;
+      z-index: 20;
+    }
 
-    .brand{display:flex; justify-content:center}
-    .brand img{height:50px; filter:var(--logo-filter, none);}
-  .brand[role=button]{cursor:pointer}
+    .logo-wrap {
+      margin: 0 auto;
+      width: min(388px, 66vw);
+      position: relative;
+    }
 
-    .right-socials{display:flex; justify-content:flex-end; gap:14px; align-items:center}
-    .icon{width:28px; height:28px; display:inline-grid; place-items:center; border-radius:8px; color:var(--ink); background:transparent; border:none}
-    .icon:hover{color:var(--accent)}
-    .icon svg, .icon img{width:100%; height:100%; display:block; fill:currentColor}
+    .logo-bg, .logo {
+      width: 100%;
+      display: block;
+    }
 
-    .hero{margin:60px 0; text-align:center}
-    .intro h2{margin:0 0 12px; font-size:18px; line-height:1.6}
-    .intro p{margin:0 0 18px; color:var(--muted); font-size:13px}
-    .btn{font-size:12px; padding:8px 10px; border:1px solid var(--ink); background:transparent; cursor:pointer; color:var(--ink)}
-    .btn:hover{background:var(--pink); border-color:var(--pink); color:var(--ink)}
+    .logo {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      width: 82%;
+    }
 
-    /* project tabs + grid */
-    .tabs{display:flex; gap:10px; justify-content:center; margin-bottom:20px}
-    .tab{appearance:none; border:1px solid #f0d9e6; background:#fff; color:#6c6068; padding:6px 10px; border-radius:999px; font-size:11px; cursor:pointer}
-    .tab:hover{background:var(--pink-200); color:#2a2a30; border-color:var(--pink)}
-    .tab.is-active{background:var(--ink); color:#fff; border-color:var(--ink)}
-    :root[data-theme="dark"] .tab{background:#2a2a2a; border:1px solid var(--pink); color:var(--muted)}
-    :root[data-theme="dark"] .tab{background:transparent; color:#e9e6ea; border:1px solid rgba(255,155,200,.35); transition:all .2s ease}
-:root[data-theme="dark"] #fogFX{mix-blend-mode:screen; filter:blur(3px)}
-    :root[data-theme="dark"] .tab.is-active{background:var(--accent); color:#fff;}
+    .site-line { width: 100%; display: block; margin-top: 2px; }
 
-    .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; margin-top:20px}
-    .card{background:var(--card); border:1px solid var(--pink); border-radius:var(--radius); padding:12px; box-shadow:var(--shadow); color:var(--ink)}
-    .shot{position:relative; aspect-ratio:16/10; border-radius:8px; background:#faf6f9; display:grid; place-items:center; color:#9c8f96; border:1px dashed var(--border); overflow:hidden}
-    :root[data-theme="dark"] .shot{background:#1a1a1a; border:1px dashed var(--pink); color:var(--muted)}
-    .meta{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:8px; color:var(--muted); font-size:10px}
+    .nav {
+      position: absolute;
+      left: 50%;
+      top: 115px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 26px;
+      align-items: center;
+    }
 
-    footer{margin-top:60px; padding:20px; border-top:1px solid #f2e6ee; text-align:center}
-    :root[data-theme="dark"] footer{border-top:1px solid var(--pink)}
-    .footer-socials{display:flex; justify-content:center; gap:18px; margin-top:10px}
-    .footer-socials .icon svg{width:22px; height:22px; fill:currentColor}
-    .footer-socials .icon:hover svg{fill:var(--accent)}
-    /* keep pixel clouds behind content so the page doesn't shift */
-  #pixelClouds{position:fixed; inset:0; z-index:0; width:100vw; height:100vh; display:block; background:transparent; image-rendering:pixelated; pointer-events:none}
-  #fogFX{position:fixed; inset:0; z-index:0; width:100vw; height:100vh; display:block; pointer-events:none; image-rendering:pixelated; filter:blur(3.5px); mix-blend-mode:multiply}
-#shimmerFX{position:fixed; inset:0; z-index:0; width:100vw; height:100vh; display:block; background:transparent; image-rendering:pixelated; pointer-events:none; opacity:0; transition:opacity .35s ease}
-:root.shimmer-on #shimmerFX{opacity:.5}
-:root.shimmer-on{ --accent:#b79bff; }
-:root.galaxy-on #shimmerFX{opacity:.78}
-:root.galaxy-on{ --accent:#b79bff; }
-  :root[data-theme="dark"] .tab{background:transparent; color:#e9e6ea; border:1px solid rgba(255,155,200,.35); transition:all .2s ease}
-  :root[data-theme="dark"] .tab:hover{background:rgba(255,155,200,.25); color:#fff; border-color:var(--accent)}
-  :root[data-theme="dark"] .tab.is-active{background:var(--accent); color:#1a1216; border-color:var(--accent)}
-  /* image thumbnails + hover label + gradient */
-  .shot.has-img{background-size:cover; background-position:center; border:none; color:transparent}
-  .shot.has-img::after{content:""; position:absolute; inset:0; background:linear-gradient(to bottom, rgba(255,216,234,.35), rgba(255,216,234,0)); opacity:0; transition:opacity .25s ease; pointer-events:none; z-index:1}
-  .card:hover .shot.has-img::after{opacity:1}
-  .labels{position:absolute; top:10px; left:10px; right:10px; display:flex; justify-content:space-between; gap:8px; z-index:5;}
-  .see-more{padding:6px 12px; font-size:12px; line-height:1; border-radius:14px; box-shadow:0 6px 18px rgba(31,31,36,.08); opacity:0; transform:translateY(-6px); transition:opacity .18s ease, transform .18s ease; pointer-events:none; text-decoration:none; cursor:pointer;}
-  .see-more{--t:255,120,196; --ring:255,220,240; --label-ink:#fff; --t-top-a:.42; --t-bottom-a:.18; position:relative; display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:12px; font-weight:700; line-height:1; border-radius:999px; opacity:0; transform:translateY(-6px); transition:opacity .18s ease, transform .18s ease; pointer-events:none; text-decoration:none; cursor:pointer; overflow:hidden; color:var(--label-ink); border:1px solid rgba(var(--ring),.7); background:linear-gradient(180deg, rgba(var(--t), var(--t-top-a)), rgba(var(--t), var(--t-bottom-a))) padding-box; backdrop-filter:blur(12px) saturate(160%); -webkit-backdrop-filter:blur(12px) saturate(160%); box-shadow:inset 0 1px 0 rgba(255,255,255,.55), inset 0 -12px 22px rgba(0,0,0,.22), 0 10px 28px rgba(0,0,0,.35); text-shadow:0 1px 0 rgba(255,255,255,.25)}
-.see-more>.glass{position:absolute; inset:-1px; border-radius:inherit; pointer-events:none; background-image:var(--glass-bg); background-size:var(--glass-size); background-position:var(--glass-x) var(--glass-y); filter:blur(1px) brightness(1.1) contrast(1.05) saturate(1.2); mix-blend-mode:soft-light; opacity:.95}
-.see-more::before{content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(120% 60% at 50% -20%, rgba(255,255,255,.5), rgba(255,255,255,.12) 55%, transparent 70%); pointer-events:none}
-.see-more::after{content:""; position:absolute; top:0; left:-40%; width:40%; height:100%; border-radius:inherit; background:linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); transform:skewX(-20deg) translateX(-10%); transition:transform .6s ease; opacity:.85; pointer-events:none}
-.card:hover .see-more::after{transform:skewX(-20deg) translateX(230%)}
-@media (prefers-reduced-motion: reduce){ .card:hover .see-more::after{transform:none} }
-.see-more::before{content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(120% 60% at 50% -20%, rgba(255,255,255,.55), rgba(255,255,255,.12) 55%, transparent 70%); pointer-events:none}
-.see-more::after{content:""; position:absolute; top:0; left:-40%; width:40%; height:100%; border-radius:inherit; background:linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); transform:skewX(-20deg) translateX(-10%); transition:transform .6s ease; opacity:.8; pointer-events:none}
-.card:hover .see-more::after{transform:skewX(-20deg) translateX(230%)}
-@media (prefers-reduced-motion: reduce){ .card:hover .see-more::after{transform:none} }
-.see-more::before{content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(120% 60% at 50% 0%, rgba(255,255,255,.55), rgba(255,255,255,.08) 60%, transparent 70%); pointer-events:none}
-.see-more::after{content:""; position:absolute; top:0; left:-40%; width:40%; height:100%; border-radius:inherit; background:linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent); transform:skewX(-20deg) translateX(-10%); transition:transform .6s ease; opacity:.7; pointer-events:none}
-.card:hover .see-more::after{transform:skewX(-20deg) translateX(230%)}
-@media (prefers-reduced-motion: reduce){ .card:hover .see-more::after{transform:none} }
-  .card:hover .see-more{opacity:1; transform:translateY(0); pointer-events:auto;}
-  /* mobile: show when card is tapped */
-  .shot.labels-active .see-more{opacity:1; transform:translateY(0); pointer-events:auto;}
-  .see-more.pink{background:var(--pink-200); color:var(--ink);}
-  .see-more.green{background:var(--green); color:#000;}
-  .see-more.pink{--t:255,120,196; --ring:255,220,240; --label-ink:#fff}
-  .see-more.green{--t:48,255,168; --ring:210,255,235; --label-ink:#ffffff}
-  /* dark mode tweak */
-  :root[data-theme="dark"] .shot.has-img::after{background:linear-gradient(to bottom, rgba(255,155,200,.18), rgba(255,155,200,.04))}
-  :root[data-theme="dark"] .see-more.pink{background:rgba(255,155,200,.25); color:#fff}
-  :root[data-theme="dark"] .see-more.green{background:var(--green); color:#000}
-  :root[data-theme="dark"] .see-more.pink{--t:255,120,196; --ring:255,220,240; --label-ink:#fff}
-  :root[data-theme="dark"] .see-more.green{--t:48,255,168; --ring:210,255,235; --label-ink:#ffffff}
-  /* fix: prevent theme switch from changing thumbnail scale */
-  .shot.has-img{background-size:cover !important; background-position:center center !important}
-  :root[data-theme="dark"] .shot.has-img{background-size:cover !important}
+    .nav a {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 110px;
+      padding: 10px 18px;
+      color: #f4f4f4;
+      text-decoration: none;
+      font-size: clamp(18px, 2vw, 40px);
+      line-height: 1;
+      isolation: isolate;
+    }
 
-  /* make logo turn white in dark mode without changing size */
-  :root[data-theme="dark"]{ --logo-filter: brightness(0) invert(1); }
-  .brand img{ transform:none }
-  .brand:hover img{ transform:translateY(-2px) scale(1.02) }
-  /* fix roblox icon in dark mode */
-  .icon.roblox svg{fill:#111}
-  :root[data-theme="dark"] .icon.roblox svg{fill:#f6f6f8}
-  :root[data-theme="dark"] .icon.roblox svg path.hole{fill:#1a1a1e}
-  /* --- responsive header so it doesn't collide on mobile --- */
-  @media (max-width: 640px){
-    header{grid-template-columns:1fr; row-gap:8px; padding:10px 0}
-    .brand{order:1}
-    .brand img{height:46px}
-    .left-nav{order:2; justify-content:center; gap:14px}
-    .right-socials{order:3; justify-content:center; gap:10px}
-    .tabs{flex-wrap:wrap; gap:8px}
-    .tab{padding:6px 10px; font-size:11px}
-    .wrap{padding:16px 12px 56px}
-  }
-.footer-link{color:var(--muted); text-decoration:underline; text-underline-offset:2px}
-.footer-link:hover{color:var(--ink)}
-/* changelog modal styles */
-.cl-modal{position:fixed; inset:0; display:none; z-index:50}
-.cl-modal[aria-hidden="false"]{display:block}
-.cl-backdrop{position:absolute; inset:0; background:rgba(0,0,0,.35)}
-.cl-panel{position:relative; margin:6vh auto; max-width:720px; background:var(--card); color:var(--ink); border:1px solid var(--pink); border-radius:16px; box-shadow:var(--shadow); overflow:hidden}
-.cl-header{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid #f2e6ee}
-:root[data-theme="dark"] .cl-header{border-bottom:1px solid var(--pink)}
-.cl-close{background:transparent; border:none; font-size:18px; cursor:pointer; color:var(--muted)}
-.cl-content{max-height:60vh; overflow:auto; padding:8px 16px 16px}
-.cl-list{list-style:none; padding:0; margin:0; display:grid; gap:12px}
-.cl-item{border:1px solid var(--pink); border-radius:12px; padding:10px 12px; background:var(--bg)}
-.cl-item time{font-size:11px; color:var(--muted)}
-.cl-item h4{margin:6px 0 4px; font-size:14px}
-.cl-item ul{margin:0; padding-left:18px}
-.cl-controls{display:flex; justify-content:flex-end; padding:8px 0}
-.sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
-</style>
+    .nav a .button-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      z-index: -1;
+      opacity: 0.9;
+    }
+
+    .nav a .flower {
+      width: clamp(16px, 1.3vw, 32px);
+      margin-right: 6px;
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+
+    .nav a.active .flower,
+    .nav a:hover .flower,
+    .nav a:focus-visible .flower { opacity: 1; }
+
+    .content {
+      width: var(--panel-w);
+      margin: 34px auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      gap: 10px;
+    }
+
+    .tape {
+      position: absolute;
+      width: 160px;
+      pointer-events: none;
+      z-index: 4;
+      filter: grayscale(0.1) brightness(0.95);
+    }
+
+    .tape-1 { left: -34px; top: 8px; }
+    .tape-2 { left: -48px; bottom: -16px; }
+    .tape-3 { right: -30px; bottom: 22px; }
+    .tape-4 { right: -40px; top: 26px; }
+
+    .intro-border { grid-column: 1 / -1; width: 100%; display: block; }
+
+    .portrait {
+      margin-top: -6px;
+      position: relative;
+      padding-left: 10px;
+      animation: sway 4.8s steps(6, end) infinite alternate;
+      transform-origin: center center;
+    }
+
+    .portrait img { width: min(100%, 540px); display: block; }
+
+    .intro-letter {
+      margin-top: -6px;
+      padding: 18px 16px 30px 20px;
+      background: rgba(5, 8, 12, .84);
+      font-size: clamp(18px, 1.75vw, 40px);
+      font-style: italic;
+      line-height: 1.03;
+      position: relative;
+      animation: sway 4.8s steps(6, end) infinite alternate-reverse;
+    }
+
+    .intro-letter p { margin: 0 0 18px; }
+    .intro-letter .underline { text-decoration: underline; }
+
+    .intro-top {
+      font-style: normal;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .purple-script {
+      width: clamp(140px, 13vw, 250px);
+      vertical-align: middle;
+      margin: 0 2px;
+    }
+
+    .bunny {
+      position: absolute;
+      right: -8px;
+      bottom: -4px;
+      width: min(180px, 24vw);
+      filter: grayscale(1) brightness(1.05);
+    }
+
+    .mouse-flower {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 26px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 999;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,.35));
+    }
+
+    @keyframes sway {
+      from { transform: translateX(-6px) rotate(-1.2deg); }
+      to { transform: translateX(6px) rotate(1.2deg); }
+    }
+
+    @media (max-width: 980px) {
+      body { cursor: auto; }
+      .mouse-flower { display: none; }
+      .nav { top: 92px; gap: 10px; }
+      .nav a { min-width: 90px; padding: 8px 12px; }
+      .content { grid-template-columns: 1fr; }
+      .tape { width: 120px; }
+      .portrait { margin: -2px auto 0; }
+      .intro-letter { margin-top: 4px; }
+      .bunny { right: 2px; width: 120px; }
+    }
+  </style>
 </head>
-<body onload="window.scrollTo(0,0)">
-  <canvas id="pixelClouds" aria-hidden="true"></canvas>
-<body onload="window.scrollTo(0,0)">  <canvas id="fogFX" aria-hidden="true"></canvas>
-  <canvas id="shimmerFX" aria-hidden="true"></canvas>
+<body>
+  <img class="mouse-flower" src="Flower@3x.png" alt="" aria-hidden="true" />
 
-<script>
-// (disabled old background script to avoid conflicts with new theme-specific engine)
-// Fog Gradient FX (slow, subtle) — works in light & dark, motion-aware
-(function(){
-  if(window.__fogFX) return; window.__fogFX = true;
-  const cvs = document.getElementById('fogFX'); if(!cvs) return; const ctx = cvs.getContext('2d');
-  let W=0,H=0, DPR=Math.max(1, Math.min(2, window.devicePixelRatio||1));
-  const SCALE=2; // low-res for gentle pixelation; CSS adds tiny blur
-  let last=0; let blobs=[];
-  const isDark   = ()=> document.documentElement.getAttribute('data-theme')==='dark' || window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const isReduced= ()=> document.documentElement.getAttribute('data-motion')==='reduced';
-  function colors(){
-    return isDark()
-      ? ['rgba(255,190,220,0.16)','rgba(255,190,220,0)']
-      : ['rgba(255,216,234,0.50)','rgba(255,216,234,0)'];
-  }
-  function seed(){
-    blobs.length=0;
-    const base = Math.max(10, Math.round((W*H)/300000));
-    const n = Math.min(22, Math.max(10, Math.round(base*(isReduced()?0.7:1))));
-    for(let i=0;i<n;i++){
-      const r = 160 + Math.random()*320; // radius in px
-      const ang = Math.random()*Math.PI*2;
-      const spd = (isReduced()?0.002:0.004) + Math.random()*0.002; // px/ms
-      blobs.push({
-        x: Math.random()*W, y: Math.random()*H, r,
-        vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd,
-        wob: Math.random()*Math.PI*2, wobAmp: 0.2 + Math.random()*0.4, wobSpd: 0.0003 + Math.random()*0.0006
-      });
-    }
-  }
-  function resize(){
-    W=innerWidth; H=innerHeight; cvs.style.width=W+'px'; cvs.style.height=H+'px';
-    cvs.width=Math.ceil(W/SCALE)*DPR; cvs.height=Math.ceil(H/SCALE)*DPR;
-    ctx.setTransform(DPR,0,0,DPR,0,0); ctx.imageSmoothingEnabled=false; seed();
-  }
-  function draw(dt){
-    ctx.clearRect(0,0,cvs.width,cvs.height);
-    const [c0,c1] = colors();
-    for(const b of blobs){
-      // movement (very slow)
-      const m = isReduced()?0.5:1;
-      b.wob += b.wobSpd*dt*m;
-      b.x += b.vx*dt*m + Math.cos(b.wob)*0.02*dt; // tiny wobble push
-      b.y += b.vy*dt*m + Math.sin(b.wob)*0.02*dt;
-      const pad=b.r+40; if(b.x<-pad) b.x=W+pad; if(b.x>W+pad) b.x=-pad; if(b.y<-pad) b.y=H+pad; if(b.y>H+pad) b.y=-pad;
-      // radial blob
-      const cx = b.x/SCALE, cy = b.y/SCALE, rr = b.r/SCALE;
-      const g = ctx.createRadialGradient(cx,cy,0,cx,cy,rr);
-      g.addColorStop(0, c0); g.addColorStop(1, c1);
-      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rr,0,Math.PI*2); ctx.fill();
-    }
-  }
-  function loop(ts){ const dt=Math.min(50,(ts-last)||16); last=ts; draw(dt); requestAnimationFrame(loop); }
-  window.addEventListener('resize', resize, {passive:true});
-  document.addEventListener('theme:changed', resize);
-  document.addEventListener('motion:changed', resize);
-  resize(); requestAnimationFrame(loop);
-})();
-</script>
-  <div class="wrap">
-    <header>
-      <nav class="left-nav">
-        <a href="#top">home</a>
-        <a href="#work">projects</a>
+  <div class="page">
+    <img class="cutout" src="CutOutFromTop@3x.png" alt="" aria-hidden="true" />
+
+    <header class="site-header">
+      <div class="logo-wrap">
+        <img class="logo-bg" src="LogoBG@3x.png" alt="" aria-hidden="true" />
+        <img class="logo" src="Logo@3x.png" alt="obviouslypurple logo" />
+      </div>
+      <img class="site-line" src="WebsiteLine@3x.png" alt="" aria-hidden="true" />
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#news"><img class="button-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />news</a>
+        <a href="#home" class="active"><img class="button-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />home</a>
+        <a href="#plugins"><img class="button-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />plugins</a>
       </nav>
-
-      <div class="brand" id="logoEgg" role="button" tabindex="0" aria-label="play a secret audio">
-        <img src="officialogo.png" alt="obviouslypurple logo" class="brand-logo" />
-      </div>
-
-      <div class="right-socials">
-        <button class="icon theme-toggle" aria-label="toggle theme" title="toggle theme">🌙</button>
-        <a class="icon" href="https://x.com/obviouslypurple" target="_blank" aria-label="x (twitter)">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2H21l-6.56 7.49L22.5 22h-6.657l-5.2-6.79L3.5 22H1l7.11-8.12L1.5 2h6.74l4.7 6.2L18.244 2Zm-2.327 18h2.19L8.173 4h-2.3l10.044 16Z"/></svg>
-        </a>
-        <a class="icon" href="https://www.roblox.com/users/341680229/profile" target="_blank" aria-label="roblox profile">
-          <svg viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(50 50) rotate(20) translate(-50 -50)"><rect x="15" y="15" width="70" height="70" fill="currentColor"/><rect x="41" y="41" width="18" height="18" fill="var(--bg)"/></g></svg>
-        </a>
-      </div>
     </header>
 
-    <section class="hero" id="top">
-      <div class="intro">
-        <h2>i'm obviouslypurple — 22 year old roblox developer, ui + 3d artist, project manager.</h2>
-        <p>i've been building games, designing worlds, and organizing projects for almost a decade now.</p>
-        <button class="btn" onclick="window.open('https://x.com/obviouslypurple','_blank')">subscribe to my socials</button>
-      </div>
-    </section>
+    <main class="content" id="home">
+      <img class="tape tape-1" src="Tape1@3x.png" alt="" aria-hidden="true" />
+      <img class="tape tape-2" src="Tape2@3x.png" alt="" aria-hidden="true" />
+      <img class="tape tape-3" src="Tape3@3x.png" alt="" aria-hidden="true" />
+      <img class="tape tape-4" src="Tape4@3x.png" alt="" aria-hidden="true" />
+      <img class="intro-border" src="IntroductionBorder@3x.png" alt="" aria-hidden="true" />
 
-    <section id="work">
-      <div class="tabs" role="tablist">
-        <button class="tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">all</button>
-        <button class="tab" type="button" role="tab" aria-selected="false" data-filter="live">live experiences</button>
-        <button class="tab" type="button" role="tab" aria-selected="false" data-filter="projects">projects</button>
-        <button class="tab" type="button" role="tab" aria-selected="false" data-filter="other">other engagements</button>
-      </div>
+      <section class="portrait" aria-label="Avatar">
+        <img src="FadeinObviouslyPurple@3x.png" alt="obviouslypurple avatar" />
+      </section>
 
-      <div class="grid">
-        <article class="card" data-cat="live">
-          <div class="shot has-img" style="background-image:url('Cooked.png')">
-            <div class="labels">
-              <a class="see-more pink" href="#" aria-label="explore about cooked">explore</a>
-              <a class="see-more green" href="https://www.roblox.com/games/108476688850509/Cooked" target="_blank" rel="noopener" aria-label="play cooked">play</a>
-              <a class="see-more green" href="https://www.roblox.com/games/108476688850509/Cooked" target="_blank" rel="noopener" aria-label="play cooked" data-ink="#ffffff">play</a>
-            </div>
-          </div>
-          <div class="meta"><span>🔥 cooked!</span><span>creative lead • ui & 3d • live ops</span></div>
-        </article>
-        <article class="card" data-cat="projects">
-          <div class="shot has-img" style="background-image:url('TheVoyage.png')">
-            <div class="labels">
-              <a class="see-more pink" href="#" aria-label="explore about the voyage">explore</a>
-            </div>
-          </div>
-          <div class="meta"><span>the voyage</span><span>environment • studio build</span></div>
-        </article>
-        <article class="card" data-cat="other">
-          <div class="shot">project screenshot</div>
-          <div class="meta"><span>cooked ui</span><span>graphic design • ui systems</span></div>
-        </article>
-      </div>
-
-      <div style="margin-top:18px; text-align:center">
-        <a class="btn" href="#work" id="view-all">view all projects</a>
-      </div>
-    </section>
-
-    <footer id="contact">
-      <div>contact me:</div>
-      <div class="footer-socials">
-        <a class="icon" href="https://x.com/obviouslypurple" target="_blank" aria-label="x (twitter)">
-          <svg viewBox="0 0 24 24"><path d="M18.244 2H21l-6.56 7.49L22.5 22h-6.657l-5.2-6.79L3.5 22H1l7.11-8.12L1.5 2h6.74l4.7 6.2L18.244 2Zm-2.327 18h2.19L8.173 4h-2.3l10.044 16Z"/></svg>
-        </a>
-        <a class="icon" href="https://www.roblox.com/users/341680229/profile" target="_blank" aria-label="roblox profile">
-          <svg viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(50 50) rotate(20) translate(-50 -50)"><rect x="15" y="15" width="70" height="70" fill="currentColor"/><rect x="41" y="41" width="18" height="18" fill="var(--bg)"/></g></svg>
-        </a>
-        <span style="font-size:12px; color:var(--muted);">discord: @obviouslypurple</span>
-      </div>
-      <p style="margin-top:10px">© 2025 team op • <a href="#" id="open-changelog" class="footer-link">change logs</a></p>
-    </footer>
-
-    <!-- changelog modal -->
-    <div id="changelogModal" class="cl-modal" aria-hidden="true" role="dialog" aria-labelledby="cl-title">
-      <div class="cl-backdrop" data-close></div>
-      <div class="cl-panel" role="document">
-        <header class="cl-header">
-          <h3 id="cl-title">change logs</h3>
-          <button class="cl-close" aria-label="close changelog" data-close>✕</button>
-        </header>
-        <div class="cl-content">
-          <div class="cl-controls">
-            <label>
-              <span class="sr-only">filter</span>
-              <select id="cl-filter">
-                <option value="all">all</option>
-                <option value="2025" selected>2025</option>
-              </select>
-            </label>
-          </div>
-          <ol id="cl-list" class="cl-list"></ol>
-        </div>
-      </div>
-    </div>
+      <section class="intro-letter" id="news">
+        <img class="intro-border" src="IntroductionLetter@3x.png" alt="" aria-hidden="true" />
+        <p class="intro-top">hi, i'm <img class="purple-script" src="PurpleTextLogo@3x.png" alt="purple" /> i'm a creator on Roblox</p>
+        <p>i've been behind some of roblox's past branded games<br>
+        i've probably contributed to some of your favorite games<br>
+        i do <span class="underline">building, 3d modeling, texturing, ui and more</span></p>
+        <p>i'm currently trying to improve in all fields and make great games</p>
+        <p>hope you stay along as i go thru this new chapter!<br>
+        <span class="underline">thank you for YOUR support &lt;3</span></p>
+        <img class="bunny" src="Bunny@3x.png" alt="" aria-hidden="true" />
+      </section>
+    </main>
   </div>
 
-
-  <!-- easter egg audio -->
-  <audio id="egg-audio" src="logoeasteregg.mp3" preload="none"></audio>
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const CHANGELOG = [
-    {date:'2025-08-31', title:'Theme', items:[
-      'Removed light mode and locked site to dark',
-      'Removed theme toggle button'
-    ]},
-    {date:'2025-08-31', title:'Background FX', items:[
-      'Added subtle gradient fog (blurred, low-res) in both themes; very slow + motion-aware'
-    ]},
-    {date:'2025-08-31', title:'Visual', items:[
-      'Removed pixelated cloud background from normal mode',
-      'Kept galaxy overlay (logo) only; disabled background comets'
-    ]},
-    {date:'2025-08-31', title:'Accessibility', items:[
-      'Added reduced-motion support (respects system setting)',
-      'Calmer effects for reduced-motion users; galaxy mode also respects it'
-    ]},
-
-    {date:'2025-08-27', title:'FX tuning', items:[
-      'Light mode: boosted pink cloud visibility & glitch presence',
-      'Logo galaxy: brighter nebula/stars + added comets; stronger shimmer in both themes'
-    ]},
-
-    {date:'2025-08-27', title:'Themes & FX', items:[
-      'LIGHT: moving pixelated light-pink clouds + subtle background glitches',
-      'DARK: static pixelated clouds + vintage TV static/glitch overlay',
-      'Logo: secret galaxy theme (purple/blue nebula, stars, orange glitches, shimmer) when audio plays'
-    ]},
-
-    {date:'2025-08-27', title:'Pixel clouds', items:[
-      'Restored subtle pixelated pink clouds background with gentle movement',
-      'Dark mode-aware coloring and performance-friendly rendering']},
-
-    {date:'2025-08-27', title:'Easter egg', items:[
-      'Added secret logo audio playback (logoeasteregg.mp3)']},
-    {date:'2025-08-27', title:'UI wording', items:[
-      'Changed project labels to say “explore” instead of “view project / see more”']},
-    {date:'2025-08-27', title:'Highlights UX', items:[
-      'Added tap-to-reveal labels on mobile; kept hover on desktop',
-      'Made labels clickable and positioned left/right',
-      'Removed “play” label from The Voyage']},
-    {date:'2025-08-27', title:'Tabs + Filtering', items:[
-      'Tabs now filter projects and added an “all” tab by default']},
-    {date:'2025-08-27', title:'Media updates', items:[
-      'Hooked up Cooked.png and TheVoyage.png for highlight cards']}
-  ];
-
-  const modal = document.getElementById('changelogModal');
-  const openBtn = document.getElementById('open-changelog');
-  const list = document.getElementById('cl-list');
-  const filterSel = document.getElementById('cl-filter');
-
-  function open(){ modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
-  function close(){ modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
-  function yearOf(d){ return new Date(d).getFullYear().toString(); }
-  function render(){
-    const y = filterSel.value;
-    list.innerHTML = '';
-    CHANGELOG
-      .filter(e => y==='all' || yearOf(e.date)===y)
-      .forEach(e=>{
-        const li = document.createElement('li');
-        li.className = 'cl-item';
-        li.innerHTML = `<time datetime="${e.date}">${e.date}</time><h4>${e.title}</h4><ul>${e.items.map(it=>`<li>${it}</li>`).join('')}</ul>`;
-        list.appendChild(li);
-      });
-  }
-
-  if(openBtn){ openBtn.addEventListener('click', (e)=>{ e.preventDefault(); render(); open(); }); }
-  modal?.querySelectorAll('[data-close]').forEach(el=> el.addEventListener('click', close));
-  filterSel?.addEventListener('change', render);
-  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && modal.getAttribute('aria-hidden')==='false') close(); });
-});
-</script>
-<script>
-// tabs filter (all/live/projects/other)
-(function(){
-  const tabs = document.querySelectorAll('.tabs .tab');
-  const cards = document.querySelectorAll('.grid .card');
-  function apply(filter){
-    tabs.forEach(t=>{
-      const active = t.dataset.filter===filter;
-      t.classList.toggle('is-active', active);
-      t.setAttribute('aria-selected', String(active));
+  <script>
+    const cursorFlower = document.querySelector('.mouse-flower');
+    window.addEventListener('mousemove', (event) => {
+      cursorFlower.style.left = `${event.clientX}px`;
+      cursorFlower.style.top = `${event.clientY}px`;
     });
-    cards.forEach(c=>{ c.style.display = (filter==='all' || c.dataset.cat===filter) ? '' : 'none'; });
-  }
-  const initial = document.querySelector('.tabs .tab.is-active')?.dataset.filter || 'all';
-  apply(initial);
-  tabs.forEach(t=>{
-    t.addEventListener('click', ()=>apply(t.dataset.filter));
-    t.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); apply(t.dataset.filter);} });
-  });
-  document.getElementById('view-all')?.addEventListener('click', (e)=>{ apply('all'); });
-})();
-</script>
-<script>
-// logo easter egg — click the logo to play/pause audio
-(function(){
-  const logo = document.getElementById('logoEgg');
-  const audio = document.getElementById('egg-audio');
-  if(!logo || !audio) return;
-  audio.volume = 0.6; // gentle volume
-  function toggle(){
-    if(audio.paused){
-      audio.currentTime = 0;
-      const p = audio.play();
-      if(p && typeof p.then === 'function'){ p.catch(()=>{}); }
-      logo.classList.add('egg-playing');
-    }else{
-      audio.pause();
-      logo.classList.remove('egg-playing');
-    }
-  }
-  logo.addEventListener('click', toggle);
-  logo.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); toggle(); } });
-})();
-</script>
-<script>
-// Theme toggle: set and remember dark/light
-// Theme mode: locked to dark — light mode removed
-(function(){
-  const root = document.documentElement;
-  const btn = document.querySelector('.theme-toggle');
-  const saved = localStorage.getItem('theme');
-  const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  root.setAttribute('data-theme', saved || (sysDark ? 'dark' : 'light'));
-  btn?.addEventListener('click', ()=>{
-    const next = root.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    document.dispatchEvent(new CustomEvent('theme:changed', {detail:{mode:next}}));
-  });
-  root.setAttribute('data-theme','dark');
-  try { localStorage.setItem('theme','dark'); } catch(_){}
-  document.querySelector('.theme-toggle')?.remove();
-})();
-</script>
-<script>
-// Pixel background engine (v2)
-// LIGHT: moving light-pink "minecraft" clouds + slightly stronger glitches
-// DARK:  static light-pink "minecraft" clouds + vintage TV static + occasional glitches
-// Motion preference: automatic (respects system setting); no UI toggle
-(function(){
-  if(window.__pxbg2) return; window.__pxbg2 = true;
-  const cvs = document.getElementById('pixelClouds'); if(!cvs) return;
-  const ctx = cvs.getContext('2d');
-  let W=0,H=0, DPR=Math.max(1, Math.min(2, window.devicePixelRatio||1));
-  const SCALE = 2; let last=0;
-  const isDark = ()=> document.documentElement.getAttribute('data-theme')==='dark' || window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-  // Cloud field (shared by both themes)
-  let clouds=[];
-  function seedClouds(){
-    const n=Math.max(24, Math.min(56, Math.round((W*H)/80000)));
-    clouds=Array.from({length:n}, ()=>({
-      x:Math.random()*W, y:Math.random()*H,
-      sx:20+Math.random()*36, sy:12+Math.random()*24,
-      dx:(Math.random()*0.06+0.025)*(Math.random()>0.5?1:-1),
-      dy:(Math.random()*0.025-0.012),
-      a:Math.random()*Math.PI*2
-    }));
-  }
-  function drawClouds({moving}){
-    const col = 'rgba(255,216,234,' + (isDark()? '0.26' : '0.82') + ')';
-    for(const c of clouds){
-      if(moving){
-        c.a += 0.16; const wobX=Math.cos(c.a*0.02)*0.11, wobY=Math.sin(c.a*0.02)*0.055;
-        c.x += (c.dx + wobX); c.y += (c.dy + wobY);
-        const pad=200; if(c.x<-pad) c.x=W+pad; if(c.x>W+pad) c.x=-pad; if(c.y<-pad) c.y=H+pad; if(c.y>H+pad) c.y=-pad;
-      }
-      ctx.save(); ctx.translate(c.x/SCALE, c.y/SCALE); ctx.fillStyle=col;
-      const blocks=18; for(let i=0;i<blocks;i++){
-        ctx.globalAlpha=(isDark()?0.6:0.85) - i*(0.55/blocks);
-        const step=(i%3===0)?10:5; const ox=(Math.random()*2-1)*c.sx; const oy=(Math.random()*2-1)*c.sy;
-        const w=step; const h=(i%4===0)? step+4:step;
-        ctx.fillRect(Math.round(ox), Math.round(oy), w, h);
-      }
-      ctx.restore(); ctx.globalAlpha=1;
-    }
-  }
-
-  // LIGHT: stronger background glitches (still subtle)
-  let lightGlitchT=0;
-  function drawLightGlitches(dt){
-    lightGlitchT -= dt;
-    if(lightGlitchT<=0){
-      lightGlitchT = 300 + Math.random()*600; // every ~0.3–0.9s
-      const y=(Math.random()*H)|0; const h=4+((Math.random()*12)|0);
-      ctx.save(); ctx.globalAlpha=0.12; ctx.fillStyle='rgba(255,190,220,1)'; ctx.fillRect(0,y,W,h); ctx.restore();
-      ctx.save(); ctx.globalAlpha=0.08; ctx.fillStyle='rgba(200,150,255,1)'; ctx.fillRect(0,y+1,W,h-1); ctx.restore();
-    }
-  }
-
-  // DARK: static TV + occasional glitch bands
-  let glitchTimer=0;
-  function drawStaticTV(){
-    const cols = Math.ceil(W/(SCALE*6));
-    const rows = Math.ceil(H/(SCALE*6));
-    for(let y=0;y<rows;y++){
-      for(let x=0;x<cols;x++){
-        const n=(Math.random()*20)|0; const base=150+(n%10);
-        ctx.fillStyle=`rgba(255,${base},${205-n},0.08)`; ctx.fillRect(x*6,y*6,6,6);
-      }
-    }
-    ctx.fillStyle='rgba(255,155,200,0.05)';
-    for(let y=0;y< H/(SCALE*2); y+=2){ ctx.fillRect(0, y*2, W, 1); }
-  }
-  function drawDarkGlitch(dt){
-    glitchTimer -= dt; if(glitchTimer>0) return;
-    glitchTimer = 700 + Math.random()*1100; // a bit more frequent
-    const bands = 1 + (Math.random()*3)|0;
-    for(let b=0;b<bands;b++){
-      const y=(Math.random()*H)|0, h=6+((Math.random()*18)|0), shift=(Math.random()>0.5?1:-1)*(6+((Math.random()*24)|0));
-      ctx.save(); ctx.globalAlpha=0.16; ctx.fillStyle='rgba(180,120,220,0.28)'; ctx.fillRect(shift,y,W,h); ctx.restore();
-      ctx.save(); ctx.globalAlpha=0.10; ctx.fillStyle='rgba(120,180,255,0.40)'; ctx.fillRect(shift*0.6,y+2,W,h-2); ctx.fillStyle='rgba(255,120,200,0.40)'; ctx.fillRect(-shift*0.4,y+1,W,h-1); ctx.restore();
-    }
-  }
-
-  function resize(){
-    W=window.innerWidth; H=window.innerHeight;
-    cvs.style.width=W+'px'; cvs.style.height=H+'px';
-    cvs.width=Math.ceil(W/SCALE)*DPR; cvs.height=Math.ceil(H/SCALE)*DPR;
-    ctx.setTransform(DPR,0,0,DPR,0,0); ctx.imageSmoothingEnabled=false;
-    seedClouds();
-  }
-
-  function render(t){
-    const dt=Math.min(33,(t-last)||16); last=t;
-    ctx.clearRect(0,0,cvs.width, cvs.height);
-    if(isDark()){
-      drawClouds({moving:false}); // static clouds
-      drawStaticTV();
-      drawDarkGlitch(dt);
-    } else {
-      drawClouds({moving:true});
-      drawLightGlitches(dt);
-    }
-    requestAnimationFrame(render);
-  const root = document.documentElement;
-  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-  function apply(){
-    const mode = mq.matches ? 'reduced' : 'normal';
-    root.setAttribute('data-motion', mode);
-    document.dispatchEvent(new CustomEvent('motion:changed', {detail:{mode}}));
-  }
-
-  window.addEventListener('resize', resize, {passive:true});
-  resize(); requestAnimationFrame(render);
-  apply();
-  try{ mq.addEventListener('change', apply); }catch(_){ mq.addListener && mq.addListener(apply); }
-})();
-</script>
-<script>
-// Shimmer/Galaxy FX overlay on #shimmerFX (v2, brighter + comets)
-// - 'shimmer-on' => purple/blue shimmer
-// - 'galaxy-on'  => nebula + stars + orange glitch bands + comets
-// Shimmer/Galaxy FX overlay on #shimmerFX (v3 — motion-aware & brighter)
-(function(){
-  if(window.__shimmerFX2) return; window.__shimmerFX2 = true;
-  if(window.__shimmerFX3) return; window.__shimmerFX3 = true;
-  const cvs = document.getElementById('shimmerFX'); if(!cvs) return; const ctx=cvs.getContext('2d');
-  let W=0,H=0, DPR=Math.max(1, Math.min(2, window.devicePixelRatio||1));
-  const SCALE=2; let t=0; let stars=[]; let glitchT=0; let comets=[]; let cometT=0;
-  const isReduced = ()=> document.documentElement.getAttribute('data-motion')==='reduced';
-  function resize(){ W=innerWidth; H=innerHeight; cvs.style.width=W+'px'; cvs.style.height=H+'px'; cvs.width=Math.ceil(W/SCALE)*DPR; cvs.height=Math.ceil(H/SCALE)*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); ctx.imageSmoothingEnabled=false; seedStars(); }
-  function seedStars(){ const count=Math.max(120, Math.round((W*H)/18000)); stars=Array.from({length:count}, ()=>({ x:Math.random()*W, y:Math.random()*H, tw:Math.random()*Math.PI*2, s:(Math.random()*2+0.6), hue: Math.random()<0.18? 'orange':'blue' })); }
-  function drawNebula(){ const cols=Math.ceil(W/(SCALE*7)), rows=Math.ceil(H/(SCALE*7)); for(let yy=0; yy<rows; yy++){ for(let xx=0; xx<cols; xx++){ const wv = Math.sin((xx+yy+t)*0.14)*0.5 + Math.sin((xx*0.34 - yy*0.22 + t*0.9))*0.5; const a=0.10 + (wv+1)*0.10; const r=170+Math.floor((wv+1)*60); const g=140+Math.floor((1-wv)*50); const b=255; ctx.fillStyle=`rgba(${r},${g},${b},${a})`; ctx.fillRect(xx*7, yy*7, 7, 7);} } }
-  function drawStars(){ for(const s of stars){ s.tw += 0.09; const a = 0.5 + (Math.sin(s.tw)*0.4+0.35); ctx.fillStyle = s.hue==='orange' ? `rgba(255,180,100,${a*0.9})` : `rgba(170,160,255,${a})`; const size=s.s; ctx.fillRect(Math.round(s.x/SCALE), Math.round(s.y/SCALE), size, size);} }
-  function spawnComet(){ const fromLeft = Math.random()<0.5; const y = Math.random()*H*0.9; const x = fromLeft? -50 : W+50; const vx = (fromLeft?1:-1)*(2+Math.random()*3); const vy = -0.4 + Math.random()*0.8; comets.push({x,y,vx,vy,life:220}); }
-  function seedStars(){ const base=Math.max(120, Math.round((W*H)/18000)); const count = Math.round(base*(isReduced()?0.5:1)); stars=Array.from({length:count}, ()=>({ x:Math.random()*W, y:Math.random()*H, tw:Math.random()*Math.PI*2, s:(Math.random()*2+0.6), hue: Math.random()<0.18? 'orange':'blue' })); }
-  function drawNebula(){ const cols=Math.ceil(W/(SCALE*7)), rows=Math.ceil(H/(SCALE*7)); for(let yy=0; yy<rows; yy++){ for(let xx=0; xx<cols; xx++){ const wv = Math.sin((xx+yy+t)*0.14)*0.5 + Math.sin((xx*0.34 - yy*0.22 + t*0.9))*0.5; const a= (isReduced()?0.08:0.10) + (wv+1)*(isReduced()?0.07:0.10); const r=170+Math.floor((wv+1)*60); const g=140+Math.floor((1-wv)*50); const b=255; ctx.fillStyle=`rgba(${r},${g},${b},${a})`; ctx.fillRect(xx*7, yy*7, 7, 7);} } }
-  function drawStars(){ for(const s of stars){ s.tw += isReduced()?0.05:0.09; const a = (isReduced()?0.4:0.5) + (Math.sin(s.tw)*(isReduced()?0.25:0.4)+0.3); ctx.fillStyle = s.hue==='orange' ? `rgba(255,180,100,${a*0.9})` : `rgba(170,160,255,${a})`; const size=s.s; ctx.fillRect(Math.round(s.x/SCALE), Math.round(s.y/SCALE), size, size);} }
-  function spawnComet(){ if(isReduced()) return; const fromLeft = Math.random()<0.5; const y = Math.random()*H*0.9; const x = fromLeft? -50 : W+50; const vx = (fromLeft?1:-1)*(2+Math.random()*3); const vy = -0.4 + Math.random()*0.8; comets.push({x,y,vx,vy,life:220}); }
-  function drawComets(){ for(let i=comets.length-1;i>=0;i--){ const c=comets[i]; c.x+=c.vx; c.y+=c.vy; c.life-=1; for(let tix=0;tix<6;tix++){ const trailX = c.x - c.vx*tix*3; const trailY = c.y - c.vy*tix*3; const alpha = 0.18 - tix*0.025; if(alpha<=0) continue; ctx.fillStyle = `rgba(${tix%2?200:150},${tix%2?120:180},255,${alpha})`; ctx.fillRect(Math.round(trailX/SCALE), Math.round(trailY/SCALE), 3, 2); } ctx.fillStyle='rgba(255,170,80,0.9)'; ctx.fillRect(Math.round(c.x/SCALE), Math.round(c.y/SCALE), 2,2); if(c.life<=0 || c.x<-100 || c.x>W+100 || c.y<-100 || c.y>H+100) comets.splice(i,1); } }
-  function drawOrangeGlitch(dt){ glitchT -= dt; if(glitchT>0) return; glitchT = 900 + Math.random()*1200; const y=(Math.random()*H)|0, h=6+((Math.random()*20)|0), shift=(Math.random()>0.5?1:-1)*(8+((Math.random()*24)|0)); ctx.save(); ctx.globalAlpha=0.2; ctx.fillStyle='rgba(255,150,70,1)'; ctx.fillRect(shift, y, W, h); ctx.restore(); ctx.save(); ctx.globalAlpha=0.12; ctx.fillStyle='rgba(120,180,255,1)'; ctx.fillRect(shift*0.5, y+2, W, h-2); ctx.restore(); }
-  function drawShimmer(){ const cols=Math.ceil(W/(SCALE*8)), rows=Math.ceil(H/(SCALE*8)); for(let y=0;y<rows;y++){ for(let x=0;x<cols;x++){ const wv = Math.sin((x+y+t)*0.14)*0.5 + Math.sin((x*0.32 - y*0.24 + t*0.9))*0.5; const a = 0.10 + (wv+1)*0.10; const r = 190 + Math.floor((wv+1)*35); const g = 160 + Math.floor((1-wv)*30); const b = 255; ctx.fillStyle = `rgba(${r},${g},${b},${a})`; ctx.fillRect(x*8, y*8, 8, 8);} } }
-  function loop(){ t+=0.8; ctx.clearRect(0,0,cvs.width,cvs.height); const root=document.documentElement; if(root.classList.contains('galaxy-on')){ drawNebula(); drawStars(); drawComets(); drawOrangeGlitch(16); cometT-=16; if(cometT<=0){ cometT = 1500 + Math.random()*2000; spawnComet(); } } else if(root.classList.contains('shimmer-on')){ drawShimmer(); } requestAnimationFrame(loop); }
-  window.addEventListener('resize', resize, {passive:true}); resize(); loop();
-  function drawOrangeGlitch(dt){ if(isReduced()) return; glitchT -= dt; if(glitchT>0) return; glitchT = 900 + Math.random()*1200; const y=(Math.random()*H)|0, h=6+((Math.random()*20)|0), shift=(Math.random()>0.5?1:-1)*(8+((Math.random()*24)|0)); ctx.save(); ctx.globalAlpha=0.2; ctx.fillStyle='rgba(255,150,70,1)'; ctx.fillRect(shift, y, W, h); ctx.restore(); ctx.save(); ctx.globalAlpha=0.12; ctx.fillStyle='rgba(120,180,255,1)'; ctx.fillRect(shift*0.5, y+2, W, h-2); ctx.restore(); }
-  function drawShimmer(){ const cols=Math.ceil(W/(SCALE*8)), rows=Math.ceil(H/(SCALE*8)); for(let y=0;y<rows;y++){ for(let x=0;x<cols;x++){ const wv = Math.sin((x+y+t)*0.14)*0.5 + Math.sin((x*0.32 - y*0.24 + t*0.9))*0.5; const a = (isReduced()?0.08:0.10) + (wv+1)*(isReduced()?0.07:0.10); const r = 190 + Math.floor((wv+1)*35); const g = 160 + Math.floor((1-wv)*30); const b = 255; ctx.fillStyle = `rgba(${r},${g},${b},${a})`; ctx.fillRect(x*8, y*8, 8, 8);} } }
-  function loop(){ t+= isReduced()?0.4:0.8; ctx.clearRect(0,0,cvs.width,cvs.height); const root=document.documentElement; if(root.classList.contains('galaxy-on')){ drawNebula(); drawStars(); drawComets(); drawOrangeGlitch(16); if(!isReduced()){ cometT-=16; if(cometT<=0){ cometT = 1500 + Math.random()*2000; spawnComet(); } } } else if(root.classList.contains('shimmer-on')){ drawShimmer(); } requestAnimationFrame(loop); }
-  window.addEventListener('resize', resize, {passive:true});
-  document.addEventListener('motion:changed', ()=>{ resize(); });
-  resize(); loop();
-})();
-</script>
-<script>
-// Bind secret galaxy theme to logo audio play/pause
-(function(){
-  if(window.__logoGalaxy) return; window.__logoGalaxy = true;
-  const audio = document.getElementById('egg-audio');
-  const logo = document.getElementById('logoEgg');
-  const root = document.documentElement;
-  function onPlay(){ root.classList.add('galaxy-on'); root.classList.add('shimmer-on'); }
-  function onPause(){ root.classList.remove('galaxy-on'); root.classList.remove('shimmer-on'); }
-  if(audio){
-    audio.addEventListener('play', onPlay);
-    audio.addEventListener('pause', onPause);
-    audio.addEventListener('ended', onPause);
-  }
-  if(!audio && logo){ logo.addEventListener('click', ()=> root.classList.toggle('galaxy-on')); }
-})();
-</script>
-<script>
-// Image‑reactive glass buttons — match card image and sample color
-(function(){
-  const shots = document.querySelectorAll('.shot.has-img');
-  const cache = new Map(); // url -> {img,w,h,ready,canvas,cctx}
-
-  function parseURL(bg){ const m = /url\((?:\"|')?([^\"')]+)(?:\"|')?\)/.exec(bg||''); return m? m[1]: null; }
-
-  function setupShot(shot){
-    const url = parseURL(shot.style.backgroundImage);
-    if(!url) return;
-    let entry = cache.get(url);
-    if(!entry){
-      const img = new Image(); img.crossOrigin = 'anonymous'; img.src = url;
-      entry = {img, ready:false}; cache.set(url, entry);
-      img.onload = ()=>{ entry.ready=true; entry.w=img.naturalWidth; entry.h=img.naturalHeight; entry.canvas=document.createElement('canvas'); entry.canvas.width=entry.w; entry.canvas.height=entry.h; entry.cctx=entry.canvas.getContext('2d'); entry.cctx.drawImage(img,0,0); positionButtons(shot, entry); };
-    } else if(entry.ready){ positionButtons(shot, entry); }
-  }
-
-  function positionButtons(shot, entry){
-    const rectS = shot.getBoundingClientRect(); const sw=rectS.width, sh=rectS.height;
-    const scale = Math.max(sw/entry.w, sh/entry.h);
-    const drawW = entry.w*scale, drawH = entry.h*scale;
-    const offX = (sw-drawW)/2, offY=(sh-drawH)/2;
-    const size = `${drawW}px ${drawH}px`;
-
-    shot.querySelectorAll('.see-more').forEach(btn=>{
-      if(!btn.querySelector('.glass')){ const g=document.createElement('span'); g.className='glass'; g.setAttribute('aria-hidden','true'); btn.prepend(g); }
-      const g = btn.querySelector('.glass');
-      const rectB = btn.getBoundingClientRect();
-      const x = offX - (rectB.left - rectS.left);
-      const y = offY - (rectB.top - rectS.top);
-      g.style.setProperty('--glass-bg', `url("${entry.img.src}")`);
-      g.style.setProperty('--glass-size', size);
-      g.style.setProperty('--glass-x', `${x}px`);
-      g.style.setProperty('--glass-y', `${y}px`);
-
-      // ensure locked ink applies immediately even before image is ready
-      const lockInk = btn.getAttribute('data-ink');
-      if(lockInk){ btn.style.setProperty('--label-ink', lockInk); }
-
-      if(entry.ready){
-        const cx = ((rectB.left - rectS.left) - offX + rectB.width/2) / drawW * entry.w;
-        const cy = ((rectB.top - rectS.top) - offY + rectB.height/2) / drawH * entry.h;
-        const ss = Math.max(4, Math.round(12*entry.w/drawW));
-        const sx = Math.max(0, Math.min(entry.w-ss, Math.round(cx-ss/2)));
-        const sy = Math.max(0, Math.min(entry.h-ss, Math.round(cy-ss/2)));
-        const data = entry.cctx.getImageData(sx,sy,ss,ss).data;
-        let r=0,g=0,b=0,n=0; for(let i=0;i<data.length;i+=4){ r+=data[i]; g+=data[i+1]; b+=data[i+2]; n++; }
-        r/=n; g/=n; b/=n;
-        const lum = 0.2126*Math.pow(r/255,2.2) + 0.7152*Math.pow(g/255,2.2) + 0.0722*Math.pow(b/255,2.2);
-        const ink = lum>0.55 ? '#0a0a0a' : '#ffffff';
-        const locked = btn.getAttribute('data-ink');
-        btn.style.setProperty('--label-ink', locked ? locked : ink);
-        const topA = lum>0.55 ? .32 : .45; const botA = lum>0.55 ? .14 : .20;
-        btn.style.setProperty('--t-top-a', topA); btn.style.setProperty('--t-bottom-a', botA);
-      }
-    });
-  }
-
-  function refreshAll(){ document.querySelectorAll('.shot.has-img').forEach(s=>{ const url = parseURL(s.style.backgroundImage); const entry = url && cache.get(url); if(entry&&entry.ready) positionButtons(s, entry); else setupShot(s); }); }
-
-  shots.forEach(setupShot);
-  window.addEventListener('resize', refreshAll, {passive:true});
-  document.querySelectorAll('.card').forEach(c=> c.addEventListener('mouseenter', ()=>{ const s=c.querySelector('.shot.has-img'); s&&setupShot(s); }));
-})();
-</script>
+  </script>
 </body>
 </html>

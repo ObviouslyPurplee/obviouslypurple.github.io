@@ -4,100 +4,265 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>obviouslypurple</title>
-  <meta name="description" content="obviouslypurple home page" />
+  <meta name="description" content="Official obviouslypurple homepage." />
   <style>
-    :root{
-      --bg:#1d1e21;
-      --panel:#0d0f12cc;
-      --ink:#f3f3f4;
-      --line:#ececee;
-      --chip:#5b5c61;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      min-height:100vh;
-      color:var(--ink);
-      font-family: Georgia, 'Times New Roman', serif;
-      background:
-        radial-gradient(1200px 260px at 50% -60px, rgba(255,255,255,.22), transparent),
-        repeating-linear-gradient(90deg, #222 0 30px, #24262b 30px 60px);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      padding:14px 20px 80px;
+    :root {
+      --text: #f4f4f4;
+      --panel-w: min(1080px, 92vw);
     }
 
-    .top-logo{width:min(340px,72vw); margin-top:4px; filter:grayscale(1) brightness(1.25)}
-    .navline{width:min(1320px,100%); display:grid; grid-template-columns:1fr auto 1fr; align-items:center; margin-top:2px;}
-    .line{height:3px; background:var(--line); border-radius:4px; position:relative}
-    .line::before,.line::after{content:""; position:absolute; top:-14px; width:76px; height:28px; border:3px solid var(--line); border-color:var(--line) transparent transparent transparent; border-radius:100px/40px}
-    .line.left::before{left:-30px; transform:rotate(180deg)}
-    .line.right::after{right:-30px}
-    .nav{display:flex; gap:10px; margin:0 16px}
-    .nav a{background:var(--chip); color:#fff; text-decoration:none; padding:6px 14px; border-radius:12px; font-size:42px; line-height:1; font-size:clamp(20px,2.3vw,42px)}
+    * { box-sizing: border-box; }
 
-    .hero{
-      width:min(1320px,100%);
-      margin-top:38px;
-      background:rgba(0,0,0,.34);
-      padding:26px;
-      position:relative;
-      display:grid;
-      grid-template-columns:minmax(260px,420px) 1fr;
-      gap:26px;
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "FreeSerif", "Times New Roman", Georgia, serif;
+      background: #07090d url("WebsiteBackground@3x.png") center top / cover no-repeat fixed;
+      cursor: none;
+      overflow-x: hidden;
     }
-    .tape{position:absolute; width:125px; height:44px; background:#d7d9decc; transform:rotate(-24deg); top:40px; left:160px}
-    .tape.t2{top:auto; bottom:76px; left:150px; transform:rotate(24deg)}
-    .tape.t3{left:auto; right:132px; transform:rotate(24deg)}
-    .tape.t4{left:auto; right:120px; top:auto; bottom:56px; transform:rotate(-22deg)}
 
-    .avatar{background:#15181d; min-height:380px; display:grid; place-items:center}
-    .avatar img{width:min(95%,400px); filter:grayscale(1) brightness(1.05)}
+    .page {
+      min-height: 100vh;
+      position: relative;
+      isolation: isolate;
+      padding: 8px 0 64px;
+    }
 
-    .card{background:var(--panel); padding:18px 22px; font-style:italic; font-size:clamp(20px,2.3vw,44px); line-height:1.06; position:relative}
-    .card p{margin:.25em 0 .8em}
-    .card .em{ text-decoration:underline; }
-    .bunnies{position:absolute; right:14px; bottom:8px; font-size:58px; filter:grayscale(1)}
+    .cutout {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(98vw, 1980px);
+      pointer-events: none;
+      z-index: 10;
+    }
 
-    @media (max-width: 900px){
-      .hero{grid-template-columns:1fr;}
-      .tape{display:none}
-      .card{font-size:clamp(18px,5vw,32px)}
-      .navline{grid-template-columns:1fr}
-      .line{display:none}
-      .nav{justify-content:center; margin:0}
+    .site-header {
+      width: min(1980px, 98vw);
+      margin: 6px auto 0;
+      position: relative;
+      z-index: 20;
+    }
+
+    .logo-wrap {
+      margin: 0 auto;
+      width: min(388px, 66vw);
+      position: relative;
+    }
+
+    .logo-bg, .logo {
+      width: 100%;
+      display: block;
+    }
+
+    .logo {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      width: 82%;
+    }
+
+    .site-line { width: 100%; display: block; margin-top: 2px; }
+
+    .nav {
+      position: absolute;
+      left: 50%;
+      top: 115px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .nav a {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 110px;
+      padding: 10px 18px;
+      color: #f4f4f4;
+      text-decoration: none;
+      font-size: clamp(18px, 2vw, 40px);
+      line-height: 1;
+      isolation: isolate;
+    }
+
+    .nav a .button-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      z-index: -1;
+      opacity: 0.9;
+    }
+
+    .nav a .flower {
+      width: clamp(16px, 1.3vw, 32px);
+      margin-right: 6px;
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+
+    .nav a.active .flower,
+    .nav a:hover .flower,
+    .nav a:focus-visible .flower { opacity: 1; }
+
+    .content {
+      width: var(--panel-w);
+      margin: 34px auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      gap: 10px;
+    }
+
+    .tape {
+      position: absolute;
+      width: 160px;
+      pointer-events: none;
+      z-index: 4;
+      filter: grayscale(0.1) brightness(0.95);
+    }
+
+    .tape-1 { left: -34px; top: 8px; }
+    .tape-2 { left: -48px; bottom: -16px; }
+    .tape-3 { right: -30px; bottom: 22px; }
+    .tape-4 { right: -40px; top: 26px; }
+
+    .intro-border { grid-column: 1 / -1; width: 100%; display: block; }
+
+    .portrait {
+      margin-top: -6px;
+      position: relative;
+      padding-left: 10px;
+      animation: sway 4.8s steps(6, end) infinite alternate;
+      transform-origin: center center;
+    }
+
+    .portrait img { width: min(100%, 540px); display: block; }
+
+    .intro-letter {
+      margin-top: -6px;
+      padding: 18px 16px 30px 20px;
+      background: rgba(5, 8, 12, .84);
+      font-size: clamp(18px, 1.75vw, 40px);
+      font-style: italic;
+      line-height: 1.03;
+      position: relative;
+      animation: sway 4.8s steps(6, end) infinite alternate-reverse;
+    }
+
+    .intro-letter p { margin: 0 0 18px; }
+    .intro-letter .underline { text-decoration: underline; }
+
+    .intro-top {
+      font-style: normal;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .purple-script {
+      width: clamp(140px, 13vw, 250px);
+      vertical-align: middle;
+      margin: 0 2px;
+    }
+
+    .bunny {
+      position: absolute;
+      right: -8px;
+      bottom: -4px;
+      width: min(180px, 24vw);
+      filter: grayscale(1) brightness(1.05);
+    }
+
+    .mouse-flower {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 26px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 999;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,.35));
+    }
+
+    @keyframes sway {
+      from { transform: translateX(-6px) rotate(-1.2deg); }
+      to { transform: translateX(6px) rotate(1.2deg); }
+    }
+
+    @media (max-width: 980px) {
+      body { cursor: auto; }
+      .mouse-flower { display: none; }
+      .nav { top: 92px; gap: 10px; }
+      .nav a { min-width: 90px; padding: 8px 12px; }
+      .content { grid-template-columns: 1fr; }
+      .tape { width: 120px; }
+      .portrait { margin: -2px auto 0; }
+      .intro-letter { margin-top: 4px; }
+      .bunny { right: 2px; width: 120px; }
     }
   </style>
 </head>
 <body>
-  <img class="top-logo" src="officialogo.png" alt="obviouslypurple logo" />
+  <img class="mouse-flower" src="Flower@3x.png" alt="" aria-hidden="true" />
 
-  <div class="navline">
-    <div class="line left" aria-hidden="true"></div>
-    <nav class="nav" aria-label="Main navigation">
-      <a href="#">✿ news</a>
-      <a href="#">✿ home</a>
-      <a href="#">✿ plugins</a>
-    </nav>
-    <div class="line right" aria-hidden="true"></div>
+  <div class="page">
+    <img class="cutout" src="CutOutFromTop@3x.png" alt="" aria-hidden="true" />
+
+    <header class="site-header">
+      <div class="logo-wrap">
+        <img class="logo-bg" src="LogoBG@3x.png" alt="" aria-hidden="true" />
+        <img class="logo" src="Logo@3x.png" alt="obviouslypurple logo" />
+      </div>
+      <img class="site-line" src="WebsiteLine@3x.png" alt="" aria-hidden="true" />
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#news"><img class="button-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />news</a>
+        <a href="#home" class="active"><img class="button-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />home</a>
+        <a href="#plugins"><img class="button-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />plugins</a>
+      </nav>
+    </header>
+
+    <main class="content" id="home">
+      <img class="tape tape-1" src="Tape1@3x.png" alt="" aria-hidden="true" />
+      <img class="tape tape-2" src="Tape2@3x.png" alt="" aria-hidden="true" />
+      <img class="tape tape-3" src="Tape3@3x.png" alt="" aria-hidden="true" />
+      <img class="tape tape-4" src="Tape4@3x.png" alt="" aria-hidden="true" />
+      <img class="intro-border" src="IntroductionBorder@3x.png" alt="" aria-hidden="true" />
+
+      <section class="portrait" aria-label="Avatar">
+        <img src="FadeinObviouslyPurple@3x.png" alt="obviouslypurple avatar" />
+      </section>
+
+      <section class="intro-letter" id="news">
+        <img class="intro-border" src="IntroductionLetter@3x.png" alt="" aria-hidden="true" />
+        <p class="intro-top">hi, i'm <img class="purple-script" src="PurpleTextLogo@3x.png" alt="purple" /> i'm a creator on Roblox</p>
+        <p>i've been behind some of roblox's past branded games<br>
+        i've probably contributed to some of your favorite games<br>
+        i do <span class="underline">building, 3d modeling, texturing, ui and more</span></p>
+        <p>i'm currently trying to improve in all fields and make great games</p>
+        <p>hope you stay along as i go thru this new chapter!<br>
+        <span class="underline">thank you for YOUR support &lt;3</span></p>
+        <img class="bunny" src="Bunny@3x.png" alt="" aria-hidden="true" />
+      </section>
+    </main>
   </div>
 
-  <main class="hero">
-    <div class="tape"></div><div class="tape t2"></div><div class="tape t3"></div><div class="tape t4"></div>
-    <section class="avatar">
-      <img src="pfp.png" alt="obviouslypurple avatar" />
-    </section>
-    <section class="card">
-      <p>hi, i'm <span class="em">purple</span>, i'm a creator on Roblox</p>
-      <p>i've been behind some of roblox's past branded games<br>
-      i've probably contributed to some of <span class="em">your favorite games</span><br>
-      i do <span class="em">building, 3d modeling, texturing, ui and more</span></p>
-      <p>i'm currently trying to improve in all fields and make great games</p>
-      <p>hope you stay along as i go thru this new chapter!<br>
-      <span class="em">thank you for YOUR support &lt;3</span></p>
-      <div class="bunnies" aria-hidden="true">🐇🐇</div>
-    </section>
-  </main>
+  <script>
+    const cursorFlower = document.querySelector('.mouse-flower');
+    window.addEventListener('mousemove', (event) => {
+      cursorFlower.style.left = `${event.clientX}px`;
+      cursorFlower.style.top = `${event.clientY}px`;
+    });
+  </script>
 </body>
 </html>

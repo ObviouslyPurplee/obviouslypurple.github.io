@@ -6,253 +6,149 @@
   <title>obviouslypurple</title>
   <meta name="description" content="Official obviouslypurple homepage." />
   <style>
-    :root {
-      --text: #f4f4f4;
-      --panel-w: min(1080px, 92vw);
-    }
-
-    * { box-sizing: border-box; }
-
-    html, body { height: 100%; }
-
+    :root { --text:#f3f3f3; }
+    * { box-sizing:border-box; }
+    html,body { height:100%; }
     body {
-      margin: 0;
-      color: var(--text);
-      font-family: "FreeSerif", "Times New Roman", Georgia, serif;
-      background: #07090d url("WebsiteBackground@3x.png") center top / cover no-repeat fixed;
-      cursor: none;
-      overflow-x: hidden;
+      margin:0;
+      color:var(--text);
+      font-family:"FreeSerif","Times New Roman",serif;
+      background:#0b0d12 url("WebsiteBackground@3x.png") center top/cover no-repeat fixed;
+      overflow-x:hidden;
+      cursor:none;
     }
 
-    .page {
-      min-height: 100vh;
-      position: relative;
-      isolation: isolate;
-      padding: 8px 0 64px;
-    }
+    .page { min-height:100vh; position:relative; padding-top:8px; }
+    .cutout { position:absolute; inset:0 auto auto 50%; transform:translateX(-50%); width:min(100vw,2050px); z-index:5; pointer-events:none; }
 
-    .cutout {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(98vw, 1980px);
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    .site-header {
-      width: min(1980px, 98vw);
-      margin: 6px auto 0;
-      position: relative;
-      z-index: 20;
-    }
-
-    .logo-wrap {
-      margin: 0 auto;
-      width: min(388px, 66vw);
-      position: relative;
-    }
-
-    .logo-bg, .logo {
-      width: 100%;
-      display: block;
-    }
-
-    .logo {
-      position: absolute;
-      inset: 50% auto auto 50%;
-      transform: translate(-50%, -50%);
-      width: 82%;
-    }
-
-    .site-line { width: 100%; display: block; margin-top: 2px; }
+    .header { width:min(1980px,100vw); margin:0 auto; position:relative; z-index:20; }
+    .logo-wrap { width:360px; margin:0 auto; position:relative; }
+    .logo-bg { width:100%; display:block; }
+    .logo { position:absolute; inset:50% auto auto 50%; transform:translate(-50%,-50%); width:78%; }
+    .line { width:100%; display:block; margin-top:2px; }
 
     .nav {
-      position: absolute;
-      left: 50%;
-      top: 115px;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 26px;
-      align-items: center;
+      position:absolute; left:50%; top:103px; transform:translateX(-50%);
+      display:flex; gap:12px; align-items:center;
     }
-
     .nav a {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 110px;
-      padding: 10px 18px;
-      color: #f4f4f4;
-      text-decoration: none;
-      font-size: clamp(18px, 2vw, 40px);
-      line-height: 1;
-      isolation: isolate;
+      position:relative; display:flex; align-items:center; justify-content:center;
+      min-width:150px; height:52px; font-size:44px; color:#f2f2f2; text-decoration:none;
+      line-height:1; padding:4px 18px;
     }
+    .btn-bg { position:absolute; inset:0; width:100%; height:100%; object-fit:fill; z-index:-1; }
+    .nav .flower { width:30px; margin-right:6px; opacity:0; transition:opacity .2s; }
+    .nav a.active .flower, .nav a:hover .flower, .nav a:focus-visible .flower { opacity:1; }
 
-    .nav a .button-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: fill;
-      z-index: -1;
-      opacity: 0.9;
+    .hero-frame {
+      width:min(1120px,86vw);
+      margin:54px auto 0;
+      background:rgba(0,0,0,.28);
+      padding:26px 34px;
+      position:relative;
+      z-index:15;
     }
+    .tape { position:absolute; width:164px; pointer-events:none; z-index:4; }
+    .t1 { left:-48px; top:20px; }
+    .t2 { left:-42px; bottom:42px; }
+    .t3 { right:-42px; bottom:34px; }
+    .t4 { right:-44px; top:26px; }
 
-    .nav a .flower {
-      width: clamp(16px, 1.3vw, 32px);
-      margin-right: 6px;
-      opacity: 0;
-      transition: opacity .2s ease;
+    .hero-grid {
+      display:grid;
+      grid-template-columns: 46% 54%;
+      align-items:stretch;
+      gap:0;
+      min-height:470px;
     }
-
-    .nav a.active .flower,
-    .nav a:hover .flower,
-    .nav a:focus-visible .flower { opacity: 1; }
-
-    .content {
-      width: var(--panel-w);
-      margin: 34px auto 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      gap: 10px;
-    }
-
-    .tape {
-      position: absolute;
-      width: 160px;
-      pointer-events: none;
-      z-index: 4;
-      filter: grayscale(0.1) brightness(0.95);
-    }
-
-    .tape-1 { left: -34px; top: 8px; }
-    .tape-2 { left: -48px; bottom: -16px; }
-    .tape-3 { right: -30px; bottom: 22px; }
-    .tape-4 { right: -40px; top: 26px; }
-
-    .intro-border { grid-column: 1 / -1; width: 100%; display: block; }
 
     .portrait {
-      margin-top: -6px;
-      position: relative;
-      padding-left: 10px;
-      animation: sway 4.8s steps(6, end) infinite alternate;
-      transform-origin: center center;
+      background:rgba(9,12,17,.74);
+      display:flex; align-items:flex-end; justify-content:center;
+      padding:14px 10px 6px;
+      animation:sway 5s steps(6,end) infinite alternate;
     }
+    .portrait img { width:96%; max-width:520px; }
 
-    .portrait img { width: min(100%, 540px); display: block; }
-
-    .intro-letter {
-      margin-top: -6px;
-      padding: 18px 16px 30px 20px;
-      background: rgba(5, 8, 12, .84);
-      font-size: clamp(18px, 1.75vw, 40px);
-      font-style: italic;
-      line-height: 1.03;
-      position: relative;
-      animation: sway 4.8s steps(6, end) infinite alternate-reverse;
+    .letter {
+      position:relative;
+      background:rgba(6,8,12,.88);
+      padding:24px 20px 26px;
+      font-size:46px;
+      line-height:1.02;
+      font-style:italic;
+      animation:sway 5s steps(6,end) infinite alternate-reverse;
     }
-
-    .intro-letter p { margin: 0 0 18px; }
-    .intro-letter .underline { text-decoration: underline; }
-
-    .intro-top {
-      font-style: normal;
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .purple-script {
-      width: clamp(140px, 13vw, 250px);
-      vertical-align: middle;
-      margin: 0 2px;
-    }
-
-    .bunny {
-      position: absolute;
-      right: -8px;
-      bottom: -4px;
-      width: min(180px, 24vw);
-      filter: grayscale(1) brightness(1.05);
-    }
+    .intro-bg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.42; pointer-events:none; }
+    .letter p { margin:0 0 24px; position:relative; z-index:2; }
+    .intro-top { font-style:normal; margin-bottom:20px; display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+    .purple-logo { width:240px; }
+    .u { text-decoration:underline; }
+    .bunny { position:absolute; right:10px; bottom:6px; width:178px; z-index:3; }
 
     .mouse-flower {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 26px;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 999;
-      filter: drop-shadow(0 0 6px rgba(255,255,255,.35));
+      position:fixed; width:28px; pointer-events:none; transform:translate(-50%,-50%); z-index:9999;
+      filter:drop-shadow(0 0 6px rgba(255,255,255,.3));
     }
 
-    @keyframes sway {
-      from { transform: translateX(-6px) rotate(-1.2deg); }
-      to { transform: translateX(6px) rotate(1.2deg); }
-    }
+    @keyframes sway { from{transform:translateX(-5px) rotate(-1deg);} to{transform:translateX(5px) rotate(1deg);} }
 
-    @media (max-width: 980px) {
-      body { cursor: auto; }
-      .mouse-flower { display: none; }
-      .nav { top: 92px; gap: 10px; }
-      .nav a { min-width: 90px; padding: 8px 12px; }
-      .content { grid-template-columns: 1fr; }
-      .tape { width: 120px; }
-      .portrait { margin: -2px auto 0; }
-      .intro-letter { margin-top: 4px; }
-      .bunny { right: 2px; width: 120px; }
+    @media (max-width: 1100px) {
+      body { cursor:auto; }
+      .mouse-flower { display:none; }
+      .logo-wrap { width:300px; }
+      .nav { top:88px; }
+      .nav a { min-width:110px; height:42px; font-size:30px; }
+      .nav .flower { width:20px; }
+      .hero-frame { width:min(96vw,1120px); padding:20px 16px; }
+      .hero-grid { grid-template-columns:1fr; min-height:unset; }
+      .letter { font-size:clamp(26px,4.5vw,42px); }
+      .purple-logo { width:170px; }
+      .bunny { width:124px; }
+      .tape { width:122px; }
     }
   </style>
 </head>
 <body>
   <img class="mouse-flower" src="Flower@3x.png" alt="" aria-hidden="true" />
-
   <div class="page">
     <img class="cutout" src="CutOutFromTop@3x.png" alt="" aria-hidden="true" />
 
-    <header class="site-header">
+    <header class="header">
       <div class="logo-wrap">
         <img class="logo-bg" src="LogoBG@3x.png" alt="" aria-hidden="true" />
         <img class="logo" src="Logo@3x.png" alt="obviouslypurple logo" />
       </div>
-      <img class="site-line" src="WebsiteLine@3x.png" alt="" aria-hidden="true" />
+      <img class="line" src="WebsiteLine@3x.png" alt="" aria-hidden="true" />
       <nav class="nav" aria-label="Main navigation">
-        <a href="#news"><img class="button-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />news</a>
-        <a href="#home" class="active"><img class="button-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />home</a>
-        <a href="#plugins"><img class="button-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />plugins</a>
+        <a href="#news"><img class="btn-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />news</a>
+        <a href="#home" class="active"><img class="btn-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />home</a>
+        <a href="#plugins"><img class="btn-bg" src="ButtonBG@3x.png" alt="" aria-hidden="true" /><img class="flower" src="Flower@3x.png" alt="" aria-hidden="true" />plugins</a>
       </nav>
     </header>
 
-    <main class="content" id="home">
-      <img class="tape tape-1" src="Tape1@3x.png" alt="" aria-hidden="true" />
-      <img class="tape tape-2" src="Tape2@3x.png" alt="" aria-hidden="true" />
-      <img class="tape tape-3" src="Tape3@3x.png" alt="" aria-hidden="true" />
-      <img class="tape tape-4" src="Tape4@3x.png" alt="" aria-hidden="true" />
-      <img class="intro-border" src="IntroductionBorder@3x.png" alt="" aria-hidden="true" />
+    <main class="hero-frame" id="home">
+      <img class="tape t1" src="Tape1@3x.png" alt="" aria-hidden="true" />
+      <img class="tape t2" src="Tape2@3x.png" alt="" aria-hidden="true" />
+      <img class="tape t3" src="Tape3@3x.png" alt="" aria-hidden="true" />
+      <img class="tape t4" src="Tape4@3x.png" alt="" aria-hidden="true" />
 
-      <section class="portrait" aria-label="Avatar">
-        <img src="FadeinObviouslyPurple@3x.png" alt="obviouslypurple avatar" />
-      </section>
+      <section class="hero-grid">
+        <div class="portrait">
+          <img src="FadeinObviouslyPurple@3x.png" alt="obviouslypurple avatar" />
+        </div>
 
-      <section class="intro-letter" id="news">
-        <img class="intro-border" src="IntroductionLetter@3x.png" alt="" aria-hidden="true" />
-        <p class="intro-top">hi, i'm <img class="purple-script" src="PurpleTextLogo@3x.png" alt="purple" /> i'm a creator on Roblox</p>
-        <p>i've been behind some of roblox's past branded games<br>
-        i've probably contributed to some of your favorite games<br>
-        i do <span class="underline">building, 3d modeling, texturing, ui and more</span></p>
-        <p>i'm currently trying to improve in all fields and make great games</p>
-        <p>hope you stay along as i go thru this new chapter!<br>
-        <span class="underline">thank you for YOUR support &lt;3</span></p>
-        <img class="bunny" src="Bunny@3x.png" alt="" aria-hidden="true" />
+        <article class="letter" id="news">
+          <img class="intro-bg" src="IntroductionLetter@3x.png" alt="" aria-hidden="true" />
+          <p class="intro-top">hi, i'm <img class="purple-logo" src="PurpleTextLogo@3x.png" alt="purple" /> i'm a creator on Roblox</p>
+          <p>i've been behind some of roblox's past branded games<br>
+          i've probably contributed to some of <span class="u">your favorite games</span><br>
+          i do <span class="u">building, 3d modeling, texturing, ui and more</span></p>
+          <p>i'm currently trying to improve in all fields and make<br>great games</p>
+          <p>hope you stay along as i go thru this new chapter!<br>
+          <span class="u">thank you for YOUR support &lt;3</span></p>
+          <img class="bunny" src="Bunny@3x.png" alt="" aria-hidden="true" />
+        </article>
       </section>
     </main>
   </div>
